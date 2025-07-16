@@ -1,0 +1,845 @@
+---
+layout: default
+title: PhPstrap Module Development Guide
+description: Complete guide to creating custom modules for PhPstrap using our comprehensive example module template.
+---
+
+<main class="container py-5">
+
+    <!-- Hero Section -->
+    <div class="text-center py-5 mb-5 bg-primary text-white rounded shadow">
+        <h1 class="display-4 fw-bold">Module Development Guide</h1>
+        <p class="lead">Learn how to create powerful, professional modules for PhPstrap using our comprehensive example template</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="#getting-started" class="btn btn-light btn-lg">Get Started</a>
+            <a href="#example-download" class="btn btn-outline-light btn-lg">Download Example</a>
+        </div>
+    </div>
+
+    <!-- Quick Overview -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>What You'll Learn</h4>
+                <p class="mb-0">This guide will teach you how to create professional PhPstrap modules with modern features including database integration, admin interfaces, settings management, and responsive frontend components.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Table of Contents</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#getting-started" class="text-decoration-none">1. Getting Started</a></li>
+                                <li><a href="#file-structure" class="text-decoration-none">2. File Structure</a></li>
+                                <li><a href="#main-module-class" class="text-decoration-none">3. Main Module Class</a></li>
+                                <li><a href="#installation" class="text-decoration-none">4. Installation Script</a></li>
+                                <li><a href="#configuration" class="text-decoration-none">5. Module Configuration</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#frontend-assets" class="text-decoration-none">6. Frontend Assets</a></li>
+                                <li><a href="#admin-interface" class="text-decoration-none">7. Admin Interface</a></li>
+                                <li><a href="#best-practices" class="text-decoration-none">8. Best Practices</a></li>
+                                <li><a href="#troubleshooting" class="text-decoration-none">9. Troubleshooting</a></li>
+                                <li><a href="#deployment" class="text-decoration-none">10. Deployment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Getting Started Section -->
+    <section id="getting-started" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-rocket me-2 text-primary"></i>1. Getting Started</h2>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="lead">PhPstrap modules are self-contained packages that extend your application's functionality. Our example module demonstrates all the essential patterns you need to build professional modules.</p>
+                        
+                        <h4>Prerequisites</h4>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i>PHP 8.0 or higher</li>
+                            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i>PhPstrap framework installed</li>
+                            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i>MySQL/MariaDB database</li>
+                            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i>Basic understanding of PHP OOP</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">Quick Start</h5>
+                                <p class="card-text small">Download our example module and follow this guide to customize it for your needs.</p>
+                                <a href="#example-download" class="btn btn-primary btn-sm">Download Example</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- File Structure Section -->
+    <section id="file-structure" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-folder-tree me-2 text-primary"></i>2. File Structure</h2>
+                
+                <p>A well-organized module follows this structure:</p>
+                
+                <div class="card bg-dark text-light mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-folder me-2"></i>modules/your_module/</h6>
+                    </div>
+                    <div class="card-body">
+                        <pre class="mb-0 text-light"><code>your_module/
+├── YourModule.php          # Main module class
+├── install.php             # Installation script
+├── uninstall.php           # Uninstallation script
+├── module.json             # Module configuration
+├── assets/
+│   ├── your-module.css     # Styles
+│   └── your-module.js      # JavaScript
+├── views/
+│   ├── form.php           # Frontend forms
+│   ├── widget.php         # Widget templates
+│   └── admin-settings.php # Admin interface
+└── languages/             # Translations (optional)
+    └── your-module-en.po</code></pre>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Core Files</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td><code>YourModule.php</code></td>
+                                        <td>Main functionality and logic</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>install.php</code></td>
+                                        <td>Database setup and registration</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>module.json</code></td>
+                                        <td>Metadata and configuration</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Optional Files</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td><code>uninstall.php</code></td>
+                                        <td>Clean removal script</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>assets/</code></td>
+                                        <td>CSS, JS, and images</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>views/</code></td>
+                                        <td>HTML templates</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Module Class Section -->
+    <section id="main-module-class" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-code me-2 text-primary"></i>3. Main Module Class</h2>
+                
+                <p>The main module class is the heart of your module. Here's the basic structure:</p>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-file-code me-2"></i>YourModule.php</h6>
+                    </div>
+                    <div class="card-body">
+                        <pre class="bg-light p-3 rounded"><code class="language-php">&lt;?php
+
+namespace PhPstrap\Modules\YourModule;
+
+use Exception;
+use PDO;
+
+class YourModule
+{
+    private $pdo;
+    private $settings;
+    private $module_path;
+    private $version = '1.0.0';
+    
+    public function __construct()
+    {
+        $this->module_path = dirname(__FILE__);
+        $this->loadSettings();
+        $this->initDatabase();
+    }
+    
+    public function init()
+    {
+        if (!$this->settings['enabled']) {
+            return;
+        }
+        
+        $this->registerHooks();
+        $this->loadAssets();
+        
+        if ($this->isAdmin()) {
+            $this->registerAdminMenu();
+        }
+    }
+    
+    // Your module methods here...
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <h6 class="card-title text-primary">Constructor</h6>
+                                <p class="card-text small">Initialize paths, load settings, and set up database connection.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <h6 class="card-title text-success">Init Method</h6>
+                                <p class="card-text small">Register hooks, load assets, and set up admin interface.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-body">
+                                <h6 class="card-title text-info">Custom Methods</h6>
+                                <p class="card-text small">Add your specific functionality and business logic.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-download me-2 text-primary"></i>4. Installation Script</h2>
+                
+                <p>The installation script sets up your module in the PhPstrap system:</p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <strong>Important:</strong> Always use simple key-value pairs for settings to avoid "[object Object]" issues in the admin interface.
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Key Functions</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>create_tables()</strong><br>
+                                <small class="text-muted">Set up database tables</small>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>register_module()</strong><br>
+                                <small class="text-muted">Add to modules registry</small>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>setup_permissions()</strong><br>
+                                <small class="text-muted">Configure user permissions</small>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>Installation Commands</h6>
+                                <code class="d-block mb-2">php install.php</code>
+                                <small class="text-muted">Run installation script directly</small>
+                                
+                                <hr class="my-2">
+                                
+                                <h6>Through PhPstrap Admin</h6>
+                                <small class="text-muted">Upload module ZIP and install via admin panel</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Example Settings Structure</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <pre class="mb-0"><code class="language-php">function get_default_module_settings() {
+    return [
+        'enabled' => true,
+        'welcome_title' => 'Welcome!',
+        'max_items' => 10,
+        'debug_mode' => false
+        // Simple values only - no complex objects!
+    ];
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Configuration Section -->
+    <section id="configuration" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-cog me-2 text-primary"></i>5. Module Configuration</h2>
+                
+                <p>The <code>module.json</code> file contains metadata and configuration:</p>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">module.json Example</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="mb-0"><code class="language-json">{
+    "name": "your_module",
+    "title": "Your Module Title",
+    "description": "What your module does",
+    "version": "1.0.0",
+    "author": "Your Name",
+    "namespace": "PhPstrap\\Modules\\YourModule",
+    "settings": {
+        "enabled": true,
+        "welcome_title": "Default Title",
+        "max_items": 10
+    },
+    "permissions": [
+        "your_module_view",
+        "your_module_admin"
+    ],
+    "hooks": [
+        "your_module_init",
+        "your_module_loaded"
+    ]
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Configuration Tips</h5>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <strong>Name</strong><br>
+                                <small>Use lowercase with underscores</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Version</strong><br>
+                                <small>Follow semantic versioning</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Settings</strong><br>
+                                <small>Simple values only!</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frontend Assets Section -->
+    <section id="frontend-assets" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-paint-brush me-2 text-primary"></i>6. Frontend Assets</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>CSS Structure</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre class="mb-0"><code class="language-css">/* CSS Variables for theming */
+:root {
+    --module-primary: #007bff;
+    --module-spacing: 1rem;
+}
+
+/* Component styles */
+.your-module-widget {
+    padding: var(--module-spacing);
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .your-module-widget {
+        padding: 0.5rem;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>JavaScript Features</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre class="mb-0"><code class="language-javascript">// Module namespace
+const YourModule = {
+    init: function() {
+        this.setupForms();
+        this.setupWidgets();
+    },
+    
+    setupForms: function() {
+        // Form validation
+        // AJAX submissions
+        // User feedback
+    }
+};
+
+document.addEventListener('DOMContentLoaded', 
+    () => YourModule.init()
+);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-lightbulb me-2"></i>Pro Tips</h6>
+                        <ul class="mb-0">
+                            <li>Use CSS custom properties for easy theming</li>
+                            <li>Implement progressive enhancement (works without JS)</li>
+                            <li>Follow Bootstrap 5 conventions for consistency</li>
+                            <li>Optimize for mobile-first responsive design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Interface Section -->
+    <section id="admin-interface" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-tools me-2 text-primary"></i>7. Admin Interface</h2>
+                
+                <p>Create professional admin interfaces for your module settings and management:</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Settings Form</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre class="small"><code class="language-php">&lt;form method="post" class="settings-form"&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label class="form-label"&gt;Enable Module&lt;/label&gt;
+        &lt;div class="form-check form-switch"&gt;
+            &lt;input type="checkbox" 
+                   class="form-check-input" 
+                   name="enabled"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;button type="submit" 
+            class="btn btn-primary"&gt;
+        Save Settings
+    &lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Dashboard Stats</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre class="small"><code class="language-php">public function renderAdminDashboard() {
+    $stats = $this->getStats();
+    
+    echo '&lt;div class="row"&gt;';
+    echo '&lt;div class="col-md-3"&gt;';
+    echo '&lt;div class="card text-center"&gt;';
+    echo '&lt;div class="card-body"&gt;';
+    echo '&lt;h3&gt;' . $stats['total'] . '&lt;/h3&gt;';
+    echo '&lt;p&gt;Total Items&lt;/p&gt;';
+    echo '&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;';
+    echo '&lt;/div&gt;';
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Admin Best Practices</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="text-primary">User Experience</h6>
+                                    <ul class="small">
+                                        <li>Clear navigation</li>
+                                        <li>Helpful descriptions</li>
+                                        <li>Success/error messages</li>
+                                        <li>Consistent styling</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="text-success">Security</h6>
+                                    <ul class="small">
+                                        <li>CSRF protection</li>
+                                        <li>Input validation</li>
+                                        <li>Permission checks</li>
+                                        <li>XSS prevention</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="text-info">Performance</h6>
+                                    <ul class="small">
+                                        <li>Efficient queries</li>
+                                        <li>Proper indexing</li>
+                                        <li>Caching strategies</li>
+                                        <li>Lazy loading</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section id="best-practices" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-star me-2 text-primary"></i>8. Best Practices</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-success">✅ Do This</h5>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <strong>Use namespaces</strong><br>
+                                <small>Avoid naming conflicts with other modules</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Validate all inputs</strong><br>
+                                <small>Sanitize and validate user data</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Handle errors gracefully</strong><br>
+                                <small>Use try-catch blocks and log errors</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Use simple settings</strong><br>
+                                <small>Store settings as basic key-value pairs</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Follow coding standards</strong><br>
+                                <small>PSR-12 compliance for PHP code</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-danger">❌ Avoid This</h5>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <strong>Complex settings objects</strong><br>
+                                <small>Causes "[object Object]" in admin UI</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Global variables</strong><br>
+                                <small>Can cause conflicts and bugs</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Direct database queries</strong><br>
+                                <small>Use prepared statements always</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Hardcoded paths</strong><br>
+                                <small>Use relative paths and constants</small>
+                            </div>
+                            <div class="list-group-item">
+                                <strong>Ignoring permissions</strong><br>
+                                <small>Always check user capabilities</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="alert alert-success">
+                        <h6><i class="fas fa-shield-alt me-2"></i>Security Checklist</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="mb-0">
+                                    <li>✅ Escape all output</li>
+                                    <li>✅ Validate all input</li>
+                                    <li>✅ Use prepared statements</li>
+                                    <li>✅ Implement CSRF protection</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mb-0">
+                                    <li>✅ Check user permissions</li>
+                                    <li>✅ Sanitize file uploads</li>
+                                    <li>✅ Log security events</li>
+                                    <li>✅ Use HTTPS for sensitive data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting Section -->
+    <section id="troubleshooting" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-wrench me-2 text-primary"></i>9. Troubleshooting</h2>
+                
+                <div class="accordion" id="troubleshootingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#problem1">
+                                Settings show "[object Object]" in admin
+                            </button>
+                        </h2>
+                        <div id="problem1" class="accordion-collapse collapse show" data-bs-parent="#troubleshootingAccordion">
+                            <div class="accordion-body">
+                                <strong>Problem:</strong> Admin settings display "[object Object]" instead of form controls.<br>
+                                <strong>Solution:</strong> Use simple values in your settings, not complex objects:
+                                <pre class="mt-2 bg-light p-2"><code>// ❌ Wrong
+"enabled": {"type": "boolean", "default": true}
+
+// ✅ Correct  
+"enabled": true</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#problem2">
+                                Module not loading or found
+                            </button>
+                        </h2>
+                        <div id="problem2" class="accordion-collapse collapse" data-bs-parent="#troubleshootingAccordion">
+                            <div class="accordion-body">
+                                <strong>Check:</strong>
+                                <ul>
+                                    <li>File permissions (755 for directories, 644 for files)</li>
+                                    <li>Namespace matches directory structure</li>
+                                    <li>module.json syntax is valid</li>
+                                    <li>Module is enabled in database</li>
+                                    <li>No PHP syntax errors (check error logs)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#problem3">
+                                Database errors during installation
+                            </button>
+                        </h2>
+                        <div id="problem3" class="accordion-collapse collapse" data-bs-parent="#troubleshootingAccordion">
+                            <div class="accordion-body">
+                                <strong>Common causes:</strong>
+                                <ul>
+                                    <li>Missing database permissions</li>
+                                    <li>Table name conflicts</li>
+                                    <li>Invalid SQL syntax</li>
+                                    <li>Character set issues</li>
+                                </ul>
+                                <strong>Fix:</strong> Check error logs and verify database permissions. Use <code>utf8mb4</code> charset.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#problem4">
+                                Assets (CSS/JS) not loading
+                            </button>
+                        </h2>
+                        <div id="problem4" class="accordion-collapse collapse" data-bs-parent="#troubleshootingAccordion">
+                            <div class="accordion-body">
+                                <strong>Check:</strong>
+                                <ul>
+                                    <li>File paths are correct</li>
+                                    <li>Web server can serve static files</li>
+                                    <li>No 404 errors in browser console</li>
+                                    <li>Assets are loaded conditionally</li>
+                                </ul>
+                                <strong>Debug:</strong> View page source and check asset URLs.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Section -->
+    <section id="deployment" class="mb-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="border-bottom pb-2 mb-4"><i class="fas fa-rocket me-2 text-primary"></i>10. Deployment</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Packaging Your Module</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <ol>
+                                    <li>Test thoroughly in development</li>
+                                    <li>Update version numbers</li>
+                                    <li>Create ZIP archive of module folder</li>
+                                    <li>Include documentation</li>
+                                    <li>Test installation on clean system</li>
+                                </ol>
+                                
+                                <div class="mt-3">
+                                    <strong>ZIP Structure:</strong>
+                                    <pre class="small mt-2"><code>your-module-v1.0.0.zip
+└── your_module/
+    ├── YourModule.php
+    ├── install.php
+    ├── module.json
+    └── ...</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Installation Methods</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="text-primary">Manual Installation</h6>
+                                <ol class="small">
+                                    <li>Upload files to <code>modules/</code> directory</li>
+                                    <li>Run <code>php install.php</code></li>
+                                    <li>Enable in admin panel</li>
+                                </ol>
+                                
+                                <h6 class="text-success mt-3">Admin Panel</h6>
+                                <ol class="small">
+                                    <li>Upload ZIP via admin interface</li>
+                                    <li>Auto-extraction and installation</li>
+                                    <li>Immediate availability</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Pre-Deployment Checklist</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="mb-0">
+                                    <li>✅ All features tested</li>
+                                    <li>✅ No PHP errors or warnings</li>
+                                    <li>✅ Database queries optimized</li>
+                                    <li>✅ Cross-browser compatibility</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mb-0">
+                                    <li>✅ Mobile responsiveness</li>
+                                    <li>✅ Security audit completed</li>
+                                    <li>✅ Documentation updated</li>
+                                    <li>✅ Version numbers incremented</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="example-download" class="mb-5">
+        <div class="text-center py-5 bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 1rem;">
+            <h2 class="mb-4">Ready to Build Your Module?</h2>
+            <p class="lead mb-4">Download our complete example module and start building immediately</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/downloads/example-module.zip" class="btn btn-light btn-lg">
+                    <i class="fas fa-download me-2"></i>Download Example Module
+                </a>
+                <a href="/docs/api-reference" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-book me-2"></i>API Reference
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Need Help?</h5>
+                    <p class="card-text">Join our community or get professional support for your PhPstrap module development.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="/community" class="btn btn-outline-primary">Community Forum</a>
+                        <a href="/support" class="btn btn-outline-secondary">Professional Support</a>
+                        <a href="/docs" class="btn btn-outline-info">Documentation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
