@@ -1,10 +1,78 @@
 ---
 layout: default
-title: Home
+title: Welcome to PhPstrap Membership
+description: Build a modern membership site using PhPstrap and Bootstrap 5.
 ---
 
-<h1 class="display-4 text-center mt-5">Welcome to PhPstrap</h1>
-<p class="lead text-center">A lightweight, modular PHP framework powered by Bootstrap 5.</p>
-<div class="text-center mt-4">
-  <a href="https://github.com/PhPstrap/phpstrap" class="btn btn-primary">View on GitHub</a>
-</div>
+  {% include header.html %}
+<main class="container py-5">
+
+  <!-- Hero Section -->
+  <section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
+    <h1 class="display-4 fw-bold">Welcome to PhPstrap</h1>
+    <p class="lead">Build secure and scalable membership websites with PHP and Bootstrap 5 — fast.</p>
+    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+      <a href="/login/register.php" class="btn btn-primary btn-lg">Sign Up</a>
+      <a href="/login/index.php" class="btn btn-outline-secondary btn-lg">Log In</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="row text-center mb-5">
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-user-shield fa-2x mb-3 text-primary" aria-hidden="true"></i>
+          <h5 class="card-title">User Management</h5>
+          <p class="card-text">Register, log in, manage roles, and control access with powerful user tools.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-puzzle-piece fa-2x mb-3 text-success" aria-hidden="true"></i>
+          <h5 class="card-title">Modular Design</h5>
+          <p class="card-text">Extend functionality easily with a modular plug-and-play system.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-lock fa-2x mb-3 text-danger" aria-hidden="true"></i>
+          <h5 class="card-title">Secure & Modern</h5>
+          <p class="card-text">Built with security in mind, using the latest PHP standards and Bootstrap 5.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call To Action -->
+  <section class="text-center mt-5">
+    <h2>Launch your membership site today</h2>
+    <p class="lead">PhPstrap gives you everything you need to get started quickly.</p>
+    <a href="/login/register.php" class="btn btn-success btn-lg me-2">Create an Account</a>
+    <a href="/login/index.php" class="btn btn-outline-dark btn-lg">Access My Account</a>
+  </section>
+
+  <!-- Getting Started -->
+  <section class="mt-5 pt-5 border-top">
+    <h3 class="text-center mb-4">Getting Started</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>1. Clone or Download</h5>
+        <p>Get the code from our <a href="https://github.com/PhPstrap/phpstrap" target="_blank">GitHub repository</a> and start building.</p>
+      </div>
+      <div class="col-md-6">
+        <h5>2. Run the Installer</h5>
+        <p>Use <code>install.php</code> to create the database tables and configure your environment.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+  {% include footer.html %}
