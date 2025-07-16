@@ -1,0 +1,53 @@
+---
+layout: default
+title: Installing Modules
+description: Learn how to upload and install a module using the PhPstrap admin panel.
+---
+
+<div class="container py-5">
+  <h1 class="mb-4">📦 How to Install a Module in PhPstrap</h1>
+
+  <p class="lead">Modules let you extend your app with new features. Follow these steps to install one through the admin panel.</p>
+
+  <hr>
+
+  <h2>✅ Step 1: Upload the Module</h2>
+  <ol>
+    <li>Download the module from GitHub or the PhPstrap Marketplace.</li>
+    <li>Unzip the downloaded file.</li>
+    <li>Upload the folder to your server’s <code>/modules/</code> directory.<br>
+      <small class="text-muted">e.g., <code>/your-app-root/modules/example-module/</code></small>
+    </li>
+  </ol>
+  <div class="alert alert-warning mt-3">
+    <strong>Note:</strong> The module must include a valid <code>module.json</code> file in its root directory.
+  </div>
+
+  <h2 class="mt-5">✅ Step 2: Open the Admin Module Library</h2>
+  <p>Navigate to the <code>/admin/modules</code> page. You’ll see something like this:</p>
+
+  <img src="/docs/assets/module-library.png" class="img-fluid rounded shadow mb-4" alt="PhPstrap Module Library interface">
+
+  <h2>✅ Step 3: Scan for Modules</h2>
+  <p>Click the <span class="btn btn-sm btn-outline-primary disabled">🔍 Scan for Modules</span> button.</p>
+  <ul>
+    <li>PhPstrap will look for new module folders in <code>/modules/</code>.</li>
+    <li>If a valid module is found, it will appear in the list.</li>
+  </ul>
+
+  <h2>✅ Step 4: Enable and Install</h2>
+  <ol>
+    <li>Click <span class="btn btn-sm btn-outline-success disabled">+ Install Module</span>.</li>
+    <li>Confirm and proceed through any module-specific setup prompts.</li>
+    <li>Once installed, the module will move to the <strong>Installed Modules</strong> tab.</li>
+  </ol>
+
+  <h2 class="mt-5">🛠️ Troubleshooting</h2>
+  <ul>
+    <li><strong>Module doesn’t appear?</strong> Check that <code>module.json</code> exists and has valid JSON syntax.</li>
+    <li><strong>Install fails?</strong> Review your PHP error logs or ensure the module is compatible with your PhPstrap version.</li>
+  </ul>
+
+  <hr class="my-5">
+  <p class="text-center text-muted">Need help? Join the community on <a href="https://github.com/PhPstrap" target="_blank">GitHub</a>.</p>
+</div>
