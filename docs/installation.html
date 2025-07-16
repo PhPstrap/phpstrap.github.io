@@ -1,0 +1,48 @@
+---
+layout: default
+title: Installation Guide
+---
+
+<h1 class="mb-4">🚀 Install PhPstrap on Your Server</h1>
+
+<p class="lead">Follow these steps to get PhPstrap up and running on your PHP-compatible web server.</p>
+
+<h2>1. Requirements</h2>
+<ul>
+  <li>PHP 8.0 or higher</li>
+  <li>MySQL or MariaDB database</li>
+  <li>Apache or Nginx web server</li>
+  <li>Composer (optional for managing dependencies)</li>
+</ul>
+
+<h2>2. Download PhPstrap</h2>
+<p>Clone the repo or download the latest release ZIP from <a href="https://github.com/PhPstrap/phpstrap">GitHub</a>:</p>
+
+<pre><code>git clone https://github.com/PhPstrap/phpstrap.git
+</code></pre>
+
+<h2>3. Upload to Your Server</h2>
+<p>Use FTP/SFTP or your preferred deployment method to upload the contents of the <code>phpstrap</code> folder to your server’s document root (e.g., <code>public_html</code>).</p>
+
+<h2>4. Configure Database</h2>
+<ol>
+  <li>Create a new MySQL database and user.</li>
+  <li>Edit <code>includes/config.php</code> with your DB credentials.</li>
+</ol>
+
+<h2>5. Run the Installer</h2>
+<p>Visit <code>yourdomain.com/install.php</code> in your browser. This will create the necessary tables.</p>
+
+<h2>6. Secure Your Installation</h2>
+<ul>
+  <li>Delete <code>install.php</code> after successful installation.</li>
+  <li>Ensure <code>includes/config.php</code> is not publicly accessible.</li>
+</ul>
+
+<h2>7. Start Building</h2>
+<p>Your PhPstrap membership framework is ready. Begin by customizing your modules or adding new ones in the <code>modules/</code> directory.</p>
+
+<p>For help, check the <a href="/docs/module-development-guide.html">Module Development Guide</a>.</p>
+
+<hr>
+<p class="text-muted">Need support? Visit <a href="https://github.com/PhPstrap/phpstrap/issues">GitHub Issues</a> to ask questions or report bugs.</p>
