@@ -50,37 +50,57 @@ description: Explore Modules for PhPstrap and development.
     </div>
   </div>
 
-  <script>
-    fetch('./modules.json')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('module-list');
-        container.innerHTML = '';
+<script>
+  fetch('./modules.json')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('module-list');
+      container.innerHTML = '';
 
-        if (!Array.isArray(data) || data.length === 0) {
-          container.innerHTML = '<div class="alert alert-warning">No modules found.</div>';
-          return;
-        }
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No modules found.</div>';
+        return;
+      }
 
-        data.forEach(module => {
-          const card = document.createElement('div');
-          card.className = 'module-card';
+      data.forEach(module => {
+        const card = document.createElement('div');
+        card.className = 'module-card';
 
-          card.innerHTML = `
-            <div class="module-title">${module.title || module.name}</div>
-            <div class="module-meta mb-2">
-              Version: ${module.version || '1.0.0'} | Author: ${module.author || 'Unknown'}
+        card.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="module-title">${module.title || module.name}</div>
+              <div class="text-muted small">v${module.version || '1.0.0'} 
+                <span class="badge bg-success ms-2">Enabled</span>
+              </div>
             </div>
-            <p>${module.description || 'No description provided.'}</p>
-          `;
+          </div>
 
-          container.appendChild(card);
-        });
-      })
-      .catch(err => {
-        document.getElementById('module-list').innerHTML =
-          '<div class="alert alert-danger">Failed to load modules.</div>';
-        console.error('Failed to load modules.json:', err);
+          <div class="module-description mb-3">${module.description || 'No description provided.'}</div>
+
+          <div class="module-meta mb-3">
+            <i class="fas fa-user me-1"></i> By ${module.author || 'Unknown'}<br>
+            <i class="fas fa-calendar-alt me-1"></i> Installed ${module.installed || 'Unknown'}
+          </div>
+
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-warning btn-sm"><i class="fas fa-pause-circle me-1"></i>Disable</button>
+            <button class="btn btn-primary btn-sm"><i class="fas fa-cog me-1"></i>Settings</button>
+            <button class="btn btn-info btn-sm"><i class="fas fa-sync-alt me-1"></i>Update</button>
+            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt me-1"></i>Uninstall</button>
+            ${module.url ? `<a class="btn btn-success btn-sm" href="${module.url}" target="_blank">
+              <i class="fas fa-download me-1"></i>Get Module</a>` : ''}
+          </div>
+        `;
+
+        container.appendChild(card);
       });
-  </script>
+    })
+    .catch(err => {
+      document.getElementById('module-list').innerHTML =
+        '<div class="alert alert-danger">Failed to load modules.</div>';
+      console.error('Failed to load modules.json:', err);
+    });
+</script>
+
 
