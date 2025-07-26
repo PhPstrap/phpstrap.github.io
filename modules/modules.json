@@ -1,0 +1,16 @@
+[
+  {
+    "name": "seo_tools",
+    "title": "SEO Tools",
+    "version": "1.2",
+    "author": "Perry",
+    "description": "Adds meta tag and sitemap generation support."
+  },
+  {
+    "name": "analytics_dashboard",
+    "title": "Analytics Dashboard",
+    "version": "0.9.5",
+    "author": "Jane Dev",
+    "description": "Displays site metrics in a visual dashboard."
+  }
+]
