@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Available Modules - PhPstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      padding: 2rem;
+      background: #f5f7fa;
+    }
+    .module-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+    }
+    .module-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .module-meta {
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4"><i class="fas fa-puzzle-piece me-2"></i>Available PhPstrap Modules</h1>
+    <div id="module-list">
+      <p><em>Loading modules...</em></p>
+    </div>
+  </div>
+
+  <script>
+    fetch('https://yourdomain.com/path/to/public-modules.php')
+      .then(res => res.json())
+      .then(modules => {
+        const container = document.getElementById('module-list');
+        container.innerHTML = '';
+        if (modules.length === 0) {
+          container.innerHTML = '<p>No modules found.</p>';
+          return;
+        }
+        modules.forEach(module => {
+          const card = document.createElement('div');
+          card.className = 'module-card';
+          card.innerHTML = `
+            <div class="module-title">${module.title}</div>
+            <div class="module-meta">Version ${module.version} by ${module.author}</div>
+            <p class="mt-2">${module.description || 'No description provided.'}</p>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(err => {
+        document.getElementById('module-list').innerHTML = '<p class="text-danger">Failed to load modules.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
