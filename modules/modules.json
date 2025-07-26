@@ -1,21 +1,20 @@
 [
- {
-  "name": "hcaptcha",
-  "title": "hCaptcha Module",
+{
+  "name": "contactform",
+  "title": "Contact Form Module",
   "version": "1.0.0",
   "author": "Your Name",
-  "description": "Easy integration of hCaptcha verification into forms...",
-  "url": "https://github.com/phpstrap/modules/tree/main/hcaptcha",
-  "installed": "Jul 10, 2025"
+  "description": "A customizable contact form with admin notifications and spam protection.",
+  "url": "https://github.com/phpstrap/modules/tree/main/contactform"
 }
 {
-  "name": "hcaptcha",
-  "title": "hCaptcha Module",
+  "name": "contactform",
+  "title": "Contact Form Module",
   "version": "1.0.0",
   "author": "Your Name",
-  "description": "Easy integration of hCaptcha verification into forms...",
-  "url": "https://github.com/phpstrap/modules/tree/main/hcaptcha",
-  "installed": "Jul 10, 2025"
+  "description": "A customizable contact form with admin notifications and spam protection.",
+  "url": "https://github.com/phpstrap/modules/tree/main/contactform"
 }
+
 
 ]
