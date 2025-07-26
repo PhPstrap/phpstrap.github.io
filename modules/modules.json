@@ -1,16 +1,21 @@
 [
-  {
-    "name": "seo_tools",
-    "title": "SEO Tools",
-    "version": "1.2",
-    "author": "Perry",
-    "description": "Adds meta tag and sitemap generation support."
-  },
-  {
-    "name": "analytics_dashboard",
-    "title": "Analytics Dashboard",
-    "version": "0.9.5",
-    "author": "Jane Dev",
-    "description": "Displays site metrics in a visual dashboard."
-  }
+ {
+  "name": "hcaptcha",
+  "title": "hCaptcha Module",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "description": "Easy integration of hCaptcha verification into forms...",
+  "url": "https://github.com/phpstrap/modules/tree/main/hcaptcha",
+  "installed": "Jul 10, 2025"
+}
+{
+  "name": "hcaptcha",
+  "title": "hCaptcha Module",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "description": "Easy integration of hCaptcha verification into forms...",
+  "url": "https://github.com/phpstrap/modules/tree/main/hcaptcha",
+  "installed": "Jul 10, 2025"
+}
+
 ]
