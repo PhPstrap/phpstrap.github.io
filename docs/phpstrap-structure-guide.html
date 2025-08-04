@@ -1,1 +1,75 @@
-phpstrap-structure-guide.html
+---
+layout: default
+title: PHPStrap Full Project Structure Guide<
+description: This document provides a detailed description of each major file and folder in the PHPStrap framework.
+---
+
+  <div class="container py-5">
+    <h1 class="mb-4">📦 PHPStrap Full Project Structure Guide</h1>
+    <p class="lead">This document provides a detailed description of each major file and folder in the PHPStrap framework.</p>
+
+    <h2>🗂️ Root Files</h2>
+    <ul>
+      <li><strong>index.php</strong>: The main landing page and front controller.</li>
+      <li><strong>install.php</strong>: Launches the setup wizard to configure the database.</li>
+      <li><strong>LICENSE</strong>: MIT license for open-source use.</li>
+      <li><strong>README.md</strong>: Project documentation and setup instructions.</li>
+      <li><strong>phpstrap.zip</strong>: Downloadable package archive.</li>
+    </ul>
+
+    <h2>🔧 <code>/admin/</code></h2>
+    <ul>
+      <li><strong>dashboard.php</strong>: Admin dashboard overview page.</li>
+      <li><strong>destroy-session.php</strong>: Destroys session for logout.</li>
+      <li><strong>login.php / logout.php</strong>: Handles admin login/logout.</li>
+      <li><strong>logs.php</strong>: Displays system or module logs.</li>
+      <li><strong>modules.php</strong>: Admin panel for enabling/disabling modules.</li>
+      <li><strong>settings.php</strong>: Admin config and settings manager.</li>
+      <li><strong>users.php</strong>: Manage registered user accounts.</li>
+      <li><strong>includes/admin-auth.php</strong>: Protects admin pages behind login.</li>
+      <li><strong>includes/scan_modules.php</strong>: Scans module directories for registration.</li>
+    </ul>
+
+    <h2>🧱 <code>/includes/</code></h2>
+    <ul>
+      <li><strong>header.php / footer.php</strong>: HTML templates for top and bottom layout.</li>
+      <li><strong>nav.php</strong>: Navigation menu component.</li>
+      <li><strong>header-scripts.php / footer-scripts.php</strong>: Includes JS/CSS assets.</li>
+      <li><strong>modules.php</strong>: Registers enabled modules for use.</li>
+      <li><strong>settings.php</strong>: Site-wide settings loader.</li>
+    </ul>
+
+    <h2>🛠️ <code>/installer/</code></h2>
+    <ul>
+      <li><strong>config.php</strong>: Handles form input during install.</li>
+      <li><strong>database.php</strong>: Performs DB connection and table setup.</li>
+      <li><strong>requirements.php</strong>: PHP version and extension checks.</li>
+      <li><strong>ui.php</strong>: Installer UI and step loader.</li>
+    </ul>
+
+    <h2>📊 <code>/dashboard/</code></h2>
+    <ul>
+      <li><strong>index.php</strong>: User-facing dashboard after login.</li>
+    </ul>
+
+    <h2>🎨 <code>/assets/css/</code> and <code>/assets/js/</code></h2>
+    <ul>
+      <li>All Bootstrap 5 core files (minified, mapped, RTL versions).</li>
+      <li><strong>custom.css, dashboard.css, homepage.css</strong>: Theme-specific and layout styles.</li>
+      <li><strong>bootstrap.bundle.min.js</strong>: Bootstrap JavaScript functionality.</li>
+    </ul>
+
+    <h2>🗃️ <code>/config/</code></h2>
+    <ul>
+      <li><strong>functions.php</strong>: Shared utility functions used across the framework.</li>
+    </ul>
+
+    <h2>📁 <code>/css/</code></h2>
+    <ul>
+      <li>Duplicate location for stylesheets, used in earlier builds or fallback support.</li>
+    </ul>
+
+    <hr>
+    <p class="text-muted">For help or contributions, visit <a href="https://github.com/PhPstrap/phpstrap/issues" target="_blank">GitHub Issues</a>.</p>
+  </div>muted">Need help? Join the community on <a href="https://github.com/PhPstrap" target="_blank">GitHub</a>.</p>
+</div>
