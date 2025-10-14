@@ -1,0 +1,143 @@
+---
+layout: default
+title: Admin Panel Guide
+description: Learn how to use the PhPstrap Admin Panel to manage users, modules, and site settings.
+---
+
+<h1 class="mb-4">⚙️ PhPstrap Admin Panel Guide</h1>
+<p class="lead">This guide walks you through accessing the Admin Panel, managing users and modules, configuring settings, and keeping your site healthy and secure.</p>
+
+<div class="alert alert-info">
+  <strong>Quick tip:</strong> The default Admin Panel URL is usually <code>/admin/</code>. If you changed the admin path in your configuration, use that custom path instead.
+</div>
+
+<h2 id="access">1) Access & Authentication</h2>
+<ol>
+  <li>Visit <code>https://yourdomain.com/admin/</code>.</li>
+  <li>Log in with an administrator account created during installation or via the CLI/DB.</li>
+  <li>If 2FA is enabled (via a module), complete the second step to finish logging in.</li>
+</ol>
+
+<h3 class="h5 mt-3">Roles & Permissions (Typical Setup)</h3>
+<ul>
+  <li><strong>Super Admin:</strong> Full access to all settings, modules, users, and system tools.</li>
+  <li><strong>Admin:</strong> Manage content, users, and most settings; may be restricted from core/system tools.</li>
+  <li><strong>Editor/Manager:</strong> Limited access for content or feature-specific tasks (depends on module permissions).</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="navigation">2) Admin Navigation Overview</h2>
+<p>The Admin Panel is organized into a few predictable areas:</p>
+<ul>
+  <li><strong>Dashboard:</strong> At-a-glance stats, recent activity, and system notices.</li>
+  <li><strong>Users:</strong> Create, edit, suspend users; reset passwords; manage roles.</li>
+  <li><strong>Modules:</strong> Install, enable/disable, configure, and update modules.</li>
+  <li><strong>Settings:</strong> Site name/URL, email settings, security, and appearance.</li>
+  <li><strong>Tools:</strong> Logs, cache, backups, and system info.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="users">3) Managing Users</h2>
+<ol>
+  <li>Go to <em>Users → All Users</em> to see the list.</li>
+  <li>Select <em>Add User</em> to create a new account. Provide name, email, role, and temporary password.</li>
+  <li>Use <em>Edit</em> to change roles, reset password, or suspend/reactivate an account.</li>
+</ol>
+<div class="alert alert-warning">
+  <strong>Security best practice:</strong> Use strong passwords and limit the number of Super Admins. Enable 2FA if available.
+</div>
+
+<hr class="my-4">
+
+<h2 id="modules">4) Modules: Install, Configure, Update</h2>
+<p>Modules extend PhPstrap with new features. Common examples: SMTP Mailer, hCapture, and custom content modules.</p>
+
+<h3 class="h5">Install a Module</h3>
+<ol>
+  <li>Upload the module folder to <code>/modules/&lt;module-name&gt;/</code>.</li>
+  <li>Visit <em>Admin → Modules</em>. The module should appear in the list.</li>
+  <li>Click <em>Install</em> (or <em>Enable</em>) and follow any prompts (DB migrations, settings).</li>
+</ol>
+
+<h3 class="h5 mt-3">Configure a Module</h3>
+<ol>
+  <li>From <em>Admin → Modules</em>, click the module’s <em>Settings</em>.</li>
+  <li>Fill in required fields (e.g., SMTP host/port or hCapture site/secret keys).</li>
+  <li>Save and test the feature in a non-production environment when possible.</li>
+</ol>
+
+<h3 class="h5 mt-3">Update a Module</h3>
+<ol>
+  <li>Replace the module files with the new version (keep a backup).</li>
+  <li>Visit <em>Admin → Modules</em> and run any <em>Update</em>/migration steps if prompted.</li>
+  <li>Clear cache and verify functionality.</li>
+</ol>
+
+<div class="alert alert-secondary">
+  See <a href="/docs/installing-modules.html">Installing Modules</a> and <a href="/docs/module-development-guide.html">Module Development Guide</a> for deeper details.
+</div>
+
+<hr class="my-4">
+
+<h2 id="settings">5) Global Settings</h2>
+<p>Navigate to <em>Admin → Settings</em> to adjust application-level configuration.</p>
+<ul>
+  <li><strong>General:</strong> Site name, base URL, timezone, theme.</li>
+  <li><strong>Email:</strong> From address, SMTP (via module), bounce/return-path settings.</li>
+  <li><strong>Security:</strong> Admin path, session length, allowed file types, captcha provider.</li>
+  <li><strong>Appearance:</strong> Logo, dark/light theme defaults, brand colors.</li>
+</ul>
+<p>Some advanced options may live in <code>/includes/config.php</code> or environment variables depending on your setup.</p>
+
+<hr class="my-4">
+
+<h2 id="tools">6) Tools: Logs, Cache, Backups</h2>
+<ul>
+  <li><strong>Logs:</strong> Review error and access logs to diagnose issues. Consider enabling structured logging in production.</li>
+  <li><strong>Cache:</strong> Clear template or data caches after updates for changes to take effect.</li>
+  <li><strong>Backups:</strong> Regularly back up the database and <code>/includes/</code>, <code>/modules/</code>, and <code>/uploads/</code> directories.</li>
+  <li><strong>System Info:</strong> PHP version, loaded extensions, file permissions, disk space.</li>
+</ul>
+
+<pre><code># Example: database-only backup (MySQL/MariaDB)
+mysqldump -u USER -p DATABASE_NAME &gt; /backups/phpstrap_$(date +%F).sql
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="security">7) Security Checklist</h2>
+<ul>
+  <li>Keep PHP, web server, and modules up to date.</li>
+  <li>Disable directory listing on production.</li>
+  <li>Set correct file permissions (e.g., <code>644</code> files, <code>755</code> directories; adjust for your host).</li>
+  <li>Restrict write access to critical files like <code>includes/config.php</code>.</li>
+  <li>Use HTTPS everywhere and secure cookies.</li>
+  <li>Limit Super Admin accounts; enable 2FA if available.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="troubleshooting">8) Troubleshooting</h2>
+<ul>
+  <li><strong>White screen / 500 error:</strong> Enable PHP error logging; check logs under <code>/logs/</code> or server logs.</li>
+  <li><strong>Module not showing:</strong> Confirm folder name under <code>/modules/</code>, check <code>modules.json</code>, clear cache, verify permissions.</li>
+  <li><strong>Email not sending:</strong> Verify SMTP module settings, firewall rules, and SPF/DKIM.</li>
+  <li><strong>Permission denied:</strong> Confirm your role has the required capability. Super Admin can adjust roles if needed.</li>
+</ul>
+
+<div class="alert alert-light border">
+  Still stuck? Visit <a href="https://github.com/PhPstrap/phpstrap/issues">GitHub Issues</a> with error details and logs (omit secrets).
+</div>
+
+<hr class="my-4">
+
+<h2 id="next-steps">9) Next Steps</h2>
+<ul>
+  <li>Review <a href="/docs/configuration.html">Configuration &amp; Settings</a> for environment-specific tuning.</li>
+  <li>Explore <a href="/docs/hooks-and-events.html">Hooks &amp; Events</a> to extend the admin without editing core.</li>
+  <li>Set up the <a href="/docs/templates-and-theming.html">Templates &amp; Theming</a> to match your brand.</li>
+</ul>
+
+<p class="text-muted mt-4">Maintained by the PhPstrap community. Contributions welcome — see <a href="/docs/contributing.html">Contributing</a>.</p>
