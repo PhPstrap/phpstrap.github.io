@@ -1,0 +1,197 @@
+---
+layout: default
+title: Contributing
+description: How to contribute to PhPstrap — report bugs, propose features, build modules, write docs, and submit pull requests.
+---
+
+<h1 class="mb-4">🤝 Contributing to PhPstrap</h1>
+<p class="lead">Thanks for helping improve PhPstrap! This guide explains how to report issues, propose features, submit pull requests, write modules, and improve docs.</p>
+
+<div class="alert alert-info">
+  New here? Start with <a href="/docs/installation.html">Installation</a>, then read the <a href="/docs/phpstrap-structure-guide.html">Project Structure</a> and <a href="/docs/module-development-guide.html">Module Development</a>.
+</div>
+
+<hr class="my-4">
+
+<h2 id="values">1) Project Values</h2>
+<ul>
+  <li><strong>Simple first:</strong> Prefer clear, minimal solutions over clever complexity.</li>
+  <li><strong>Stable surface:</strong> Don’t break public APIs without discussion and a migration path.</li>
+  <li><strong>Security & privacy:</strong> Safe defaults; no secrets in repos; least privilege.</li>
+  <li><strong>Accessibility:</strong> Semantic HTML, keyboard navigation, and WCAG-minded styles.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="how-to-help">2) Ways to Help</h2>
+<ul>
+  <li>🪲 <strong>Report bugs</strong> with a minimal reproduction.</li>
+  <li>✨ <strong>Request features</strong> with a clear use case and alternatives considered.</li>
+  <li>🧩 <strong>Build modules</strong> (e.g., SMTP, hCapture) and publish them.</li>
+  <li>📝 <strong>Improve docs</strong> (guides, examples, screenshots).</li>
+  <li>🧪 <strong>Add tests</strong> or improve coverage for fragile code paths.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="issues">3) Issues: Bugs & Feature Requests</h2>
+<p>Open an issue on GitHub with:</p>
+<ul>
+  <li><strong>Environment:</strong> PHP version, web server, database.</li>
+  <li><strong>Steps to reproduce:</strong> Smallest possible example.</li>
+  <li><strong>Expected vs actual behavior</strong> and relevant logs (omit secrets).</li>
+</ul>
+<div class="alert alert-light border">
+  Include code blocks, not screenshots, for stack traces. Redact credentials.
+</div>
+
+<hr class="my-4">
+
+<h2 id="dev-setup">4) Local Dev Setup</h2>
+<ol>
+  <li>Fork the repo on GitHub and clone your fork.</li>
+</ol>
+<pre><code>git clone https://github.com/&lt;you&gt;/phpstrap.git
+cd phpstrap
+</code></pre>
+<ol start="2">
+  <li>(Optional) Install dev tools via Composer if the repo provides them.</li>
+</ol>
+<pre><code>composer install
+</code></pre>
+<ol start="3">
+  <li>Create DB and copy config, then edit credentials.</li>
+</ol>
+<pre><code>cp includes/config.sample.php includes/config.php
+# update DB_*, BASE_URL, etc.
+</code></pre>
+<ol start="4">
+  <li>Run installer at <code>http://localhost:8000/install.php</code> (or your vhost).</li>
+  <li>Serve locally:</li>
+</ol>
+<pre><code>php -S localhost:8000 -t .
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="coding-standards">5) Coding Standards</h2>
+<ul>
+  <li><strong>PHP:</strong> PHP 8+, PSR-12 style. Prefer strict types where practical.</li>
+  <li><strong>Security:</strong> Escape output, parameterize queries, verify CSRF tokens, validate inputs.</li>
+  <li><strong>CSS:</strong> Bootstrap 5 utilities first; custom rules in <code>/css/custom.css</code>.</li>
+  <li><strong>JS:</strong> Small, framework-free snippets; progressive enhancement.</li>
+</ul>
+<p>Formatting tools (if present):</p>
+<pre><code># Examples (only if configured in the repo)
+composer phpcs
+composer phpstan
+composer fix
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="git">6) Git Workflow</h2>
+<ol>
+  <li><strong>Fork</strong> → <strong>feature branch</strong> → PR to <code>main</code>.</li>
+  <li>Keep PRs focused and small; one topic per PR.</li>
+  <li>Use <a href="https://www.conventionalcommits.org/">Conventional Commits</a> for messages:
+    <code>feat: add admin cache clear tool</code>, <code>fix: sanitize module title</code>.</li>
+  <li>Rebase onto latest <code>main</code> before opening/updating PRs.</li>
+</ol>
+
+<hr class="my-4">
+
+<h2 id="pr">7) Pull Request Checklist</h2>
+<ul>
+  <li>[ ] Clear title &amp; description (what/why, screenshots if UI).</li>
+  <li>[ ] Backward compatible (or includes a migration + notes).</li>
+  <li>[ ] Tests updated/added if logic changed.</li>
+  <li>[ ] Docs updated (<em>this site</em> or module README).</li>
+  <li>[ ] No secrets, keys, or personal data in code or commit history.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="modules">8) Module Contributions</h2>
+<p>Modules live under <code>/modules/&lt;name&gt;</code> or as separate repos. Minimum scaffold:</p>
+<pre><code>modules/
+  my-module/
+    module.php
+    routes.php
+    migrations/
+    views/
+    assets/
+    README.md
+</code></pre>
+<p>Recommended <code>modules.json</code> entry:</p>
+<pre><code>[
+  {
+    "name": "my-module",
+    "title": "My Module",
+    "version": "1.0.0",
+    "author": "Your Name",
+    "description": "What it does",
+    "url": "https://github.com/YourOrg/my-module",
+    "requires_php": ">=8.0",
+    "requires_phpstrap": ">=1.0.0"
+  }
+]
+</code></pre>
+<div class="alert alert-secondary">
+  See <a href="/docs/installing-modules.html">Installing Modules</a> and <a href="/docs/module-development-guide.html">Module Development Guide</a>.
+</div>
+
+<hr class="my-4">
+
+<h2 id="docs">9) Documentation Changes</h2>
+<ul>
+  <li>Docs live in <code>/docs/</code> (Jekyll-compatible). Use the existing frontmatter format.</li>
+  <li>Keep language concise; prefer runnable examples over long prose.</li>
+  <li>Include version notes if behavior differs by release.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="testing">10) Testing</h2>
+<ul>
+  <li>Write unit tests for pure logic; smoke test pages in a browser.</li>
+  <li>Validate forms (server + client) and confirm CSRF on state changes.</li>
+  <li>Test both light/dark themes and mobile breakpoints.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="security-policy">11) Security Policy</h2>
+<div class="alert alert-danger">
+  Please do <strong>not</strong> file public issues for security vulnerabilities.
+</div>
+<ul>
+  <li>Report privately via GitHub Security Advisories (or the repo’s SECURITY.md if present).</li>
+  <li>Include affected versions, PoC, and impact assessment.</li>
+  <li>We coordinate disclosure and patch releases; credit is given after fixes ship.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="releases">12) Releases &amp; Versioning</h2>
+<ul>
+  <li><strong>SemVer:</strong> <code>MAJOR.MINOR.PATCH</code> (breaking / features / fixes).</li>
+  <li>Changelogs summarize noteworthy changes, migrations, and security notes.</li>
+  <li>Tag releases in Git; publish release notes with upgrade steps.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="license">13) License</h2>
+<p>By contributing, you agree that your contributions will be licensed under the project’s license (see <a href="/docs/license.html">License</a>).</p>
+
+<hr class="my-4">
+
+<h2 id="community">14) Community</h2>
+<ul>
+  <li>GitHub Issues: bug reports &amp; features.</li>
+  <li>GitHub Discussions (if enabled): Q&amp;A, ideas, design proposals.</li>
+  <li>PR reviews: be respectful, discuss trade-offs, and prefer evidence over opinion.</li>
+</ul>
+
+<p class="text-muted mt-4">Thanks for helping make PhPstrap better. We ❤️ your contributions!</p>
