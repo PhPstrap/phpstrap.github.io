@@ -1,0 +1,297 @@
+---
+layout: default
+title: Hooks & Events
+description: Extend PhPstrap without editing core. Learn the hooks, filters, event lifecycles, priorities, and best practices—with copy-paste examples.
+---
+
+<h1 class="mb-4">🪝 Hooks &amp; Events</h1>
+<p class="lead">Hooks let modules extend PhPstrap without modifying core files. Use <em>actions</em> to react to events and <em>filters</em> to modify data as it flows through the system.</p>
+
+<div class="alert alert-info">
+  <strong>TL;DR:</strong> Register callbacks in your module’s <code>module.php</code>.<br>
+  Use <code>add_action('hook', fn() =&gt; ... , $priority)</code> and <code>add_filter('filter', fn($value) =&gt; $value, $priority, $args)</code>.
+</div>
+
+<hr class="my-4">
+
+<h2 id="concepts">1) Core Concepts</h2>
+<ul>
+  <li><strong>Action:</strong> A fire-and-forget event. Use for side effects (logging, enqueue assets, send mail).</li>
+  <li><strong>Filter:</strong> Transforms and returns a value (e.g., sanitize input, alter email body).</li>
+  <li><strong>Priority:</strong> Lower runs earlier (default <code>10</code>). Same-priority callbacks run FIFO by registration order.</li>
+  <li><strong>Args:</strong> Filters may accept multiple parameters; declare the number your callback needs.</li>
+</ul>
+
+<pre><code class="language-php">&lt;?php
+// Pseudo-APIs exposed by PhPstrap bootstrap
+add_action(string $hook, callable $fn, int $priority = 10): void;
+do_action(string $hook, mixed ...$args): void;
+
+add_filter(string $filter, callable $fn, int $priority = 10, int $accepted_args = 1): void;
+apply_filters(string $filter, mixed $value, mixed ...$args): mixed;
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="lifecycle">2) App Lifecycle &amp; Common Hooks</h2>
+<p>Typical high-level flow and suggested hook points (names may vary depending on your install):</p>
+
+<table class="table table-sm">
+  <thead><tr><th>Phase</th><th>Action Hooks</th><th>Filter Hooks</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Bootstrap</strong></td>
+      <td><code>app_init</code>, <code>routes_register</code>, <code>modules_loaded</code></td>
+      <td><code>config_loaded</code></td>
+    </tr>
+    <tr>
+      <td><strong>Request</strong></td>
+      <td><code>request_start</code>, <code>before_dispatch</code>, <code>after_dispatch</code></td>
+      <td><code>request_query_vars</code></td>
+    </tr>
+    <tr>
+      <td><strong>Auth</strong></td>
+      <td><code>auth_login_success</code>, <code>auth_login_failed</code>, <code>auth_logout</code></td>
+      <td><code>auth_user_can</code></td>
+    </tr>
+    <tr>
+      <td><strong>Render</strong></td>
+      <td><code>before_render</code>, <code>after_render</code>, <code>enqueue_assets</code></td>
+      <td><code>view_data</code>, <code>html_output</code></td>
+    </tr>
+    <tr>
+      <td><strong>Domain</strong></td>
+      <td><code>user_created</code>, <code>user_updated</code>, <code>user_deleted</code></td>
+      <td><code>user_profile_data</code></td>
+    </tr>
+    <tr>
+      <td><strong>Modules</strong></td>
+      <td><code>module_install</code>, <code>module_enable</code>, <code>module_disable</code>, <code>module_uninstall</code></td>
+      <td><code>module_settings_schema</code></td>
+    </tr>
+    <tr>
+      <td><strong>Mail</strong></td>
+      <td><code>mail_send_attempt</code>, <code>mail_sent</code>, <code>mail_failed</code></td>
+      <td><code>mail_headers</code>, <code>mail_body</code>, <code>mail_transport</code></td>
+    </tr>
+    <tr>
+      <td><strong>Jobs</strong></td>
+      <td><code>cron_tick</code>, <code>scheduler_run</code></td>
+      <td><code>job_payload</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="text-muted small">Note: Names above are canonical suggestions used across these docs. If your build uses different names, adapt accordingly.</p>
+
+<hr class="my-4">
+
+<h2 id="register">3) Registering Hooks in a Module</h2>
+<p>Place registrations in your module’s <code>module.php</code> so they load when the module is enabled.</p>
+
+<pre><code class="language-php">&lt;?php // modules/my-module/module.php
+
+// 3.1 Action: add a footer note for logged admins
+add_action('after_render', function (&amp;$html, $context) {
+  if (!empty($context['is_admin'])) {
+    $html .= "&lt;!-- rendered by my-module v1.0.0 --&gt;";
+  }
+}, 20);
+
+// 3.2 Filter: customize outgoing email headers
+add_filter('mail_headers', function (array $headers, array $ctx) {
+  $headers['X-App'] = 'PhPstrap';
+  return $headers;
+}, 10, 2);
+
+// 3.3 Routes: register a new route during bootstrap
+add_action('routes_register', function ($router) {
+  $router-&gt;get('/health', 'MyModule\\Controllers\\HealthController@index');
+});
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="filters">4) Filters vs Actions: Practical Examples</h2>
+
+<h3 class="h6">A) Filter user display name</h3>
+<pre><code class="language-php">add_filter('user_display_name', function (string $name, array $user) {
+  if (!empty($user['company'])) {
+    return "{$name} · {$user['company']}";
+  }
+  return $name;
+}, 10, 2);
+</code></pre>
+
+<h3 class="h6">B) Sanitize HTML before output</h3>
+<pre><code class="language-php">add_filter('html_output', function (string $html) {
+  // Run through your sanitizer library here
+  return $html; // sanitized
+});
+</code></pre>
+
+<h3 class="h6">C) Action on successful login</h3>
+<pre><code class="language-php">add_action('auth_login_success', function (array $user, array $context) {
+  audit_log('login', ['user_id' =&gt; $user['id'], 'ip' =&gt; $context['ip'] ?? null]);
+});
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="priority">5) Priorities &amp; Execution Order</h2>
+<ul>
+  <li>Lower numbers run earlier: <code>5</code> runs before <code>10</code>.</li>
+  <li>Use early hooks (e.g., <code>priority=1..5</code>) for guards (auth, feature flags).</li>
+  <li>Use later hooks (e.g., <code>15..20</code>) to decorate output (append notes, analytics).</li>
+</ul>
+
+<pre><code class="language-php">// Two filters adjusting subject; the second sees the first one's result
+add_filter('mail_subject', fn($s) =&gt; "[LexBoard] $s", 5);
+add_filter('mail_subject', fn($s) =&gt; strtoupper($s), 15);
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="data-shape">6) Data Shape &amp; Contracts</h2>
+<p>Filters must return the same <em>type</em> they receive. When documenting your module, specify:</p>
+<ul>
+  <li>Hook name and kind (<em>action</em>/<em>filter</em>).</li>
+  <li>Parameters (names &amp; types).</li>
+  <li>Return type (for filters).</li>
+  <li>When in the lifecycle it fires.</li>
+</ul>
+
+<pre><code class="language-text">filter: mail_headers
+params: (array $headers, array $ctx)
+return: array
+fires: before mail transport send, after body/subject filters
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="errors">7) Error Handling</h2>
+<ul>
+  <li>Wrap risky logic in <code>try/catch</code> and log errors (never fatal the request).</li>
+  <li>Fail closed for security-sensitive filters (e.g., form validation) and fail open for decorative actions (e.g., analytics).</li>
+</ul>
+
+<pre><code class="language-php">add_action('after_dispatch', function ($response) {
+  try {
+    Analytics::track('page_view', ['path' =&gt; $_SERVER['REQUEST_URI'] ?? '/']);
+  } catch (Throwable $e) {
+    log_error('analytics', $e-&gt;getMessage());
+  }
+});
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="security">8) Security &amp; Performance</h2>
+<ul>
+  <li><strong>Never trust input:</strong> Validate/sanitize inside your callbacks.</li>
+  <li><strong>Respect capability checks:</strong> Use <code>auth_user_can</code> (or equivalent) to gate actions.</li>
+  <li><strong>Be fast:</strong> Hooks run on every request—avoid blocking I/O; defer with queues/cron when possible.</li>
+  <li><strong>Order matters:</strong> Use priorities to ensure security filters run before rendering or side effects.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="catalog">9) Suggested Hook Catalog (Reference)</h2>
+<p>Add or adapt these in your installation; modules can rely on them for stable integration points.</p>
+
+<div class="row row-cols-1 row-cols-md-2 g-3">
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">App / Routing</h3>
+        <ul class="mb-0">
+          <li><code>app_init</code> (action)</li>
+          <li><code>modules_loaded</code> (action)</li>
+          <li><code>routes_register</code> (action, <em>$router</em>)</li>
+          <li><code>before_dispatch</code> / <code>after_dispatch</code> (action, <em>$request</em>/<em>$response</em>)</li>
+          <li><code>before_render</code> / <code>after_render</code> (action, <em>&amp;$html</em>, <em>$context</em>)</li>
+          <li><code>html_output</code> (filter, <em>$html</em>)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Auth / Users</h3>
+        <ul class="mb-0">
+          <li><code>auth_login_success</code> / <code>auth_login_failed</code> / <code>auth_logout</code> (action)</li>
+          <li><code>auth_user_can</code> (filter, <em>$allowed</em>, <em>$user</em>, <em>$capability</em>)</li>
+          <li><code>user_created</code>, <code>user_updated</code>, <code>user_deleted</code> (action)</li>
+          <li><code>user_display_name</code>, <code>user_profile_data</code> (filter)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Modules / Settings</h3>
+        <ul class="mb-0">
+          <li><code>module_install</code>, <code>module_enable</code>, <code>module_disable</code>, <code>module_uninstall</code> (action)</li>
+          <li><code>module_settings_schema</code> (filter, <em>$schema</em>, <em>$module</em>)</li>
+          <li><code>admin_menu</code> (filter, <em>$menu</em>)</li>
+          <li><code>enqueue_assets</code> (action)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Mail / Jobs</h3>
+        <ul class="mb-0">
+          <li><code>mail_subject</code>, <code>mail_headers</code>, <code>mail_body</code>, <code>mail_transport</code> (filters)</li>
+          <li><code>mail_send_attempt</code>, <code>mail_sent</code>, <code>mail_failed</code> (action)</li>
+          <li><code>cron_tick</code>, <code>scheduler_run</code> (action)</li>
+          <li><code>job_payload</code> (filter)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="my-4">
+
+<h2 id="admin-menu">10) Example: Add an Admin Menu Item</h2>
+<pre><code class="language-php">&lt;?php
+// Append an entry to the Admin sidebar
+add_filter('admin_menu', function (array $menu) {
+  $menu[] = [
+    'slug' =&gt; 'my-module',
+    'title' =&gt; 'My Module',
+    'icon' =&gt; 'fas fa-puzzle-piece',
+    'href' =&gt; '/admin/my-module.php',
+    'capability' =&gt; 'manage_options',
+  ];
+  return $menu;
+});
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="testing">11) Testing Your Hooks</h2>
+<ul>
+  <li>Use a seed or fixture route to trigger your callbacks.</li>
+  <li>Log your hook execution with context: <code>audit_log('hook', [...])</code>.</li>
+  <li>Write unit tests for pure filters; e2e (browser) checks for actions that affect UI.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="troubleshooting">12) Troubleshooting</h2>
+<ul>
+  <li><strong>Callback not firing:</strong> Is the module enabled? Is the hook name spelled correctly? Check priorities.</li>
+  <li><strong>Filter has no effect:</strong> Ensure you return the modified value and that nothing later overrides it.</li>
+  <li><strong>Order issues:</strong> Adjust priorities; verify registration runs before the event fires.</li>
+  <li><strong>Fatal error:</strong> Wrap with <code>try/catch</code>; log and fail safely.</li>
+</ul>
+
+<hr class="my-4">
+
+<p class="text-muted">Have a new hook to propose? Open a PR updating this catalog and include where it fires in the lifecycle. See <a href="/docs/contributing.html">Contributing</a>.</p>
