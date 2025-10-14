@@ -1,0 +1,254 @@
+---
+layout: default
+title: PHPStrap Database Structure Guide
+description: A developer-friendly overview of the PhPstrap database schema, key tables, relationships, and migration tips.
+---
+
+<div class="container py-5">
+  <h1 class="mb-4">🗄️ PHPStrap Database Structure Guide</h1>
+  <p class="lead">This guide explains the core tables, relationships, and best practices for working with the PhPstrap database.</p>
+
+  <!-- Overview -->
+  <h2 class="mt-5">🔍 Overview</h2>
+  <p>
+    PhPstrap uses a lightweight MySQL schema centered on <strong>users</strong>, <strong>settings</strong>, and optional
+    feature tables (modules, invites, tokens, purchases, logs, affiliates). The schema is designed to be modular:
+    you can run a minimal core or enable related features as needed.
+  </p>
+
+  <!-- ERD (Text) -->
+  <h2 class="mt-5">🧩 Relationships (Text ERD)</h2>
+  <pre class="bg-light p-3 border rounded small">
+users (id) ─┬─< affiliate_clicks.user_id
+            ├─< affiliate_signups.user_id
+            ├─< affiliate_signups.referred_user_id
+            ├─< invites.generated_by
+            ├─  invites.used_by (nullable)
+            ├─< password_resets.user_id
+            ├─< token_purchases.user_id
+            ├─< user_tokens.user_id
+            └─< withdrawals.user_id
+withdrawals.processed_by (nullable) ──> users.id
+
+settings.updated_by (nullable) ──> users.id
+modules (no FKs)
+admin_logs (optional; often includes actor_id -> users.id)
+  </pre>
+
+  <!-- Core Tables -->
+  <h2 class="mt-5">🏛️ Core Tables</h2>
+
+  <h3 class="mt-4">users</h3>
+  <p>The primary identity table. Tracks authentication, verification, membership, balances, and API access.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>name</td><td>VARCHAR(100)</td><td>Display name</td></tr>
+        <tr><td>Email</td><td>VARCHAR(191)</td><td>Unique; indexed</td></tr>
+        <tr><td>password</td><td>VARCHAR(255)</td><td>BCrypt/Password_hash()</td></tr>
+        <tr><td>is_admin</td><td>TINYINT(1)</td><td>Admin flag</td></tr>
+        <tr><td>verified</td><td>TINYINT(1)</td><td>Email verified</td></tr>
+        <tr><td>verified_at</td><td>DATETIME NULL</td><td>Verification timestamp</td></tr>
+        <tr><td>membership_status</td><td>ENUM/VAR</td><td>e.g., free/premium</td></tr>
+        <tr><td>api_token</td><td>VARCHAR(64)</td><td>For API access</td></tr>
+        <tr><td>created_at / updated_at</td><td>DATETIME</td><td>Timestamps</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">settings</h3>
+  <p>Key-value configuration store. Also used for <strong>app_version</strong> as the canonical version flag.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>key (PK)</td><td>VARCHAR(191)</td><td>Unique setting key</td></tr>
+        <tr><td>value</td><td>TEXT</td><td>Serialized/JSON/string</td></tr>
+        <tr><td>updated_by</td><td>INT NULL</td><td>FK → users.id (nullable)</td></tr>
+        <tr><td>updated_at</td><td>DATETIME</td><td>Last change</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">modules</h3>
+  <p>Registry for optional features (hcaptcha/smtp/analytics). Stores versions, enablement, and module-specific JSON.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>name (PK)</td><td>VARCHAR(100)</td><td>Machine name (e.g., "smtp")</td></tr>
+        <tr><td>title</td><td>VARCHAR(150)</td><td>Display title</td></tr>
+        <tr><td>description</td><td>TEXT</td><td>Module purpose</td></tr>
+        <tr><td>version</td><td>VARCHAR(20)</td><td>Module version</td></tr>
+        <tr><td>enabled</td><td>TINYINT(1)</td><td>Feature toggle</td></tr>
+        <tr><td>settings</td><td>JSON/TEXT</td><td>Module config</td></tr>
+        <tr><td>hooks</td><td>JSON/TEXT</td><td>Event hooks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Accounts & Tokens -->
+  <h2 class="mt-5">💳 Accounts, Tokens & Access</h2>
+
+  <h3 class="mt-4">user_tokens</h3>
+  <p>Tracks user token balances/credits (for quotas or billing).</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id</td></tr>
+        <tr><td>balance</td><td>INT</td><td>Current token count</td></tr>
+        <tr><td>updated_at</td><td>DATETIME</td><td>Last update</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">token_purchases</h3>
+  <p>Token purchase ledger (auditing/accounting).</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id</td></tr>
+        <tr><td>amount</td><td>INT</td><td>Tokens purchased</td></tr>
+        <tr><td>reference</td><td>VARCHAR(255)</td><td>Payment ref/txn id</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>Purchase time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">withdrawals</h3>
+  <p>Tracks payout/withdrawal requests and processing.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id</td></tr>
+        <tr><td>amount</td><td>DECIMAL(10,2)</td><td>Payout amount</td></tr>
+        <tr><td>status</td><td>ENUM/VAR</td><td>pending/approved/paid/rejected</td></tr>
+        <tr><td>processed_by</td><td>INT NULL</td><td>FK → users.id (admin, nullable)</td></tr>
+        <tr><td>created_at / updated_at</td><td>DATETIME</td><td>Timestamps</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Access & Security -->
+  <h2 class="mt-5">🔐 Access & Security</h2>
+
+  <h3 class="mt-4">password_resets</h3>
+  <p>One-time reset tokens with expirations.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id</td></tr>
+        <tr><td>token</td><td>VARCHAR(64)</td><td>Unique; indexed</td></tr>
+        <tr><td>expires_at</td><td>DATETIME</td><td>Expiry time</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>Issued time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">invites</h3>
+  <p>Invitation codes and their usage (referral/onboarding).</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>code</td><td>VARCHAR(32)</td><td>Unique; indexed</td></tr>
+        <tr><td>generated_by</td><td>INT</td><td>FK → users.id</td></tr>
+        <tr><td>used_by</td><td>INT NULL</td><td>FK → users.id (nullable)</td></tr>
+        <tr><td>used_at</td><td>DATETIME NULL</td><td>Redemption time</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>Issued time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Affiliates (Optional) -->
+  <h2 class="mt-5">🤝 Affiliate (Optional)</h2>
+
+  <h3 class="mt-4">affiliate_clicks</h3>
+  <p>Click events attributed to an affiliate user.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id (affiliate)</td></tr>
+        <tr><td>ip</td><td>VARCHAR(45)</td><td>IPv4/IPv6</td></tr>
+        <tr><td>ua</td><td>VARCHAR(255)</td><td>User agent</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>Event time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-4">affiliate_signups</h3>
+  <p>New signups attributed to an affiliate, including referred user.</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>user_id</td><td>INT</td><td>FK → users.id (affiliate)</td></tr>
+        <tr><td>referred_user_id</td><td>INT</td><td>FK → users.id (new user)</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>Event time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Admin/Observability (Optional) -->
+  <h2 class="mt-5">📝 Admin & Observability (Optional)</h2>
+
+  <h3 class="mt-4">admin_logs</h3>
+  <p>Administrative activity trail (actions performed in the admin UI or background jobs).</p>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>id (PK)</td><td>INT AUTO_INCREMENT</td><td>Primary key</td></tr>
+        <tr><td>action</td><td>VARCHAR(100)</td><td>Event name/key</td></tr>
+        <tr><td>actor_id</td><td>INT NULL</td><td>FK → users.id (nullable)</td></tr>
+        <tr><td>context</td><td>JSON/TEXT</td><td>Extra metadata</td></tr>
+        <tr><td>created_at</td><td>DATETIME</td><td>When it happened</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Indexing & Performance -->
+  <h2 class="mt-5">⚙️ Indexing & Performance</h2>
+  <ul>
+    <li><strong>users.email</strong> should be <em>UNIQUE INDEX</em>.</li>
+    <li><strong>invites.code</strong>, <strong>password_resets.token</strong> should be indexed/unique.</li>
+    <li>Foreign keys (where enabled) should have indexes on the child columns: <code>user_tokens.user_id</code>, <code>withdrawals.user_id</code>, etc.</li>
+    <li>Consider pruning logs and old resets—see retention below.</li>
+  </ul>
+
+  <!-- Versioning & Source of Truth -->
+  <h2 class="mt-5">🏷️ Versioning (Source of Truth)</h2>
+  <p>
+    The canonical application version is stored in <code>settings.app_version</code>.
+    A code-side fallback exists in <code>/config/version.php</code> for cold-starts and installer flows.
+  </p>
+
+  <!-- Migration & Retention -->
+  <h2 class="mt-5">📦 Migrations & Retention</h2>
+  <ul>
+    <li><strong>Installer:</strong> The installer creates tables and seeds defaults. Re-running safely detects existing tables.</li>
+    <li><strong>Updater:</strong> The admin updater writes the new <code>app_version</code> to <code>settings</code> after a successful file update.</li>
+    <li><strong>Backups:</strong> Always back up DB before structural changes or major upgrades.</li>
+    <li><strong>Retention:</strong> Periodically delete expired <code>password_resets</code>, old <code>admin_logs</code>, and stale <code>affiliate_clicks</code> as policy allows.</li>
+  </ul>
+
+  <hr>
+  <p class="text-muted">
+    For questions or contributions, open an issue on
+    <a href="https://github.com/PhPstrap/phpstrap/issues" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+</div>
