@@ -1,0 +1,228 @@
+---
+layout: default
+title: Configuration & Settings
+description: Configure core settings, environment variables, security, email, logging, and app behavior in PhPstrap.
+---
+
+<h1 class="mb-4">🔧 Configuration &amp; Settings</h1>
+<p class="lead">This guide explains where configuration lives, how precedence works, and practical examples for database, site, email, security, logging, and theming.</p>
+
+<div class="alert alert-info">
+  <strong>TL;DR:</strong> Most installs configure <code>includes/config.php</code> (required) and optionally override with environment variables for secrets.
+</div>
+
+<hr class="my-4">
+
+<h2 id="where">1) Where Configuration Lives</h2>
+<ul>
+  <li><strong>Primary:</strong> <code>/includes/config.php</code> — core app constants (DB, site, mail fallbacks, paths).</li>
+  <li><strong>Optional app/site:</strong> <code>/includes/site-config.php</code> — brand/site-specific settings (e.g., <code>SITENAME</code>, <code>SITEURL</code>, theme).</li>
+  <li><strong>Environment:</strong> Server env vars (e.g., in Apache/Nginx, Docker, or <code>.env</code> loader if you add one) to override secrets without committing them.</li>
+  <li><strong>Modules:</strong> Per-module settings via <em>Admin → Modules → Settings</em> (stored in DB) — do not hardcode module secrets in repo.</li>
+</ul>
+
+<p><em>Load order recommendation:</em> <code>config.php</code> → <code>site-config.php</code> → environment overrides → module settings (runtime).</p>
+
+<hr class="my-4">
+
+<h2 id="checklist">2) Quick Start Checklist</h2>
+<ul>
+  <li>Set DB credentials and verify DB connection.</li>
+  <li>Set <code>SITENAME</code>, <code>SITEURL</code>, and timezone.</li>
+  <li>Choose captcha provider (e.g., hCapture module) and email transport (SMTP module).</li>
+  <li>Configure logging directory and set file permissions.</li>
+  <li>Harden security: HTTPS, cookie flags, admin path, permissions.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="configphp">3) Minimal <code>includes/config.php</code> Example</h2>
+<pre><code class="language-php">&lt;?php
+// === Database ===
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME', getenv('DB_NAME') ?: 'phpstrap');
+define('DB_USER', getenv('DB_USER') ?: 'phpstrap_user');
+define('DB_PASS', getenv('DB_PASS') ?: 'change-me');
+define('DB_CHARSET', 'utf8mb4');
+
+// === App ===
+define('APP_ENV', getenv('APP_ENV') ?: 'production'); // 'local'|'staging'|'production'
+define('APP_DEBUG', (bool) (getenv('APP_DEBUG') ?: false));
+date_default_timezone_set(getenv('APP_TZ') ?: 'UTC');
+
+// === URLs & Paths ===
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+$scheme = $https ? 'https' : 'http';
+$host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
+define('BASE_URL', getenv('BASE_URL') ?: "{$scheme}://{$host}/");
+
+// === Sessions & Cookies ===
+ini_set('session.cookie_httponly', '1');
+ini_set('session.use_only_cookies', '1');
+if ($https) { ini_set('session.cookie_secure', '1'); }
+
+// === Logging ===
+define('LOG_DIR', __DIR__ . '/../logs'); // ensure writable
+if (!is_dir(LOG_DIR)) { @mkdir(LOG_DIR, 0755, true); }
+
+// === Feature Flags ===
+define('FEATURE_DARK_MODE_DEFAULT', true);
+define('FEATURE_RATE_LIMIT', true);
+
+// === Security ===
+define('ADMIN_PATH', getenv('ADMIN_PATH') ?: '/admin/'); // you can customize
+// Example CORS/headers can be added in bootstrap as needed
+
+// === Mail (fallbacks; prefer SMTP Module for secrets) ===
+define('MAIL_FROM_EMAIL', getenv('MAIL_FROM_EMAIL') ?: 'no-reply@example.com');
+define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: 'PhPstrap');
+
+// === Captcha provider hint (module-driven) ===
+define('CAPTCHA_PROVIDER', getenv('CAPTCHA_PROVIDER') ?: 'hcapture'); // or 'none'
+
+// === Include an optional site-config if present ===
+$siteCfg = __DIR__ . '/site-config.php';
+if (file_exists($siteCfg)) { require_once $siteCfg; }
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="siteconfig">4) Optional <code>includes/site-config.php</code> (Branding/Theme)</h2>
+<pre><code class="language-php">&lt;?php
+// Branding
+if (!defined('SITENAME')) define('SITENAME', 'Your Site Name');
+if (!defined('SITEURL'))  define('SITEURL', rtrim(BASE_URL, '/'));
+
+// Appearance
+if (!defined('THEME_COLOR')) define('THEME_COLOR', '#0d6efd');
+define('DEFAULT_THEME', 'auto'); // 'light'|'dark'|'auto'
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="env">5) Environment Variables (Recommended for Secrets)</h2>
+<p>Set env vars at the web server, container, or OS level. Example shell export:</p>
+<pre><code># Linux shell example
+export APP_ENV=production
+export DB_HOST=localhost
+export DB_NAME=phpstrap
+export DB_USER=phpstrap_user
+export DB_PASS='supersecret'
+export MAIL_FROM_EMAIL='no-reply@yourdomain.com'
+export ADMIN_PATH='/secure-admin/'
+</code></pre>
+
+<p>If you use a custom loader (e.g., <code>vlucas/phpdotenv</code>), add a <code>.env</code> file outside web root and never commit it.</p>
+
+<hr class="my-4">
+
+<h2 id="database">6) Database Settings</h2>
+<ul>
+  <li><strong>Required:</strong> <code>DB_HOST</code>, <code>DB_NAME</code>, <code>DB_USER</code>, <code>DB_PASS</code>, <code>DB_CHARSET</code>.</li>
+  <li>Use <code>utf8mb4</code> for emoji and multibyte characters.</li>
+  <li>Ensure the DB user has permissions for CREATE/ALTER if modules run migrations.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="email">7) Email Transport</h2>
+<p><strong>Best practice:</strong> Install the <em>SMTP</em> module and configure it in <em>Admin → Modules → SMTP → Settings</em>.</p>
+<ul>
+  <li>Host, port, encryption (<code>tls</code>/<code>ssl</code>/<code>none</code>), username, password.</li>
+  <li>From name/address (you can keep global fallbacks in <code>config.php</code>).</li>
+  <li>Set SPF/DKIM/DMARC in DNS for deliverability.</li>
+</ul>
+<p>If you need a quick fallback without the module, wire a simple PHP mailer that reads the constants above — but prefer the module for maintainability and secret isolation.</p>
+
+<hr class="my-4">
+
+<h2 id="security">8) Security Options</h2>
+<ul>
+  <li><strong>Admin Path:</strong> Change <code>ADMIN_PATH</code> to a custom value, restrict by IP if possible.</li>
+  <li><strong>HTTPS:</strong> Force HTTPS at the web server (HSTS optional) and set secure cookies.</li>
+  <li><strong>Captcha:</strong> Use hCapture (or your chosen provider) on login and public forms.</li>
+  <li><strong>Permissions:</strong> Typical safe defaults: files <code>644</code>, directories <code>755</code>. Write access only to <code>/logs</code>, <code>/uploads</code>, and any cache dirs.</li>
+  <li><strong>Secrets:</strong> Store credentials in env vars, not in VCS.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="sessions">9) Sessions & Cookies</h2>
+<ul>
+  <li>Set <code>session.cookie_httponly=1</code>, and <code>session.cookie_secure=1</code> on HTTPS.</li>
+  <li>Consider setting a custom session name to avoid collisions (e.g., <code>session_name('phpstrap');</code>).</li>
+  <li>Configure session lifetime according to your security posture.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="logging">10) Logging</h2>
+<ul>
+  <li>Ensure <code>LOG_DIR</code> exists and is writable by the web user.</li>
+  <li>Use <code>APP_DEBUG=false</code> in production. Log errors to files instead of displaying them.</li>
+  <li>Rotate logs (via logrotate or similar) to prevent disk growth.</li>
+</ul>
+
+<pre><code># Example logrotate snippet (Linux)
+/var/www/yourapp/logs/*.log {
+  weekly
+  rotate 8
+  compress
+  missingok
+  notifempty
+  create 0640 www-data www-data
+}
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="uploads">11) Uploads & Static Assets</h2>
+<ul>
+  <li>Store uploads in <code>/uploads</code>; ensure no PHP execution in that directory (use <code>.htaccess</code> or Nginx rules).</li>
+  <li>Use a CDN if needed; set a <code>ASSET_BASE_URL</code> env var to rewrite asset URLs.</li>
+</ul>
+
+<pre><code># .htaccess example to disable PHP execution in uploads
+&lt;FilesMatch "\.php$"&gt;
+  Deny from all
+&lt;/FilesMatch&gt;
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="urls">12) URL & Routing Tips</h2>
+<ul>
+  <li>Set <code>BASE_URL</code> if auto-detection is unreliable (CLI, proxies).</li>
+  <li>If using a reverse proxy/CDN, set trusted proxy headers at the web server and honor <code>X-Forwarded-Proto</code> for HTTPS detection.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="theming">13) Theming & Appearance</h2>
+<ul>
+  <li>Brand constants: <code>SITENAME</code>, <code>SITEURL</code>, <code>THEME_COLOR</code>.</li>
+  <li>Default theme: <code>DEFAULT_THEME</code> = <code>auto</code> | <code>light</code> | <code>dark</code>.</li>
+  <li>Override templates by placing view files in your theme directory or using module view overrides.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="flags">14) Feature Flags</h2>
+<p>Gate experimental features behind constants or env flags and read them in controllers/views.</p>
+<pre><code class="language-php">&lt;?php if (defined('FEATURE_RATE_LIMIT') &amp;&amp; FEATURE_RATE_LIMIT) {
+  // apply rate limiting middleware
+}</code></pre>
+
+<hr class="my-4">
+
+<h2 id="troubleshooting">15) Troubleshooting</h2>
+<ul>
+  <li><strong>Config not taking effect:</strong> Verify file paths, clear opcode cache (e.g., PHP-FPM reload), confirm no earlier define()s shadow your values.</li>
+  <li><strong>Wrong URLs:</strong> Set <code>BASE_URL</code> explicitly when behind proxies or running CLI tasks.</li>
+  <li><strong>Permission errors:</strong> Check ownership for <code>/logs</code> and <code>/uploads</code>; avoid 777.</li>
+  <li><strong>Email issues:</strong> Verify SMTP module settings, firewall egress, and DNS records (SPF/DKIM/DMARC).</li>
+</ul>
+
+<hr class="my-4">
+
+<p class="text-muted">For production hardening, also review the <a href="/docs/admin-panel-guide.html#security">Admin Panel Security Checklist</a>. Need help? Open an issue: <a href="https://github.com/PhPstrap/phpstrap/issues">GitHub Issues</a>.</p>
