@@ -1,75 +1,127 @@
 ---
 layout: default
-title: PHPStrap Full Project Structure Guide<
-description: This document provides a detailed description of each major file and folder in the PHPStrap framework.
+title: PhPstrap Project Structure (v0.1.3)
+description: A practical map of folders and files in PhPstrap, including installer, updater, and versioning.
 ---
 
-  <div class="container py-5">
-    <h1 class="mb-4">📦 PHPStrap Full Project Structure Guide</h1>
-    <p class="lead">This document provides a detailed description of each major file and folder in the PHPStrap framework.</p>
+<div class="container py-5">
+  <h1 class="mb-4">📦 PhPstrap — Project Structure Guide</h1>
+  <p class="lead">
+    A practical map of the folders and files that make up PhPstrap. This reflects the v0.1.3 changes:
+    Bootstrap 5 defaults, a unified Admin Updater, and a single source of truth for versioning.
+  </p>
 
-    <h2>🗂️ Root Files</h2>
-    <ul>
-      <li><strong>index.php</strong>: The main landing page and front controller.</li>
-      <li><strong>install.php</strong>: Launches the setup wizard to configure the database.</li>
-      <li><strong>LICENSE</strong>: MIT license for open-source use.</li>
-      <li><strong>README.md</strong>: Project documentation and setup instructions.</li>
-      <li><strong>phpstrap.zip</strong>: Downloadable package archive.</li>
-    </ul>
+  <h2>🗂️ Root (/) </h2>
+  <ul>
+    <li><strong>index.php</strong> — Front controller / landing page.</li>
+    <li><strong>install.php</strong> — Setup wizard entry point (Requirements → DB → Admin → Modules → Config → Done).</li>
+    <li><strong>.htaccess</strong> — Web server rules (friendly URLs, basic hardening). Updater can skip this by default.</li>
+    <li><strong>robots.txt</strong> — Crawl hints for search engines.</li>
+    <li><strong>maintenance.php</strong> — Optional maintenance page template.</li>
+    <li><strong>LICENSE</strong>, <strong>README.md</strong> — Project license and documentation.</li>
+    <li><strong>backups/</strong> — Auto-created by the Updater before installs (safe to keep outside web root if possible).</li>
+    <li><strong>cache/</strong>
+      <ul>
+        <li><strong>updates/</strong> — Temporary ZIPs and extracted update trees used by the Updater.</li>
+      </ul>
+    </li>
+    <li><strong>uploads/</strong> — User-generated uploads (keep writable; never commit secrets here).</li>
+    <li><strong>logs/</strong> — App/admin logs, rotation hints; protected via <code>.htaccess</code>.</li>
+  </ul>
 
-    <h2>🔧 <code>/admin/</code></h2>
-    <ul>
-      <li><strong>dashboard.php</strong>: Admin dashboard overview page.</li>
-      <li><strong>destroy-session.php</strong>: Destroys session for logout.</li>
-      <li><strong>login.php / logout.php</strong>: Handles admin login/logout.</li>
-      <li><strong>logs.php</strong>: Displays system or module logs.</li>
-      <li><strong>modules.php</strong>: Admin panel for enabling/disabling modules.</li>
-      <li><strong>settings.php</strong>: Admin config and settings manager.</li>
-      <li><strong>users.php</strong>: Manage registered user accounts.</li>
-      <li><strong>includes/admin-auth.php</strong>: Protects admin pages behind login.</li>
-      <li><strong>includes/scan_modules.php</strong>: Scans module directories for registration.</li>
-    </ul>
+  <h2>🔧 <code>/admin/</code></h2>
+  <ul>
+    <li><strong>dashboard.php</strong> — Admin overview.</li>
+    <li><strong>update.php</strong> — <em>New unified Updater</em> (Download → Preview → Install),
+      with backups and safe skip lists. Reads <code>config/version.php</code> first, falls back to DB.</li>
+    <li><strong>users.php</strong>, <strong>invites.php</strong>, <strong>logs.php</strong> — User/admin management and logs.</li>
+    <li><strong>settings.php</strong> — Site & module settings UI.</li>
+    <li><strong>login.php</strong> / <strong>logout.php</strong> — Admin auth endpoints.</li>
+    <li><strong>includes/</strong>
+      <ul>
+        <li><strong>admin-auth.php</strong> — Admin session guard (require admin).</li>
+        <li><strong>admin-sidebar.php</strong> — Sidebar renderer used across admin pages.</li>
+      </ul>
+    </li>
+  </ul>
 
-    <h2>🧱 <code>/includes/</code></h2>
-    <ul>
-      <li><strong>header.php / footer.php</strong>: HTML templates for top and bottom layout.</li>
-      <li><strong>nav.php</strong>: Navigation menu component.</li>
-      <li><strong>header-scripts.php / footer-scripts.php</strong>: Includes JS/CSS assets.</li>
-      <li><strong>modules.php</strong>: Registers enabled modules for use.</li>
-      <li><strong>settings.php</strong>: Site-wide settings loader.</li>
-    </ul>
+  <h2>🧱 <code>/includes/</code></h2>
+  <ul>
+    <li><strong>settings.php</strong> — Get/set helpers for the <code>settings</code> table.</li>
+    <li><strong>modules.php</strong> — Module bootstrap & hook runner.</li>
+    <li><strong>header.php</strong>, <strong>footer.php</strong>, <strong>nav.php</strong> — Layout partials.</li>
+    <li><strong>header-scripts.php</strong>, <strong>footer-scripts.php</strong> — JS/CSS includes.</li>
+  </ul>
 
-    <h2>🛠️ <code>/installer/</code></h2>
-    <ul>
-      <li><strong>config.php</strong>: Handles form input during install.</li>
-      <li><strong>database.php</strong>: Performs DB connection and table setup.</li>
-      <li><strong>requirements.php</strong>: PHP version and extension checks.</li>
-      <li><strong>ui.php</strong>: Installer UI and step loader.</li>
-    </ul>
+  <h2>🛠️ <code>/installer/</code></h2>
+  <ul>
+    <li><strong>requirements.php</strong> — PHP version & extension checks.</li>
+    <li><strong>database.php</strong> — Connection + schema install (with safe fallbacks).</li>
+    <li><strong>config.php</strong> — Writes core configs and helper files.</li>
+    <li><strong>ui.php</strong> — Updated installer UI (BS5) with step indicator; footer now reads <code>version.php</code>.</li>
+  </ul>
 
-    <h2>📊 <code>/dashboard/</code></h2>
-    <ul>
-      <li><strong>index.php</strong>: User-facing dashboard after login.</li>
-    </ul>
+  <h2>📊 <code>/dashboard/</code></h2>
+  <ul>
+    <li><strong>index.php</strong> — User-facing dashboard (post-login, if used).</li>
+  </ul>
 
-    <h2>🎨 <code>/assets/css/</code> and <code>/assets/js/</code></h2>
-    <ul>
-      <li>All Bootstrap 5 core files (minified, mapped, RTL versions).</li>
-      <li><strong>custom.css, dashboard.css, homepage.css</strong>: Theme-specific and layout styles.</li>
-      <li><strong>bootstrap.bundle.min.js</strong>: Bootstrap JavaScript functionality.</li>
-    </ul>
+  <h2>🎨 <code>/assets/</code></h2>
+  <ul>
+    <li><strong>css/</strong> — Bootstrap 5 & custom styles (e.g., <code>admin.css</code>, <code>dashboard.css</code>, <code>homepage.css</code>).</li>
+    <li><strong>js/</strong> — <code>bootstrap.bundle.min.js</code> and app scripts.</li>
+    <li><strong>img/</strong> — Static images, logos, icons.</li>
+  </ul>
 
-    <h2>🗃️ <code>/config/</code></h2>
-    <ul>
-      <li><strong>functions.php</strong>: Shared utility functions used across the framework.</li>
-    </ul>
+  <h2>🗃️ <code>/config/</code></h2>
+  <ul>
+    <li><strong>app.php</strong> — App initialization (sessions, timezone, guardrails).</li>
+    <li><strong>database.php</strong> — PDO connection factory (reads install values).</li>
+    <li><strong>version.php</strong> — <em>Single source of truth</em>:
+      <code>PHPSTRAP_NAME</code>, <code>PHPSTRAP_VERSION</code>, <code>PHPSTRAP_BUILD</code>. Read by installer and updater.</li>
+    <li><strong>functions.php</strong> — Common utilities (if present).</li>
+  </ul>
 
-    <h2>📁 <code>/css/</code></h2>
-    <ul>
-      <li>Duplicate location for stylesheets, used in earlier builds or fallback support.</li>
-    </ul>
+  <h2>🧩 <code>/modules/</code></h2>
+  <ul>
+    <li>Each module lives in its own folder, e.g. <code>/modules/hcaptcha/</code>, <code>/modules/smtp/</code>, <code>/modules/analytics/</code>.</li>
+    <li><strong>module.json</strong> — Metadata + default settings (written by installer when selected).</li>
+    <li><strong>[name].php</strong> — Module class; can register hooks such as <code>form_captcha</code> or <code>send_email</code>.</li>
+    <li>Optional docs (e.g. <code>README.md</code>, provider templates).</li>
+  </ul>
 
-    <hr>
-    <p class="text-muted">For help or contributions, visit <a href="https://github.com/PhPstrap/phpstrap/issues" target="_blank">GitHub Issues</a>.</p>
-  </div>muted">Need help? Join the community on <a href="https://github.com/PhPstrap" target="_blank">GitHub</a>.</p>
+  <h2>🌐 <code>/lang/</code></h2>
+  <ul>
+    <li><strong>lang_en.php</strong> — Base language strings (generated by installer).</li>
+  </ul>
+
+  <h2>🧩 Legacy / compatibility</h2>
+  <ul>
+    <li><strong>/css/</strong> — Legacy stylesheet location used in early builds. Prefer <code>/assets/css/</code> going forward.</li>
+  </ul>
+
+  <hr class="my-4">
+
+  <h2>🔐 File Safety & Updates</h2>
+  <ul>
+    <li>The Updater makes a timestamped backup in <code>/backups/</code> before installing.</li>
+    <li>By default it <em>skips</em> sensitive paths:
+      <code>config/</code>, <code>uploads/</code>, <code>logs/</code>, <code>cache/</code>, <code>.git/</code>, <code>.github/</code>, <code>installer/</code>,
+      plus files like <code>config/database.php</code>, <code>config/app.php</code>, <code>index.php</code>, <code>.htaccess</code>.
+      You can opt-in to “Allow core overwrites” if needed.</li>
+    <li>Version shown in Admin is read from <code>config/version.php</code>, with a DB fallback.</li>
+  </ul>
+
+  <h2>📌 Recommended Permissions</h2>
+  <ul>
+    <li>Directories: <code>755</code></li>
+    <li>Files: <code>644</code></li>
+    <li>Writable by PHP (hosting-dependent): <code>/uploads</code>, <code>/logs</code>, <code>/cache</code>, <code>/backups</code></li>
+  </ul>
+
+  <hr class="my-4">
+  <p class="text-muted">
+    Questions or ideas? Open an issue on
+    <a href="https://github.com/PhPstrap/PhPstrap" target="_blank">GitHub</a>.
+  </p>
 </div>
