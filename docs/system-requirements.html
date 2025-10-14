@@ -1,0 +1,150 @@
+---
+layout: default
+title: System Requirements
+description: Minimum and recommended server requirements for running PhPstrap in production.
+---
+
+<div class="container py-5">
+  <h1 class="mb-3">🧰 System Requirements</h1>
+  <p class="lead">This guide lists the minimum and recommended requirements to run PhPstrap smoothly in development and production.</p>
+
+  <!-- Summary -->
+  <div class="alert alert-info">
+    <strong>TL;DR:</strong> PHP 8.1+, MySQL/MariaDB, Apache or Nginx, and common PHP extensions (PDO, cURL, JSON, OpenSSL, Zip, GD). Ensure <code>config/</code>, <code>cache/</code>, <code>uploads/</code>, and <code>logs/</code> are writable.
+  </div>
+
+  <h2 class="mt-4">✅ Minimum Requirements</h2>
+  <ul>
+    <li><strong>PHP:</strong> 8.1 or newer</li>
+    <li><strong>Database:</strong> MySQL 5.7+ or MariaDB 10.4+</li>
+    <li><strong>Web Server:</strong> Apache 2.4+ (with <code>mod_rewrite</code>) or Nginx 1.18+</li>
+    <li><strong>Disk Permissions:</strong> Writable <code>/config</code>, <code>/cache</code>, <code>/uploads</code>, <code>/logs</code></li>
+    <li><strong>Extensions (required):</strong>
+      <ul class="mb-0">
+        <li>PDO + PDO MySQL</li>
+        <li>mbstring</li>
+        <li>curl</li>
+        <li>json</li>
+        <li>openssl</li>
+        <li>zip</li>
+        <li>gd</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2 class="mt-4">💡 Recommended (Production)</h2>
+  <ul>
+    <li><strong>PHP:</strong> 8.2 or 8.3</li>
+    <li><strong>OPcache:</strong> Enabled for faster performance</li>
+    <li><strong>Database:</strong> MySQL 8.0+ or MariaDB 10.6+</li>
+    <li><strong>HTTPS:</strong> Valid TLS certificate (LetsEncrypt or equivalent)</li>
+    <li><strong>Memory limit:</strong> 256M or higher</li>
+    <li><strong>Max execution time:</strong> 60–120s (installer/updates unzip safely)</li>
+    <li><strong>Upload limits:</strong> 10–50MB (<code>upload_max_filesize</code>, <code>post_max_size</code>)</li>
+    <li><strong>Time zone:</strong> Set <code>date.timezone</code> (e.g., <code>UTC</code>)</li>
+  </ul>
+
+  <h2 class="mt-4">🔌 PHP Extensions (Details)</h2>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5>Required</h5>
+          <ul class="mb-0">
+            <li><code>pdo</code>, <code>pdo_mysql</code> — database access</li>
+            <li><code>mbstring</code> — multibyte string handling</li>
+            <li><code>curl</code> — GitHub updater, external requests</li>
+            <li><code>json</code> — config, module settings, APIs</li>
+            <li><code>openssl</code> — secure HTTPS requests</li>
+            <li><code>zip</code> — installer/updater archive operations</li>
+            <li><code>gd</code> — image manipulations (avatars, assets)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5>Optional / Nice to Have</h5>
+          <ul class="mb-0">
+            <li><code>intl</code> — better date/locale formatting</li>
+            <li><code>imagick</code> — higher quality image processing</li>
+            <li><code>ldap</code> — enterprise auth (future modules)</li>
+            <li><code>redis</code> — caching (future optimization)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="mt-4">🗄️ Database</h2>
+  <ul>
+    <li>Use UTF-8 (utf8mb4) charset and <code>utf8mb4_unicode_ci</code> collation.</li>
+    <li>Ensure the DB user can <code>CREATE</code>, <code>ALTER</code>, <code>INDEX</code>, and <code>INSERT/UPDATE/DELETE</code>.</li>
+    <li>Installer creates tables and inserts defaults; no manual SQL required.</li>
+  </ul>
+
+  <h2 class="mt-4">🌐 Web Server</h2>
+  <h5>Apache</h5>
+  <ul>
+    <li>Enable <code>mod_rewrite</code> (pretty URLs / future modules).</li>
+    <li>Honor project <code>.htaccess</code> for basic hardening and rewrites.</li>
+  </ul>
+  <h5 class="mt-2">Nginx</h5>
+  <ul>
+    <li>Route PHP requests to PHP-FPM.</li>
+    <li>Allow access to <code>/assets</code>, <code>/uploads</code>, deny direct access to <code>/config</code>, <code>/logs</code>, <code>/installer</code>.</li>
+  </ul>
+
+  <h2 class="mt-4">🔐 File & Directory Permissions</h2>
+  <ul>
+    <li><strong>Directories:</strong> 755</li>
+    <li><strong>Files:</strong> 644</li>
+    <li>Writable by PHP: <code>/config</code>, <code>/cache</code>, <code>/uploads</code>, <code>/logs</code></li>
+    <li>Production tip: Make <code>/config</code> writable only during installation/updates, then revert.</li>
+  </ul>
+
+  <h2 class="mt-4">⚙️ PHP ini Settings (Suggested)</h2>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead>
+        <tr><th>Directive</th><th>Recommended</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>memory_limit</code></td><td>256M</td><td>More for large imports/updates</td></tr>
+        <tr><td><code>max_execution_time</code></td><td>60–120</td><td>Installer/Updater unzip + copy</td></tr>
+        <tr><td><code>upload_max_filesize</code></td><td>10–50M</td><td>Adjust to your content needs</td></tr>
+        <tr><td><code>post_max_size</code></td><td>10–50M</td><td>≥ <code>upload_max_filesize</code></td></tr>
+        <tr><td><code>date.timezone</code></td><td>UTC</td><td>Or your region (e.g., Europe/London)</td></tr>
+        <tr><td><code>opcache.enable</code></td><td>On</td><td>Significant performance boost</td></tr>
+        <tr><td><code>expose_php</code></td><td>Off</td><td>Minor security hardening</td></tr>
+        <tr><td><code>display_errors</code></td><td>Off (prod)</td><td>On in dev only</td></tr>
+        <tr><td><code>log_errors</code></td><td>On</td><td>Log to file, not screen</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="mt-4">🔎 What the Installer Checks</h2>
+  <p>The installer performs a quick environment scan similar to:</p>
+  <ul>
+    <li>PHP version and required extensions (PDO, mbstring, curl, json, openssl, zip, gd)</li>
+    <li>Directory writability: <code>/config</code>, <code>/cache</code>, <code>/uploads</code>, <code>/logs</code></li>
+    <li>Database connectivity (host, port, user, permissions)</li>
+    <li>Optional features: OPcache, ZipArchive, etc.</li>
+  </ul>
+
+  <h2 class="mt-4">🧯 Troubleshooting</h2>
+  <ul>
+    <li><strong>“Cannot connect to DB”</strong> — verify host, port (usually 3306), credentials, and GRANT permissions.</li>
+    <li><strong>“ZipArchive missing”</strong> — install/enabled <code>zip</code> + <code>ZipArchive</code> in PHP.</li>
+    <li><strong>“Permission denied”</strong> — ensure web server user can write to <code>/config</code>, <code>/cache</code>, <code>/uploads</code>, <code>/logs</code>.</li>
+    <li><strong>“Updater can’t fetch GitHub”</strong> — enable <code>curl</code> and outbound HTTPS; optionally set <code>GITHUB_TOKEN</code> in env.</li>
+    <li><strong>White page/500</strong> — check <code>logs/</code> and web server error logs; disable <code>display_errors</code> in production.</li>
+  </ul>
+
+  <hr class="my-4">
+  <p class="text-muted mb-0">
+    Need help verifying your environment? Run the installer’s Requirements step or open an issue on
+    <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+</div>
