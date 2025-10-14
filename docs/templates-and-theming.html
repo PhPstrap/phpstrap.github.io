@@ -1,0 +1,222 @@
+---
+layout: default
+title: Templates & Theming
+description: Customize PhPstrap with Bootstrap 5 and a single custom.css file. Learn load order, color tokens, dark mode, and practical patterns for public (non-logged) pages like the LexBoard landing template.
+---
+
+<h1 class="mb-4">🎨 Templates &amp; Theming</h1>
+<p class="lead">PhPstrap uses Bootstrap 5. Keep all visual overrides in <code>/css/custom.css</code> so core and modules can update safely. This guide shows the load order, token strategy, dark mode, and patterns you can reuse.</p>
+
+<div class="alert alert-info">
+  <strong>TL;DR:</strong> Load Bootstrap first, then <code>custom.css</code>. Set colors via CSS variables. Avoid editing vendor files. Prefer utility classes; only add minimal custom classes.
+</div>
+
+<hr class="my-4">
+
+<h2 id="where">1) Where styles live</h2>
+<ul>
+  <li><strong>Bootstrap CSS:</strong> included in your theme header (usually via <code>includes/header.php</code>).</li>
+  <li><strong>Your overrides:</strong> <code>/css/custom.css</code> loaded <em>after</em> Bootstrap.</li>
+  <li><strong>Page-local CSS:</strong> Only for one-off page helpers; otherwise move to <code>custom.css</code>.</li>
+</ul>
+
+<pre><code class="language-html">&lt;!-- includes/header.php --&gt;
+&lt;link rel="stylesheet" href="/assets/bootstrap.min.css"&gt;
+&lt;link rel="stylesheet" href="/css/custom.css"&gt;
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="tokens">2) Color system &amp; tokens</h2>
+<p>Expose a small set of brand variables and let Bootstrap map them to components.</p>
+
+<pre><code class="language-css">/* /css/custom.css */
+
+/* 2.1 Brand tokens */
+:root{
+  --brand-primary: #0d6efd; /* THEME_COLOR fallback */
+  --brand-secondary: #6c757d;
+  --brand-accent: #6f42c1;
+  --brand-success: #198754;
+  --brand-warning: #ffc107;
+  --brand-danger:  #dc3545;
+  --brand-info:    #0dcaf0;
+
+  /* Surface & text */
+  --surface-0: #ffffff;
+  --surface-1: #f8f9fa;
+  --text-0:    #111318;
+  --text-1:    #495057;
+
+  /* 2.2 Bootstrap CSS vars override (affects components) */
+  --bs-primary: var(--brand-primary);
+  --bs-secondary: var(--brand-secondary);
+  --bs-link-color: var(--brand-primary);
+  --bs-link-hover-color: color-mix(in oklab, var(--brand-primary) 80%, black);
+}
+
+/* 2.3 Dark mode (auto or attribute) */
+@media (prefers-color-scheme: dark){
+  :root{
+    --surface-0: #0f1115;
+    --surface-1: #151922;
+    --text-0:    #e8eaed;
+    --text-1:    #b8c0cc;
+  }
+}
+[data-bs-theme="dark"]{
+  --surface-0:#0f1115; --surface-1:#151922;
+  --text-0:#e8eaed; --text-1:#b8c0cc;
+  --bs-body-bg: var(--surface-0);
+  --bs-body-color: var(--text-0);
+}
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="typography">3) Typography &amp; spacing</h2>
+<p>Use Bootstrap utilities first (<code>.fs-*</code>, <code>.fw-*</code>, <code>.lh-*</code>, <code>.mb-*</code>). Add minimal global tweaks:</p>
+
+<pre><code class="language-css">body{ background-color: var(--bs-body-bg, var(--surface-0)); color:var(--bs-body-color, var(--text-0)); }
+.lead{ color: var(--text-1); }
+/* Optional tighter containers on large screens */
+@media (min-width:1200px){ .container{ max-width: 1120px; } }
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="components">4) Component polish</h2>
+<p>Small, reusable touches for cards, buttons, forms.</p>
+
+<pre><code class="language-css">/* Cards */
+.card{ border:1px solid var(--bs-border-color, #dee2e6); }
+.card.shadow-sm{ transition: transform .18s ease, box-shadow .18s ease; }
+.card.shadow-sm:hover{ transform: translateY(-2px); }
+
+/* Buttons */
+.btn-primary{ box-shadow: 0 1px 0 rgba(0,0,0,.05); }
+.btn-outline-primary:hover{ background:color-mix(in oklab, var(--brand-primary) 12%, white); }
+
+/* Forms */
+.form-control::placeholder{ color: color-mix(in oklab, var(--text-1) 80%, white); }
+.input-group-text{ background: transparent; }
+
+/* Badges */
+.badge{ letter-spacing:.02em; }
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="accessibility">5) Accessibility defaults</h2>
+<ul>
+  <li>Maintain contrast ≥ 4.5:1 for body text; 3:1 for UI elements.</li>
+  <li>Do not remove outlines; restyle them for visibility.</li>
+</ul>
+
+<pre><code class="language-css">:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--brand-primary) 70%, white);
+  outline-offset: 2px;
+  border-radius: .5rem;
+}
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="lexboard">6) Styling the non-logged LexBoard template</h2>
+<p>The sample landing (public) page uses a few helpers. Move them into <code>custom.css</code> and keep the page clean.</p>
+
+<pre><code class="language-css">/* === LexBoard public template helpers === */
+
+/* 6.1 Region cards */
+.region-card{ border:0; }
+.region-card .card-body{ padding:1rem 1.1rem; }
+.region-card:hover{ transform: translateY(-2px); }
+.region-disabled{ opacity:.55; filter: grayscale(30%); pointer-events:none; }
+
+/* 6.2 KB badge size */
+.kb-badge{ font-size:.8rem; letter-spacing:.02em; }
+
+/* 6.3 Hero panel */
+.search-hero{
+  background:
+    radial-gradient(1200px 600px at 50% -10%, color-mix(in oklab, var(--brand-primary) 8%, transparent), transparent 60%),
+    linear-gradient(135deg, var(--bs-body-bg) 0%, var(--bs-body-bg) 60%);
+  border: 1px solid var(--bs-border-color, #dee2e6);
+}
+
+/* 6.4 Input group icon alignment */
+#lex-search-addon .fas{ opacity:.7; }
+</code></pre>
+
+<p>Then remove the inline <code>&lt;style&gt;</code> block from the PHP template and keep only semantic markup.</p>
+
+<hr class="my-4">
+
+<h2 id="layout">7) Page layout patterns</h2>
+<ul>
+  <li><strong>Hero:</strong> <code>.container &gt; .rounded-4 .shadow-sm .p-4 .p-md-5</code></li>
+  <li><strong>Grid:</strong> Use <code>.row-cols-*</code> responsive helpers for card collections.</li>
+  <li><strong>CTAs:</strong> Prefer <code>.btn.btn-primary</code> for primary action; <code>.btn-outline-dark</code> for secondary.</li>
+  <li><strong>Empty states:</strong> Use <code>.alert.alert-light.border</code> with an icon.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="darkmode">8) Dark mode</h2>
+<p>Support both OS preference and manual toggle. Add a simple body attribute switcher if desired.</p>
+
+<pre><code class="language-js">// Example toggle (place in a small JS file)
+const tgl = document.querySelector('[data-theme-toggle]');
+if (tgl){
+  tgl.addEventListener('click', () =&gt; {
+    const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+    document.documentElement.setAttribute('data-bs-theme', dark ? 'light' : 'dark');
+    localStorage.setItem('theme', dark ? 'light' : 'dark');
+  });
+}
+(function init(){
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-bs-theme', saved);
+})();
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="header">9) Header, footer, and logos</h2>
+<ul>
+  <li>Set the logo height via CSS, not HTML attributes.</li>
+  <li>Provide an inverted logo for dark backgrounds.</li>
+</ul>
+
+<pre><code class="language-css">.site-logo{ height: 28px; }
+[data-bs-theme="dark"] .site-logo--primary{ display:none; }
+[data-bs-theme="dark"] .site-logo--inverted{ display:inline-block; }
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="perf">10) Performance tips</h2>
+<ul>
+  <li>Minify <code>custom.css</code> for production.</li>
+  <li>Avoid heavy shadows/filters on large lists; prefer light borders.</li>
+  <li>Scope complex selectors to a page wrapper class (e.g., <code>.page-landing</code>).</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="checklist">11) Theming checklist</h2>
+<ul>
+  <li>✅ Bootstrap loads first, then <code>custom.css</code></li>
+  <li>✅ Tokens set in <code>:root</code> and dark mode covered</li>
+  <li>✅ No vendor edits; all overrides centralized</li>
+  <li>✅ Accessible focus &amp; contrast verified</li>
+  <li>✅ Inline styles moved into <code>custom.css</code></li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="faq">12) FAQ</h2>
+<p><strong>Q:</strong> Can I override Bootstrap variables with SCSS?<br>
+<strong>A:</strong> Yes, but to keep things simple, start with plain CSS variables in <code>custom.css</code>. If you move to SCSS, compile to a single CSS file and keep the same load order.</p>
+
+<p class="text-muted mt-4">Questions or ideas? Open a discussion or issue: <a href="https://github.com/PhPstrap/phpstrap/issues">GitHub Issues</a>.</p>
