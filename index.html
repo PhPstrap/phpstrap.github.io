@@ -9,21 +9,23 @@ description: Build a modern membership site using PhPstrap and Bootstrap 5.
   <!-- Hero Section -->
   <section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
     <h1 class="display-4 fw-bold">Welcome to PhPstrap</h1>
-    <p class="lead">Build secure and scalable membership websites with PHP and Bootstrap 5 — fast.</p>
+    <p class="lead mb-2">A lightweight admin micro-framework that gives your PHP project a place to grow.</p>
+    <p class="text-muted">Launch secure, scalable membership sites and dashboards without a framework rewrite.</p>
     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-      <a href="/login/register.php" class="btn btn-primary btn-lg">Sign Up</a>
-      <a href="/login/index.php" class="btn btn-outline-secondary btn-lg">Log In</a>
+      <a href="/login/register.php" class="btn btn-primary btn-lg"><i class="fas fa-user-plus me-2"></i>Sign Up</a>
+      <a href="/login/index.php" class="btn btn-outline-secondary btn-lg"><i class="fas fa-sign-in-alt me-2"></i>Log In</a>
+      <a href="https://github.com/PhPstrap/phpstrap" target="_blank" class="btn btn-outline-dark btn-lg"><i class="fab fa-github me-2"></i>View on GitHub</a>
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- Value Props / Why PhPstrap -->
   <section class="row text-center mb-5">
     <div class="col-md-4 mb-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <i class="fas fa-user-shield fa-2x mb-3 text-primary" aria-hidden="true"></i>
-          <h5 class="card-title">User Management</h5>
-          <p class="card-text">Register, log in, manage roles, and control access with powerful user tools.</p>
+          <i class="fas fa-layer-group fa-2x mb-3 text-primary" aria-hidden="true"></i>
+          <h5 class="card-title">Modular at the Core</h5>
+          <p class="card-text">Drop-in modules with their own settings, assets, and routes. Build features like building blocks.</p>
         </div>
       </div>
     </div>
@@ -31,9 +33,9 @@ description: Build a modern membership site using PhPstrap and Bootstrap 5.
     <div class="col-md-4 mb-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <i class="fas fa-puzzle-piece fa-2x mb-3 text-success" aria-hidden="true"></i>
-          <h5 class="card-title">Modular Design</h5>
-          <p class="card-text">Extend functionality easily with a modular plug-and-play system.</p>
+          <i class="fas fa-rocket fa-2x mb-3 text-success" aria-hidden="true"></i>
+          <h5 class="card-title">Fast to Deploy</h5>
+          <p class="card-text">Works on standard shared hosting. Keep your stack simple and ship faster.</p>
         </div>
       </div>
     </div>
@@ -41,9 +43,71 @@ description: Build a modern membership site using PhPstrap and Bootstrap 5.
     <div class="col-md-4 mb-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <i class="fas fa-lock fa-2x mb-3 text-danger" aria-hidden="true"></i>
-          <h5 class="card-title">Secure & Modern</h5>
-          <p class="card-text">Built with security in mind, using the latest PHP standards and Bootstrap 5.</p>
+          <i class="fas fa-shield-alt fa-2x mb-3 text-danger" aria-hidden="true"></i>
+          <h5 class="card-title">Secure by Default</h5>
+          <p class="card-text">Auth gate patterns, CSRF protection, safe sessions, and production-ready error logging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience Fit -->
+  <section class="mb-5">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Who Is PhPstrap For?</h2>
+      <p class="text-muted">Teams building tools — not just websites.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="p-4 border rounded h-100">
+          <i class="fas fa-code text-primary mb-2"></i>
+          <h6 class="fw-bold mb-2">Custom PHP Developers</h6>
+          <p class="mb-0">Add an admin, settings, and modules to bespoke apps without adopting a heavy framework.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 border rounded h-100">
+          <i class="fas fa-briefcase text-primary mb-2"></i>
+          <h6 class="fw-bold mb-2">Agencies & Freelancers</h6>
+          <p class="mb-0">Deliver consistent dashboards and membership sites quickly, with reusable module patterns.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 border rounded h-100">
+          <i class="fas fa-lightbulb text-primary mb-2"></i>
+          <h6 class="fw-bold mb-2">Indie Hackers</h6>
+          <p class="mb-0">Ship your micro-SaaS faster: login, roles, settings, and hooks out of the box.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Highlights -->
+  <section class="row g-4 align-items-stretch mb-5">
+    <div class="col-lg-7">
+      <div class="p-4 border rounded h-100">
+        <h3 class="fw-bold mb-3">Feature Highlights</h3>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unified bootstrap (<code>_bootstrap.php</code>) for sessions, config, DB, and autoloaders</li>
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Module discovery with validated <code>module.json</code> + settings screens</li>
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Header/Footer script hooks to extend UI without core edits</li>
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>CSRF protection and auth gate snippets for admin actions</li>
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bootstrap 5 components, cards, and modals for a polished admin</li>
+          <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Version source of truth (<code>config/version.php</code>) with optional DB mismatch warnings</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="p-4 border rounded h-100">
+        <h3 class="fw-bold mb-3">How It Works</h3>
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item">Drop PhPstrap into your project (or start fresh).</li>
+          <li class="list-group-item">Enable modules in <em>Admin → Modules</em> and open each module’s settings.</li>
+          <li class="list-group-item">Use hooks to inject analytics, scripts, or custom UI.</li>
+        </ol>
+        <div class="alert alert-info mt-3 mb-0">
+          <i class="fas fa-info-circle me-2"></i>
+          Tip: Use the Module Forge scaffold to spin up new modules with boilerplate settings & assets.
         </div>
       </div>
     </div>
@@ -53,8 +117,11 @@ description: Build a modern membership site using PhPstrap and Bootstrap 5.
   <section class="text-center mt-5">
     <h2>Launch your membership site today</h2>
     <p class="lead">PhPstrap gives you everything you need to get started quickly.</p>
-    <a href="/login/register.php" class="btn btn-success btn-lg me-2">Create an Account</a>
-    <a href="/login/index.php" class="btn btn-outline-dark btn-lg">Access My Account</a>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/login/register.php" class="btn btn-success btn-lg"><i class="fas fa-rocket me-2"></i>Create an Account</a>
+      <a href="/login/index.php" class="btn btn-outline-dark btn-lg"><i class="fas fa-user me-2"></i>Access My Account</a>
+      <a href="/download/phpstrap.zip" class="btn btn-outline-primary btn-lg"><i class="fas fa-download me-2"></i>Download</a>
+    </div>
   </section>
 
   <!-- Getting Started -->
@@ -63,11 +130,29 @@ description: Build a modern membership site using PhPstrap and Bootstrap 5.
     <div class="row">
       <div class="col-md-6">
         <h5>1. Clone or Download</h5>
-        <p>Get the code from our <a href="https://github.com/PhPstrap/phpstrap" target="_blank">GitHub repository</a> and start building.</p>
+        <p>Get the code from our <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener">GitHub repository</a> and start building.</p>
       </div>
       <div class="col-md-6">
         <h5>2. Run the Installer</h5>
         <p>Use <code>install.php</code> to create the database tables and configure your environment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust / Social Proof (optional slots ready) -->
+  <section class="mt-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-4 bg-light rounded h-100">
+          <h5 class="mb-2"><i class="fas fa-lock me-2 text-success"></i>Production-ready defaults</h5>
+          <p class="mb-0">Error display off, logging on, CSRF tokens for admin forms, and safe include patterns by default.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-4 bg-light rounded h-100">
+          <h5 class="mb-2"><i class="fas fa-plug me-2 text-primary"></i>Extensible by design</h5>
+          <p class="mb-0">Add modules for payments, analytics, or email with minimal code. Keep your project portable.</p>
+        </div>
       </div>
     </div>
   </section>
