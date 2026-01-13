@@ -1,0 +1,202 @@
+---
+layout: default
+title: Brand Assets
+description: Official logos, color palettes, and guidelines for PhPstrap.
+---
+
+<style>
+  /* Custom Brand Styles */
+  .brand-purple { color: #4206A1; }
+  .bg-brand-purple { background-color: #4206A1; }
+  .brand-swatch {
+    height: 120px;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  .brand-swatch:hover { transform: translateY(-3px); }
+  .checker-bg {
+    background-image:
+      linear-gradient(45deg, #eee 25%, transparent 25%),
+      linear-gradient(-45deg, #eee 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee 75%),
+      linear-gradient(-45deg, transparent 75%, #eee 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+</style>
+
+<section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
+  <h1 class="display-5 fw-bold brand-purple">Brand Assets</h1>
+  <p class="lead mb-2">Download official PhPstrap logos, icons, and color values.</p>
+  <p class="text-muted mb-0">Please do not modify the logo geometry or colors.</p>
+</section>
+
+<section class="mb-5">
+  <h3 class="fw-bold mb-4 border-bottom pb-2">Our Colors</h3>
+  <div class="row g-4">
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 border-0 shadow-sm" onclick="copyToClipboard('#4206A1')">
+        <div class="brand-swatch bg-brand-purple rounded-top d-flex align-items-center justify-content-center text-white">
+          <i class="fas fa-copy opacity-50 fs-2"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">PhPstrap Purple</h5>
+          <p class="card-text font-monospace text-muted mb-0">#4206A1</p>
+          <small class="text-muted">Primary Brand Color</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 border-0 shadow-sm" onclick="copyToClipboard('#212529')">
+        <div class="brand-swatch bg-dark rounded-top d-flex align-items-center justify-content-center text-white">
+          <i class="fas fa-copy opacity-50 fs-2"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Dark</h5>
+          <p class="card-text font-monospace text-muted mb-0">#212529</p>
+          <small class="text-muted">Text & Backgrounds</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 border-0 shadow-sm" onclick="copyToClipboard('#F8F9FA')">
+        <div class="brand-swatch bg-light border-bottom rounded-top d-flex align-items-center justify-content-center text-dark">
+          <i class="fas fa-copy opacity-50 fs-2"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Light Gray</h5>
+          <p class="card-text font-monospace text-muted mb-0">#F8F9FA</p>
+          <small class="text-muted">Backgrounds</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mb-5">
+  <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-2">
+    <h3 class="fw-bold mb-0">Logos & Marks</h3>
+    <a href="https://phpstrap.com/assets/images/logos/all-assets.zip" class="btn btn-outline-primary btn-sm">
+      <i class="fas fa-file-zipper me-2"></i>Download All
+    </a>
+  </div>
+
+  <div class="row g-4">
+
+    <div class="col-lg-6">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom-0 pt-3">
+          <span class="badge bg-light text-dark border">Primary Logo</span>
+        </div>
+        <div class="p-5 d-flex align-items-center justify-content-center bg-white" style="height: 250px;">
+          <img src="https://phpstrap.com/assets/images/logos/logo-full.png" alt="PhPstrap Full Logo" class="img-fluid" style="max-height: 80px;">
+        </div>
+        <div class="card-body border-top">
+          <p class="small text-muted mb-3">Use on light backgrounds. Ideally white or light gray.</p>
+          <div class="d-flex gap-2">
+            <a href="https://phpstrap.com/assets/images/logos/logo-full.png" download class="btn btn-sm btn-outline-dark">
+              <i class="fas fa-download me-1"></i> PNG
+            </a>
+            <a href="https://phpstrap.com/assets/images/logos/logo-full.svg" download class="btn btn-sm btn-outline-secondary">
+              <i class="fas fa-code me-1"></i> SVG
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom-0 pt-3">
+          <span class="badge bg-dark border">Reverse Logo</span>
+        </div>
+        <div class="p-5 d-flex align-items-center justify-content-center bg-brand-purple rounded-top" style="height: 250px;">
+          <img src="https://phpstrap.com/assets/images/logos/logo-white.png" alt="PhPstrap White Logo" class="img-fluid" style="max-height: 80px;">
+        </div>
+        <div class="card-body border-top">
+          <p class="small text-muted mb-3">Use on dark backgrounds or directly on the primary brand color.</p>
+          <div class="d-flex gap-2">
+            <a href="https://phpstrap.com/assets/images/logos/logo-white.png" download class="btn btn-sm btn-outline-dark">
+              <i class="fas fa-download me-1"></i> PNG
+            </a>
+            <a href="https://phpstrap.com/assets/images/logos/logo-white.svg" download class="btn btn-sm btn-outline-secondary">
+              <i class="fas fa-code me-1"></i> SVG
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom-0 pt-3">
+          <span class="badge bg-light text-dark border">Logomark</span>
+        </div>
+        <div class="p-4 d-flex align-items-center justify-content-center checker-bg" style="height: 200px;">
+          <img src="https://phpstrap.com/assets/images/logos/icon.png" alt="PhPstrap Icon" class="img-fluid" style="max-height: 80px;">
+        </div>
+        <div class="card-body border-top">
+          <p class="small text-muted mb-2">Social media avatars and favicon.</p>
+          <a href="https://phpstrap.com/assets/images/logos/icon.png" download class="btn btn-sm btn-outline-dark w-100">
+            <i class="fas fa-download me-1"></i> Download PNG
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="py-5 border-top">
+  <h3 class="fw-bold mb-4">Guidelines</h3>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="p-3 border rounded border-success bg-success bg-opacity-10 h-100">
+        <h5 class="text-success fw-bold"><i class="fas fa-check-circle me-2"></i>Do</h5>
+        <ul class="mb-0 small text-muted">
+          <li class="mb-1">Use the provided vector files whenever possible.</li>
+          <li class="mb-1">Leave ample whitespace around the logo.</li>
+          <li>Use the white logo on dark or busy backgrounds.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 border rounded border-danger bg-danger bg-opacity-10 h-100">
+        <h5 class="text-danger fw-bold"><i class="fas fa-times-circle me-2"></i>Don't</h5>
+        <ul class="mb-0 small text-muted">
+          <li class="mb-1">Do not stretch or distort the logo.</li>
+          <li class="mb-1">Do not change the logo colors.</li>
+          <li>Do not place the dark logo on the purple background.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="copyToast" class="toast align-items-center text-white bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Color code copied!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+{% raw %}
+<script>
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      // Show toast
+      const toastEl = document.getElementById('copyToast');
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+</script>
+{% endraw %}
