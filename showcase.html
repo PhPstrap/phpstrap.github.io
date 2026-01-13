@@ -1,0 +1,311 @@
+---
+layout: default
+title: PhPstrap Showcase Gallery
+description: Screenshots of real sites and dashboards built with PhPstrap + Bootstrap 5.
+---
+
+<main class="container py-5">
+
+  <!-- Hero -->
+  <section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
+    <h1 class="display-5 fw-bold">PhPstrap Showcase</h1>
+    <p class="lead mb-2">Real sites, dashboards, and tools built with PhPstrap + Bootstrap 5.</p>
+    <p class="text-muted mb-0">Browse examples, filter by category, and open screenshots in a quick preview.</p>
+
+    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+      <a href="/download/phpstrap.zip" class="btn btn-primary btn-lg">
+        <i class="fas fa-download me-2"></i>Download PhPstrap
+      </a>
+      <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
+        <i class="fab fa-github me-2"></i>View on GitHub
+      </a>
+      <a href="/docs/" class="btn btn-outline-secondary btn-lg">
+        <i class="fas fa-book me-2"></i>Docs
+      </a>
+    </div>
+  </section>
+
+  <?php
+  /**
+   * PhPstrap Showcase Gallery
+   * - Edit $showcaseItems to add/remove entries.
+   * - Place images in /assets/showcase/ (or update image paths).
+   * - Categories are used for filtering.
+   */
+
+  $showcaseItems = [
+    [
+      'title' => 'ZenMove Admin Dashboard',
+      'url' => 'https://example.com',
+      'image' => '/assets/showcase/zenmove-admin.jpg',
+      'category' => 'Dashboard',
+      'tags' => ['Admin', 'Quotes', 'CRM'],
+      'blurb' => 'Admin panels, reporting, and workflow tools built with modules + hooks.'
+    ],
+    [
+      'title' => 'Membership Site Starter',
+      'url' => 'https://example.com',
+      'image' => '/assets/showcase/membership-starter.jpg',
+      'category' => 'Membership',
+      'tags' => ['Auth', 'Roles', 'Billing'],
+      'blurb' => 'Login + gated pages + settings screens with Bootstrap 5 UI.'
+    ],
+    [
+      'title' => 'Tool Directory / Landing Pages',
+      'url' => 'https://example.com',
+      'image' => '/assets/showcase/tools-directory.jpg',
+      'category' => 'Marketing',
+      'tags' => ['SEO', 'Landing', 'Forms'],
+      'blurb' => 'Fast pages with consistent layout, CTAs, and conversion-friendly components.'
+    ],
+    [
+      'title' => 'Module Settings Screen',
+      'url' => 'https://example.com',
+      'image' => '/assets/showcase/module-settings.jpg',
+      'category' => 'Module',
+      'tags' => ['Settings', 'Assets', 'Routes'],
+      'blurb' => 'Drop-in modules with their own config, assets, and routes.'
+    ],
+  ];
+
+  // Build category list
+  $categories = [];
+  foreach ($showcaseItems as $it) {
+    $categories[$it['category']] = true;
+  }
+  $categories = array_keys($categories);
+  sort($categories);
+
+  // Optional search/filter input (client-side)
+  ?>
+
+  <!-- Gallery Controls -->
+  <section class="mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-6">
+        <label for="gallerySearch" class="form-label fw-semibold">
+          <i class="fas fa-search me-1 text-muted"></i> Search
+        </label>
+        <input id="gallerySearch" type="text" class="form-control" placeholder="Search by title, tag, or category…">
+      </div>
+
+      <div class="col-lg-4">
+        <label for="galleryCategory" class="form-label fw-semibold">
+          <i class="fas fa-filter me-1 text-muted"></i> Category
+        </label>
+        <select id="galleryCategory" class="form-select">
+          <option value="all" selected>All categories</option>
+          <?php foreach ($categories as $cat): ?>
+            <option value="<?php echo htmlspecialchars($cat); ?>"><?php echo htmlspecialchars($cat); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="col-lg-2 d-grid">
+        <button id="galleryReset" class="btn btn-outline-secondary">
+          <i class="fas fa-rotate-left me-2"></i>Reset
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <span class="badge text-bg-light border"><i class="fas fa-image me-1"></i><?php echo count($showcaseItems); ?> examples</span>
+      <span class="badge text-bg-light border"><i class="fas fa-bolt me-1"></i>Click any card to preview</span>
+      <span class="badge text-bg-light border"><i class="fas fa-code me-1"></i>Built with Bootstrap 5</span>
+    </div>
+  </section>
+
+  <!-- Gallery Grid -->
+  <section class="row g-4" id="galleryGrid">
+    <?php foreach ($showcaseItems as $i => $it):
+      $title = $it['title'] ?? 'Untitled';
+      $url = $it['url'] ?? '#';
+      $image = $it['image'] ?? '';
+      $category = $it['category'] ?? 'Other';
+      $tags = $it['tags'] ?? [];
+      $blurb = $it['blurb'] ?? '';
+
+      // Searchable text blob for client-side filtering
+      $searchBlob = strtolower($title . ' ' . $category . ' ' . implode(' ', $tags));
+    ?>
+      <div class="col-sm-6 col-lg-4 gallery-item"
+           data-category="<?php echo htmlspecialchars($category); ?>"
+           data-search="<?php echo htmlspecialchars($searchBlob); ?>">
+        <div class="card h-100 border-0 shadow-sm">
+
+          <!-- Screenshot -->
+          <div class="ratio ratio-16x9 bg-light rounded-top overflow-hidden">
+            <img
+              src="<?php echo htmlspecialchars($image); ?>"
+              alt="<?php echo htmlspecialchars($title); ?> screenshot"
+              class="w-100 h-100"
+              style="object-fit: cover;"
+              loading="lazy"
+            >
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <h5 class="card-title mb-1"><?php echo htmlspecialchars($title); ?></h5>
+              <span class="badge text-bg-primary"><?php echo htmlspecialchars($category); ?></span>
+            </div>
+
+            <?php if (!empty($blurb)): ?>
+              <p class="text-muted mb-3"><?php echo htmlspecialchars($blurb); ?></p>
+            <?php endif; ?>
+
+            <?php if (!empty($tags)): ?>
+              <div class="d-flex flex-wrap gap-1 mb-3">
+                <?php foreach ($tags as $t): ?>
+                  <span class="badge text-bg-light border"><?php echo htmlspecialchars($t); ?></span>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
+
+            <div class="d-flex gap-2 flex-wrap">
+              <button
+                class="btn btn-sm btn-outline-dark preview-btn"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#previewModal"
+                data-title="<?php echo htmlspecialchars($title); ?>"
+                data-url="<?php echo htmlspecialchars($url); ?>"
+                data-image="<?php echo htmlspecialchars($image); ?>"
+                data-category="<?php echo htmlspecialchars($category); ?>"
+              >
+                <i class="fas fa-up-right-and-down-left-from-center me-2"></i>Preview
+              </button>
+
+              <a class="btn btn-sm btn-outline-primary" href="<?php echo htmlspecialchars($url); ?>" target="_blank" rel="noopener">
+                <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </section>
+
+  <!-- Empty State -->
+  <div id="galleryEmpty" class="d-none mt-5">
+    <div class="p-4 bg-light rounded border text-center">
+      <h4 class="fw-bold mb-2"><i class="fas fa-face-sad-tear me-2"></i>No matches</h4>
+      <p class="text-muted mb-0">Try a different search term or switch back to “All categories”.</p>
+    </div>
+  </div>
+
+  <!-- Submit CTA -->
+  <section class="text-center mt-5 pt-5 border-top">
+    <h2 class="fw-bold">Want your project featured?</h2>
+    <p class="lead">Send a screenshot + URL and we’ll add it to the gallery.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/contact/" class="btn btn-success btn-lg"><i class="fas fa-paper-plane me-2"></i>Submit a Site</a>
+      <a href="/docs/" class="btn btn-outline-secondary btn-lg"><i class="fas fa-book me-2"></i>Read the Docs</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title mb-0" id="previewTitle">Preview</h5>
+          <small class="text-muted" id="previewMeta"></small>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="ratio ratio-16x9 bg-light rounded overflow-hidden">
+          <img id="previewImage" src="" alt="Preview" class="w-100 h-100" style="object-fit: cover;">
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <div class="text-muted small">
+          <i class="fas fa-circle-info me-1"></i>
+          Tip: Keep screenshots around 1600px wide for crisp previews.
+        </div>
+        <div class="d-flex gap-2">
+          <a id="previewVisit" href="#" class="btn btn-primary" target="_blank" rel="noopener">
+            <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit Site
+          </a>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Client-side filter (search + category)
+  (function () {
+    const searchEl = document.getElementById('gallerySearch');
+    const catEl = document.getElementById('galleryCategory');
+    const resetEl = document.getElementById('galleryReset');
+    const items = Array.from(document.querySelectorAll('.gallery-item'));
+    const emptyEl = document.getElementById('galleryEmpty');
+
+    function applyFilters() {
+      const q = (searchEl.value || '').trim().toLowerCase();
+      const cat = catEl.value;
+
+      let visible = 0;
+
+      items.forEach(el => {
+        const elCat = el.getAttribute('data-category') || '';
+        const blob = el.getAttribute('data-search') || '';
+
+        const matchesCat = (cat === 'all') || (elCat === cat);
+        const matchesQ = (!q) || blob.includes(q);
+
+        const show = matchesCat && matchesQ;
+        el.classList.toggle('d-none', !show);
+        if (show) visible++;
+      });
+
+      emptyEl.classList.toggle('d-none', visible !== 0);
+    }
+
+    searchEl.addEventListener('input', applyFilters);
+    catEl.addEventListener('change', applyFilters);
+    resetEl.addEventListener('click', function () {
+      searchEl.value = '';
+      catEl.value = 'all';
+      applyFilters();
+    });
+
+    // Modal wiring
+    const previewTitle = document.getElementById('previewTitle');
+    const previewMeta = document.getElementById('previewMeta');
+    const previewImage = document.getElementById('previewImage');
+    const previewVisit = document.getElementById('previewVisit');
+
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.preview-btn');
+      if (!btn) return;
+
+      const title = btn.getAttribute('data-title') || 'Preview';
+      const url = btn.getAttribute('data-url') || '#';
+      const img = btn.getAttribute('data-image') || '';
+      const cat = btn.getAttribute('data-category') || '';
+
+      previewTitle.textContent = title;
+      previewMeta.textContent = cat ? ('Category: ' + cat) : '';
+      previewImage.src = img;
+      previewImage.alt = title + ' screenshot';
+      previewVisit.href = url;
+    });
+
+    // Initial
+    applyFilters();
+  })();
+</script>
