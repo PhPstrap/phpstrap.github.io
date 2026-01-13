@@ -1,19 +1,16 @@
 ---
 layout: default
-title: PhPstrap Showcase Gallery
+title: Built with PhPstrap
 description: Screenshots of real sites and dashboards built with PhPstrap + Bootstrap 5.
 ---
 
 <!-- Hero -->
 <section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
-  <h1 class="display-5 fw-bold">PhPstrap Showcase</h1>
-  <p class="lead mb-2">Real sites, dashboards, and tools built with PhPstrap + Bootstrap 5.</p>
-  <p class="text-muted mb-0">Browse examples, filter by category, and open screenshots in a quick preview.</p>
+  <h1 class="display-5 fw-bold">Built with PhPstrap</h1>
+  <p class="lead mb-2">A small gallery of real sites running PhPstrap + Bootstrap 5.</p>
+  <p class="text-muted mb-0">Filter by category, search by name, and open screenshots in a quick preview.</p>
 
   <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-    <a href="/download/phpstrap.zip" class="btn btn-primary btn-lg">
-      <i class="fas fa-download me-2"></i>Download PhPstrap
-    </a>
     <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
       <i class="fab fa-github me-2"></i>View on GitHub
     </a>
@@ -23,14 +20,14 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
   </div>
 </section>
 
-<!-- Gallery Controls -->
+<!-- Controls -->
 <section class="mb-4">
   <div class="row g-3 align-items-end">
     <div class="col-lg-6">
       <label for="gallerySearch" class="form-label fw-semibold">
         <i class="fas fa-search me-1 text-muted"></i> Search
       </label>
-      <input id="gallerySearch" type="text" class="form-control" placeholder="Search by title, tag, or category…">
+      <input id="gallerySearch" type="text" class="form-control" placeholder="Search by site name or category…">
     </div>
 
     <div class="col-lg-4">
@@ -39,10 +36,10 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
       </label>
       <select id="galleryCategory" class="form-select">
         <option value="all" selected>All categories</option>
-        <option value="Dashboard">Dashboard</option>
-        <option value="Membership">Membership</option>
-        <option value="Marketing">Marketing</option>
-        <option value="Module">Module</option>
+        <option value="Tools">Tools</option>
+        <option value="Community">Community</option>
+        <option value="Content">Content</option>
+        <option value="SaaS">SaaS</option>
       </select>
     </div>
 
@@ -54,53 +51,45 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
   </div>
 
   <div class="d-flex flex-wrap gap-2 mt-3">
-    <span class="badge text-bg-light border"><i class="fas fa-image me-1"></i><span id="galleryCount">0</span> examples</span>
-    <span class="badge text-bg-light border"><i class="fas fa-bolt me-1"></i>Click any card to preview</span>
-    <span class="badge text-bg-light border"><i class="fas fa-code me-1"></i>Built with Bootstrap 5</span>
+    <span class="badge text-bg-light border">
+      <i class="fas fa-image me-1"></i><span id="galleryCount">0</span> examples
+    </span>
+    <span class="badge text-bg-light border"><i class="fas fa-bolt me-1"></i>Click Preview to enlarge</span>
+    <span class="badge text-bg-light border"><i class="fas fa-code me-1"></i>Bootstrap 5 UI</span>
   </div>
 </section>
 
-<!-- Gallery Grid -->
+<!-- Grid -->
 <section class="row g-4" id="galleryGrid">
 
-  <!-- Card 1 -->
+  <!-- AudioDorks -->
   <div class="col-sm-6 col-lg-4 gallery-item"
-       data-category="Dashboard"
-       data-search="zenmove admin dashboard quotes crm">
+       data-category="Tools"
+       data-search="audiodorks tools downloader audio">
     <div class="card h-100 border-0 shadow-sm">
       <div class="ratio ratio-16x9 bg-light rounded-top overflow-hidden">
-        <img src="/assets/showcase/zenmove-admin.jpg"
-             alt="ZenMove Admin Dashboard screenshot"
+        <img src="/assets/images/audiodorks.png" alt="AudioDorks screenshot"
              class="w-100 h-100" style="object-fit:cover" loading="lazy">
       </div>
-
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start gap-2">
-          <h5 class="card-title mb-1">ZenMove Admin Dashboard</h5>
-          <span class="badge text-bg-primary">Dashboard</span>
+          <h5 class="card-title mb-1">AudioDorks</h5>
+          <span class="badge text-bg-primary">Tools</span>
         </div>
-
-        <p class="text-muted mb-3">Admin panels, reporting, and workflow tools built with modules + hooks.</p>
-
-        <div class="d-flex flex-wrap gap-1 mb-3">
-          <span class="badge text-bg-light border">Admin</span>
-          <span class="badge text-bg-light border">Quotes</span>
-          <span class="badge text-bg-light border">CRM</span>
-        </div>
-
+        <p class="text-muted mb-3">A fast utility site with clean Bootstrap layout + reusable UI patterns.</p>
         <div class="d-flex gap-2 flex-wrap">
           <button class="btn btn-sm btn-outline-dark preview-btn"
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#previewModal"
-                  data-title="ZenMove Admin Dashboard"
-                  data-url="https://example.com"
-                  data-image="/assets/showcase/zenmove-admin.jpg"
-                  data-category="Dashboard">
+                  data-title="AudioDorks"
+                  data-url="#"
+                  data-image="/assets/images/audiodorks.png"
+                  data-category="Tools">
             <i class="fas fa-up-right-and-down-left-from-center me-2"></i>Preview
           </button>
-
-          <a class="btn btn-sm btn-outline-primary" href="https://example.com" target="_blank" rel="noopener">
+          <a class="btn btn-sm btn-outline-primary" href="#" aria-disabled="true"
+             onclick="return false;">
             <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit
           </a>
         </div>
@@ -108,44 +97,34 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
     </div>
   </div>
 
-  <!-- Card 2 -->
+  <!-- Ontario Place Protectors -->
   <div class="col-sm-6 col-lg-4 gallery-item"
-       data-category="Membership"
-       data-search="membership starter auth roles billing">
+       data-category="Community"
+       data-search="ontario place protectors community advocacy toronto">
     <div class="card h-100 border-0 shadow-sm">
       <div class="ratio ratio-16x9 bg-light rounded-top overflow-hidden">
-        <img src="/assets/showcase/membership-starter.jpg"
-             alt="Membership Site Starter screenshot"
+        <img src="/assets/images/ontarioplaceprotectors.png" alt="Ontario Place Protectors screenshot"
              class="w-100 h-100" style="object-fit:cover" loading="lazy">
       </div>
-
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start gap-2">
-          <h5 class="card-title mb-1">Membership Site Starter</h5>
-          <span class="badge text-bg-primary">Membership</span>
+          <h5 class="card-title mb-1">Ontario Place Protectors</h5>
+          <span class="badge text-bg-primary">Community</span>
         </div>
-
-        <p class="text-muted mb-3">Login + gated pages + settings screens with Bootstrap 5 UI.</p>
-
-        <div class="d-flex flex-wrap gap-1 mb-3">
-          <span class="badge text-bg-light border">Auth</span>
-          <span class="badge text-bg-light border">Roles</span>
-          <span class="badge text-bg-light border">Billing</span>
-        </div>
-
+        <p class="text-muted mb-3">Campaign-style pages with strong typography, sections, and mobile-first spacing.</p>
         <div class="d-flex gap-2 flex-wrap">
           <button class="btn btn-sm btn-outline-dark preview-btn"
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#previewModal"
-                  data-title="Membership Site Starter"
-                  data-url="https://example.com"
-                  data-image="/assets/showcase/membership-starter.jpg"
-                  data-category="Membership">
+                  data-title="Ontario Place Protectors"
+                  data-url="#"
+                  data-image="/assets/images/ontarioplaceprotectors.png"
+                  data-category="Community">
             <i class="fas fa-up-right-and-down-left-from-center me-2"></i>Preview
           </button>
-
-          <a class="btn btn-sm btn-outline-primary" href="https://example.com" target="_blank" rel="noopener">
+          <a class="btn btn-sm btn-outline-primary" href="#" aria-disabled="true"
+             onclick="return false;">
             <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit
           </a>
         </div>
@@ -153,11 +132,79 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
     </div>
   </div>
 
-  <!-- Add more cards by copying one block above -->
+  <!-- OriginalPoems -->
+  <div class="col-sm-6 col-lg-4 gallery-item"
+       data-category="Content"
+       data-search="originalpoems poetry content library">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="ratio ratio-16x9 bg-light rounded-top overflow-hidden">
+        <img src="/assets/images/originalpoemscom.png" alt="OriginalPoems.com screenshot"
+             class="w-100 h-100" style="object-fit:cover" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <h5 class="card-title mb-1">OriginalPoems.com</h5>
+          <span class="badge text-bg-primary">Content</span>
+        </div>
+        <p class="text-muted mb-3">Content-heavy pages with consistent components and easy navigation patterns.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-sm btn-outline-dark preview-btn"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#previewModal"
+                  data-title="OriginalPoems.com"
+                  data-url="#"
+                  data-image="/assets/images/originalpoemscom.png"
+                  data-category="Content">
+            <i class="fas fa-up-right-and-down-left-from-center me-2"></i>Preview
+          </button>
+          <a class="btn btn-sm btn-outline-primary" href="#" aria-disabled="true"
+             onclick="return false;">
+            <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZenMove -->
+  <div class="col-sm-6 col-lg-4 gallery-item"
+       data-category="SaaS"
+       data-search="zenmove moving quotes saas canada">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="ratio ratio-16x9 bg-light rounded-top overflow-hidden">
+        <img src="/assets/images/zenmoveca.png" alt="ZenMove.ca screenshot"
+             class="w-100 h-100" style="object-fit:cover" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <h5 class="card-title mb-1">ZenMove.ca</h5>
+          <span class="badge text-bg-primary">SaaS</span>
+        </div>
+        <p class="text-muted mb-3">Conversion-focused landing pages and quote flows built with Bootstrap + modules.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-sm btn-outline-dark preview-btn"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#previewModal"
+                  data-title="ZenMove.ca"
+                  data-url="#"
+                  data-image="/assets/images/zenmoveca.png"
+                  data-category="SaaS">
+            <i class="fas fa-up-right-and-down-left-from-center me-2"></i>Preview
+          </button>
+          <a class="btn btn-sm btn-outline-primary" href="#" aria-disabled="true"
+             onclick="return false;">
+            <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </section>
 
-<!-- Empty State -->
+<!-- Empty -->
 <div id="galleryEmpty" class="d-none mt-5">
   <div class="p-4 bg-light rounded border text-center">
     <h4 class="fw-bold mb-2"><i class="fas fa-face-sad-tear me-2"></i>No matches</h4>
@@ -165,21 +212,10 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
   </div>
 </div>
 
-<!-- Submit CTA -->
-<section class="text-center mt-5 pt-5 border-top">
-  <h2 class="fw-bold">Want your project featured?</h2>
-  <p class="lead">Send a screenshot + URL and we’ll add it to the gallery.</p>
-  <div class="d-flex justify-content-center gap-3 flex-wrap">
-    <a href="/contact/" class="btn btn-success btn-lg"><i class="fas fa-paper-plane me-2"></i>Submit a Site</a>
-    <a href="/docs/" class="btn btn-outline-secondary btn-lg"><i class="fas fa-book me-2"></i>Read the Docs</a>
-  </div>
-</section>
-
-<!-- Preview Modal -->
+<!-- Modal -->
 <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
-
       <div class="modal-header">
         <div>
           <h5 class="modal-title mb-0" id="previewTitle">Preview</h5>
@@ -200,15 +236,12 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
           Tip: Keep screenshots around 1600px wide for crisp previews.
         </div>
         <div class="d-flex gap-2">
-          <a id="previewVisit" href="#" class="btn btn-primary" target="_blank" rel="noopener">
+          <a id="previewVisit" href="#" class="btn btn-primary d-none" target="_blank" rel="noopener">
             <i class="fas fa-arrow-up-right-from-square me-2"></i>Visit Site
           </a>
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -241,7 +274,7 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
       });
 
       emptyEl.classList.toggle('d-none', visible !== 0);
-      if (countEl) countEl.textContent = String(visible);
+      countEl.textContent = String(visible);
     }
 
     searchEl.addEventListener('input', applyFilters);
@@ -271,10 +304,13 @@ description: Screenshots of real sites and dashboards built with PhPstrap + Boot
       previewMeta.textContent = cat ? ('Category: ' + cat) : '';
       previewImage.src = img;
       previewImage.alt = title + ' screenshot';
-      previewVisit.href = url;
+
+      // Show "Visit" only if url looks real
+      const hasRealUrl = url && url !== '#';
+      previewVisit.classList.toggle('d-none', !hasRealUrl);
+      previewVisit.href = hasRealUrl ? url : '#';
     });
 
-    // Initial
     applyFilters();
   })();
 </script>
