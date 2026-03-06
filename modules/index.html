@@ -3,105 +3,126 @@ layout: default
 title: PhPstrap Modules
 description: Explore Modules for PhPstrap and development.
 ---
-  <style>
-    .module-card {
-      background: #ffffff;
-      border: 1px solid #e2e6ea;
-      border-left: 4px solid #0d6efd;
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-      transition: all 0.2s ease;
-      height: 100%;
-    }
-    .module-card:hover {
-      transform: scale(1.01);
-      border-left-color: #0b5ed7;
-    }
-    .module-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      color: #212529;
-    }
-    .module-meta {
-      font-size: 0.875rem;
-      color: #6c757d;
-      margin-bottom: 0.75rem;
-    }
-    .module-description {
-      font-size: 1rem;
-      color: #495057;
-      margin-bottom: 1rem;
-    }
-    .search-bar {
-      margin-bottom: 2rem;
-      max-width: 500px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container my-5">
-    <h1 class="mb-4">🧩 PhPstrap Modules</h1>
-    <div id="module-list">
-      <p><em>Loading modules...</em></p>
-    </div>
+<style>
+  .module-card {
+    background: #ffffff;
+    border: 1px solid #e2e6ea;
+    border-left: 4px solid #0d6efd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+    height: 100%;
+  }
+  .module-card:hover {
+    transform: scale(1.01);
+    border-left-color: #0b5ed7;
+  }
+  .module-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #212529;
+  }
+  .module-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.75rem;
+  }
+  .module-description {
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 1rem;
+  }
+  .search-bar {
+    margin-bottom: 2rem;
+    max-width: 500px;
+  }
+  /* Ensure buttons wrap nicely on very small screens */
+  .btn-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto; /* Pushes buttons to the bottom of the card */
+  }
+</style>
+
+<div class="container my-5">
+  <h1 class="mb-4">🧩 PhPstrap Modules</h1>
+  <div id="module-list">
+    <p><em>Loading modules...</em></p>
   </div>
+</div>
 
-  <script>
-    fetch('./modules.json')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('module-list');
-        container.innerHTML = '';
+<script>
+  fetch('./modules.json')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('module-list');
+      container.innerHTML = '';
 
-        if (!Array.isArray(data) || data.length === 0) {
-          container.innerHTML = '<div class="alert alert-warning">No modules found.</div>';
-          return;
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No modules found.</div>';
+        return;
+      }
+
+      const row = document.createElement('div');
+      row.className = 'row g-4';
+
+      data.forEach(module => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+
+        const card = document.createElement('div');
+        card.className = 'module-card d-flex flex-column';
+
+        // Content Area
+        const content = document.createElement('div');
+        content.innerHTML = `
+          <div class="module-title">${module.title || module.name}</div>
+          <div class="module-meta mb-2">
+            v${module.version || '1.0.0'} &bull; By ${module.author || 'Unknown'}
+          </div>
+          <div class="module-description">
+            ${module.description || 'No description provided.'}
+          </div>
+        `;
+        card.appendChild(content);
+
+        // Action Button Container
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'btn-container mt-3';
+
+        // Download Button
+        if (module.url) {
+          const btn = document.createElement('a');
+          btn.href = module.url;
+          btn.className = 'btn btn-success btn-sm flex-fill';
+          btn.target = '_blank';
+          btn.innerHTML = '<i class="fas fa-download me-1"></i> Get Module';
+          btnContainer.appendChild(btn);
         }
 
-        const row = document.createElement('div');
-        row.className = 'row g-4';
+        // Documentation Button
+        if (module.documentation) {
+          const docBtn = document.createElement('a');
+          docBtn.href = module.documentation;
+          docBtn.className = 'btn btn-outline-primary btn-sm flex-fill';
+          docBtn.target = '_blank';
+          docBtn.innerHTML = '<i class="fas fa-book me-1"></i> Docs';
+          btnContainer.appendChild(docBtn);
+        }
 
-        data.forEach(module => {
-          const col = document.createElement('div');
-          col.className = 'col-md-6 col-lg-4';
-
-          const card = document.createElement('div');
-          card.className = 'module-card d-flex flex-column justify-content-between';
-
-          card.innerHTML = `
-            <div>
-              <div class="module-title">${module.title || module.name}</div>
-              <div class="module-meta mb-2">
-                v${module.version || '1.0.0'} &bull; By ${module.author || 'Unknown'}
-              </div>
-              <div class="module-description">
-                ${module.description || 'No description provided.'}
-              </div>
-            </div>
-          `;
-
-          if (module.url) {
-            const btn = document.createElement('a');
-            btn.href = module.url;
-            btn.className = 'btn btn-success btn-sm mt-3';
-            btn.target = '_blank';
-            btn.innerHTML = '<i class="fas fa-download me-1"></i> Get Module';
-            card.appendChild(btn);
-          }
-
-          col.appendChild(card);
-          row.appendChild(col);
-        });
-
-        container.appendChild(row);
-      })
-      .catch(err => {
-        document.getElementById('module-list').innerHTML =
-          '<div class="alert alert-danger">Failed to load modules.</div>';
-        console.error('Failed to load modules.json:', err);
+        card.appendChild(btnContainer);
+        col.appendChild(card);
+        row.appendChild(col);
       });
-  </script>
 
+      container.appendChild(row);
+    })
+    .catch(err => {
+      document.getElementById('module-list').innerHTML =
+        '<div class="alert alert-danger">Failed to load modules.</div>';
+      console.error('Failed to load modules.json:', err);
+    });
+</script>
