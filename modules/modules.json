@@ -5,7 +5,8 @@
     "version": "1.0.0",
     "author": "PhPstrap",
     "description": "SMTP sending module to route mail via authenticated SMTP with TLS support.",
-    "url": "https://github.com/PhPstrap/SMTP"
+    "url": "https://github.com/PhPstrap/SMTP",
+    "documentation": "https://github.com/PhPstrap/SMTP/wiki"
   },
   {
     "name": "hcapture",
@@ -13,7 +14,8 @@
     "version": "1.0.0",
     "author": "PhPstrap",
     "description": "Lightweight human verification widget for forms; easy drop-in integration with PhPstrap.",
-    "url": "https://github.com/PhPstrap/hCapture"
+    "url": "https://github.com/PhPstrap/hCapture",
+    "documentation": "https://github.com/PhPstrap/hCapture/wiki"
   },
   {
     "name": "example-module",
@@ -21,7 +23,8 @@
     "version": "1.0.0",
     "author": "PhPstrap",
     "description": "Starter template showing a standard module structure, routes, settings, and views.",
-    "url": "https://github.com/PhPstrap/Example-Module"
+    "url": "https://github.com/PhPstrap/Example-Module",
+    "documentation": "https://github.com/PhPstrap/Example-Module/wiki"
   },
   {
     "name": "canlii-api",
@@ -29,6 +32,7 @@
     "version": "1.2.0",
     "author": "PhPstrap",
     "description": "Integration module for the Canadian Legal Information Institute (CanLII) API to search and retrieve legal documents.",
-    "url": "https://github.com/PhPstrap/CanLII-API"
+    "url": "https://github.com/PhPstrap/CanLII-API",
+    "documentation": "https://github.com/PhPstrap/CanLII-API/wiki"
   }
 ]
