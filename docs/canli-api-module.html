@@ -1,0 +1,192 @@
+---
+layout: default
+title: CanLII API Module
+description: Learn how to configure and use the CanLII API module in PhPstrap to access Canadian legal metadata programmatically.
+---
+
+<div class="container py-5">
+  <h1 class="mb-4">⚖️ CanLII API Module</h1>
+
+  <p class="lead">
+    The <strong>CanLII API Module</strong> allows your PhPstrap application to securely store and use a CanLII API key.
+    Once configured, other modules or integrations can access the key to retrieve legal case and legislation metadata
+    directly from the CanLII REST API.
+  </p>
+
+  <hr>
+
+  <h2>📌 What This Module Does</h2>
+  <ul>
+    <li>Securely stores your <strong>CanLII API key</strong>.</li>
+    <li>Provides a simple way for other modules to access the key.</li>
+    <li>Includes a <strong>Test Connection</strong> tool to verify API access.</li>
+    <li>Supports English (<code>en</code>) and French (<code>fr</code>) API responses.</li>
+  </ul>
+
+  <div class="alert alert-info mt-3">
+    <strong>Note:</strong> The CanLII API is read-only and returns JSON metadata about Canadian court decisions and legislation.
+  </div>
+
+  <hr>
+
+  <h2>🔑 Step 1: Obtain a CanLII API Key</h2>
+
+  <p>
+    Before using the module, you must request an API key from CanLII.
+  </p>
+
+  <ol>
+    <li>Visit the CanLII feedback page.</li>
+    <li>Request developer API access.</li>
+    <li>Once approved, you will receive an API key.</li>
+  </ol>
+
+  <div class="alert alert-warning">
+    <strong>Important:</strong> Keep your API key private. Do not expose it in public repositories.
+  </div>
+
+  <hr>
+
+  <h2>⚙️ Step 2: Configure the Module</h2>
+
+  <ol>
+    <li>Login to your PhPstrap admin panel.</li>
+    <li>Navigate to <code>/admin/modules</code>.</li>
+    <li>Locate the <strong>CanLII API</strong> module.</li>
+    <li>Click <span class="btn btn-sm btn-outline-primary disabled">Settings</span>.</li>
+  </ol>
+
+  <h4 class="mt-4">Module Settings</h4>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Setting</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Enabled</strong></td>
+        <td>Enable or disable the CanLII integration.</td>
+      </tr>
+      <tr>
+        <td><strong>API Key</strong></td>
+        <td>Your CanLII developer API key.</td>
+      </tr>
+      <tr>
+        <td><strong>Language</strong></td>
+        <td>API response language (<code>en</code> or <code>fr</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Test URL</strong></td>
+        <td>The endpoint used to verify your API connection.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>🧪 Step 3: Test the API Connection</h2>
+
+  <p>
+    The module includes a built-in test tool to verify that your API key works correctly.
+  </p>
+
+  <ol>
+    <li>Open the module test page.</li>
+    <li>Click <span class="btn btn-sm btn-outline-success disabled">Test API Connection</span>.</li>
+  </ol>
+
+  <p>The module will call the CanLII API using your stored key.</p>
+
+  <p>The default test endpoint is:</p>
+
+  <pre><code>https://api.canlii.org/v1/caseBrowse/en/</code></pre>
+
+  <p>The request sent by the module looks like:</p>
+
+  <pre><code>https://api.canlii.org/v1/caseBrowse/en/?api_key=YOUR_KEY</code></pre>
+
+  <p>If successful, the API will return JSON listing courts and tribunals.</p>
+
+  <hr>
+
+  <h2>📚 Example API Response</h2>
+
+  <pre><code>{
+  "caseDatabases": [
+    {
+      "databaseId": "oncicb",
+      "jurisdiction": "on",
+      "name": "Criminal Injuries Compensation Board"
+    },
+    {
+      "databaseId": "nlpc",
+      "jurisdiction": "nl",
+      "name": "Provincial Court of Newfoundland and Labrador"
+    }
+  ]
+}</code></pre>
+
+  <hr>
+
+  <h2>🧩 Using the Module in Other Integrations</h2>
+
+  <p>
+    Other modules or services can retrieve the stored API key to perform CanLII API requests.
+  </p>
+
+  <pre><code>$canlii = new CanliiModule();
+$apiKey = $canlii->getApiKey();
+
+$url = "https://api.canlii.org/v1/caseBrowse/en/?api_key=" . $apiKey;
+
+$response = file_get_contents($url);
+$data = json_decode($response, true);</code></pre>
+
+  <p>
+    This allows your application to retrieve:
+  </p>
+
+  <ul>
+    <li>Canadian court decisions</li>
+    <li>Legal citations</li>
+    <li>Legislation metadata</li>
+    <li>Case citation relationships</li>
+  </ul>
+
+  <hr>
+
+  <h2>⚖️ Example Use Cases</h2>
+
+  <ul>
+    <li>Legal research tools</li>
+    <li>Case citation lookups</li>
+    <li>Automated legal summaries</li>
+    <li>Legal blog integrations</li>
+    <li>AI legal analysis pipelines</li>
+  </ul>
+
+  <hr>
+
+  <h2>🛠️ Troubleshooting</h2>
+
+  <ul>
+    <li><strong>Connection failed?</strong> Verify your API key is correct.</li>
+    <li><strong>Empty results?</strong> Ensure the correct language parameter (<code>en</code> or <code>fr</code>) is selected.</li>
+    <li><strong>API errors?</strong> Confirm the endpoint supports your request.</li>
+  </ul>
+
+  <div class="alert alert-secondary mt-4">
+    <strong>Tip:</strong> The CanLII API limits responses larger than 10MB. Large results should be requested using pagination parameters like <code>offset</code> and <code>resultCount</code>.
+  </div>
+
+  <hr class="my-5">
+
+  <p class="text-center text-muted">
+    Learn more about the CanLII API at
+    <a href="https://api.canlii.org" target="_blank">api.canlii.org</a>.
+  </p>
+
+</div>
