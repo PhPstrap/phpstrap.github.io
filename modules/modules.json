@@ -22,5 +22,13 @@
     "author": "PhPstrap",
     "description": "Starter template showing a standard module structure, routes, settings, and views.",
     "url": "https://github.com/PhPstrap/Example-Module"
+  },
+  {
+    "name": "canlii-api",
+    "title": "CanLII API",
+    "version": "1.2.0",
+    "author": "PhPstrap",
+    "description": "Integration module for the Canadian Legal Information Institute (CanLII) API to search and retrieve legal documents.",
+    "url": "https://github.com/PhPstrap/CanLII-API"
   }
 ]
