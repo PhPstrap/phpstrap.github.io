@@ -5,35 +5,49 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
 ---
 
 <!-- Hero Section -->
-<section class="text-center py-5 mb-5 bg-light rounded shadow-sm">
-  <div class="container">
-    <span class="badge bg-primary-subtle text-primary mb-3">PHP + Bootstrap 5</span>
-    <h1 class="display-4 fw-bold">Build faster with PhPstrap</h1>
-    <p class="lead mb-2">A lightweight PHP toolkit for membership sites, dashboards, modules, and static Bootstrap websites.</p>
-    <p class="text-muted">Choose the full PhPstrap framework for dynamic apps, or start simple with PhPstrap Lite.</p>
+<section class="py-5 mb-5">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <span class="badge bg-primary-subtle text-primary mb-3">PHP + Bootstrap 5</span>
+      <h1 class="display-4 fw-bold mb-3">Build faster with PhPstrap</h1>
+      <p class="lead mb-3">
+        A lightweight PHP toolkit for membership sites, admin dashboards, modular apps, and static Bootstrap websites.
+      </p>
+      <p class="text-muted mb-4">
+        Use the full PhPstrap framework when you need users, modules, dashboards, and database-backed features.
+        Use PhPstrap Lite when you want a simple static PHP website without CMS bloat.
+      </p>
 
-    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-      <a href="/login/register.php" class="btn btn-primary btn-lg">
-        <i class="fas fa-user-plus me-2"></i>Sign Up
-      </a>
-      <a href="/login/index.php" class="btn btn-outline-secondary btn-lg">
-        <i class="fas fa-sign-in-alt me-2"></i>Log In
-      </a>
-      <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
-        <i class="fab fa-github me-2"></i>Full PhPstrap
-      </a>
-      <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-outline-success btn-lg">
-        <i class="fas fa-bolt me-2"></i>PhPstrap Lite
-      </a>
+      <div class="d-flex gap-3 flex-wrap">
+        <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          <i class="fas fa-desktop me-2"></i>View Demo
+        </a>
+        <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
+          <i class="fab fa-github me-2"></i>GitHub
+        </a>
+        <a href="/docs/" class="btn btn-outline-secondary btn-lg">
+          <i class="fas fa-book me-2"></i>Read Docs
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="bg-light rounded-4 shadow-sm p-3 border">
+        <img src="{{ '/assets/images/phpstrap-dashboard.png' | relative_url }}" 
+             alt="PhPstrap dashboard screenshot" 
+             class="img-fluid rounded-3 border">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Choose Your Version -->
-<section class="mb-5">
-  <div class="text-center mb-4">
+<!-- Version Choice -->
+<section class="py-5 border-top">
+  <div class="text-center mb-5">
     <h2 class="fw-bold">Choose the right PhPstrap for your project</h2>
-    <p class="text-muted">Start small with static pages, or build a full membership app with modules and an admin panel.</p>
+    <p class="text-muted">
+      Start with a simple static site, or build a full PHP membership platform with modules and admin tools.
+    </p>
   </div>
 
   <div class="row g-4">
@@ -41,30 +55,33 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body p-4">
           <div class="d-flex align-items-center mb-3">
-            <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;">
+            <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:52px;height:52px;">
               <i class="fas fa-layer-group"></i>
             </div>
             <div>
               <h3 class="h4 mb-0">PhPstrap</h3>
-              <small class="text-muted">For dynamic apps and membership systems</small>
+              <small class="text-muted">Full framework for dynamic PHP apps</small>
             </div>
           </div>
 
-          <p>Use the full PhPstrap framework when your project needs users, login, modules, settings, database tables, admin screens, hooks, and extendable app features.</p>
+          <p>
+            Use PhPstrap when your project needs authentication, users, modules, settings, database tables,
+            admin screens, hooks, and extendable app features.
+          </p>
 
           <ul class="list-unstyled mb-4">
             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Membership sites and dashboards</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Admin panel and module system</li>
+            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Module system and admin panel</li>
             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Database-backed apps and tools</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hooks, settings, auth, and extendable features</li>
+            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hooks, settings, auth, and reusable patterns</li>
           </ul>
 
           <div class="d-flex gap-2 flex-wrap">
-            <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-primary">
-              <i class="fab fa-github me-2"></i>View Full Framework
+            <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary">
+              <i class="fas fa-desktop me-2"></i>View Demo
             </a>
-            <a href="/docs/installation.html" class="btn btn-outline-secondary">
-              Read Docs
+            <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark">
+              <i class="fab fa-github me-2"></i>GitHub
             </a>
           </div>
         </div>
@@ -75,16 +92,19 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body p-4">
           <div class="d-flex align-items-center mb-3">
-            <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;">
+            <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:52px;height:52px;">
               <i class="fas fa-bolt"></i>
             </div>
             <div>
               <h3 class="h4 mb-0">PhPstrap Lite</h3>
-              <small class="text-muted">For static PHP websites with Bootstrap</small>
+              <small class="text-muted">Minimal static PHP + Bootstrap starter</small>
             </div>
           </div>
 
-          <p>Use PhPstrap Lite when you want a clean Bootstrap website with shared PHP includes, reusable sections, SEO meta, blog pages, and no database.</p>
+          <p>
+            Use PhPstrap Lite when you want a clean Bootstrap website with shared PHP includes,
+            reusable sections, SEO meta, blog pages, and no database.
+          </p>
 
           <ul class="list-unstyled mb-4">
             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No database or installer required</li>
@@ -95,7 +115,7 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
 
           <div class="d-flex gap-2 flex-wrap">
             <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-success">
-              <i class="fab fa-github me-2"></i>View PhPstrap Lite
+              <i class="fab fa-github me-2"></i>PhPstrap Lite
             </a>
             <a href="/docs/getting-started-with-phpstrap-lite.html" class="btn btn-outline-secondary">
               Lite Docs
@@ -107,164 +127,154 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   </div>
 </section>
 
-<!-- Value Props / Why PhPstrap -->
-<section class="row text-center mb-5">
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-        <i class="fas fa-layer-group fa-2x mb-3 text-primary" aria-hidden="true"></i>
-        <h5 class="card-title">Modular at the Core</h5>
-        <p class="card-text">Drop-in modules with their own settings, assets, and routes. Build features like building blocks.</p>
-      </div>
-    </div>
-  </div>
+<!-- Alternating Feature 1 -->
+<section class="py-5 border-top">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <span class="badge bg-primary-subtle text-primary mb-3">Admin Dashboard</span>
+      <h2 class="fw-bold mb-3">A clean starting point for PHP admin panels</h2>
+      <p class="lead">
+        PhPstrap gives your project a structured dashboard, shared layout, module-ready architecture,
+        and Bootstrap-powered interface without forcing you into a heavy framework.
+      </p>
 
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-        <i class="fas fa-rocket fa-2x mb-3 text-success" aria-hidden="true"></i>
-        <h5 class="card-title">Fast to Deploy</h5>
-        <p class="card-text">Works on standard shared hosting. Keep your stack simple and ship faster.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-        <i class="fas fa-shield-alt fa-2x mb-3 text-danger" aria-hidden="true"></i>
-        <h5 class="card-title">Secure by Default</h5>
-        <p class="card-text">Auth gate patterns, CSRF protection, safe sessions, and production-ready error logging.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Audience Fit -->
-<section class="mb-5">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold">Who Is PhPstrap For?</h2>
-    <p class="text-muted">A practical toolkit for developers, agencies, and indie builders.</p>
-  </div>
-
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="p-4 border rounded h-100">
-        <i class="fas fa-code text-primary mb-2"></i>
-        <h6 class="fw-bold mb-2">Custom PHP Developers</h6>
-        <p class="mb-0">Add an admin, settings, modules, or reusable layout structure without adopting a heavy framework.</p>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="p-4 border rounded h-100">
-        <i class="fas fa-briefcase text-primary mb-2"></i>
-        <h6 class="fw-bold mb-2">Agencies & Freelancers</h6>
-        <p class="mb-0">Deliver consistent websites, dashboards, and client portals quickly with repeatable patterns.</p>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="p-4 border rounded h-100">
-        <i class="fas fa-lightbulb text-primary mb-2"></i>
-        <h6 class="fw-bold mb-2">Indie Hackers</h6>
-        <p class="mb-0">Launch landing pages, micro-SaaS ideas, internal tools, and content sites faster.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Feature Highlights -->
-<section class="row g-4 align-items-stretch mb-5">
-  <div class="col-lg-7">
-    <div class="p-4 border rounded h-100">
-      <h3 class="fw-bold mb-3">Feature Highlights</h3>
-      <ul class="list-unstyled mb-0">
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Shared Bootstrap layout patterns for faster development</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Full framework option with login, modules, hooks, settings, and admin tools</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Lite option for static PHP sites, landing pages, and flat-file blogs</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Reusable header, footer, navigation, and content sections</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bootstrap 5 components, cards, forms, buttons, and utility classes</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Simple enough for shared hosting, flexible enough for serious projects</li>
+      <ul class="list-unstyled">
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bootstrap 5 dashboard layout</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Reusable header, footer, and navigation</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Admin-friendly cards, tables, forms, and actions</li>
       </ul>
-    </div>
-  </div>
 
-  <div class="col-lg-5">
-    <div class="p-4 border rounded h-100">
-      <h3 class="fw-bold mb-3">Which one should I use?</h3>
-      <div class="mb-3">
-        <h6 class="fw-bold mb-1">Use PhPstrap if:</h6>
-        <p class="mb-0 text-muted">You need users, authentication, modules, database features, admin settings, or a membership system.</p>
-      </div>
-      <div>
-        <h6 class="fw-bold mb-1">Use PhPstrap Lite if:</h6>
-        <p class="mb-0 text-muted">You just need a fast Bootstrap website, landing page, documentation site, or simple blog without a database.</p>
-      </div>
-      <div class="alert alert-info mt-3 mb-0">
-        <i class="fas fa-info-circle me-2"></i>
-        Tip: Start with Lite for simple sites, then use the full framework when you need users, modules, and app features.
+      <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary mt-2">
+        View Dashboard Demo
+      </a>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="bg-light rounded-4 shadow-sm p-3 border">
+        <img src="{{ '/assets/images/phpstrap-admin.png' | relative_url }}" 
+             alt="PhPstrap admin dashboard screenshot" 
+             class="img-fluid rounded-3 border">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Call To Action -->
-<section class="text-center mt-5">
-  <h2>Start building with PhPstrap</h2>
-  <p class="lead">Choose the framework for apps, or Lite for simple Bootstrap-powered websites.</p>
+<!-- Alternating Feature 2 -->
+<section class="py-5 border-top">
+  <div class="row align-items-center g-5 flex-lg-row-reverse">
+    <div class="col-lg-6">
+      <span class="badge bg-success-subtle text-success mb-3">Modules</span>
+      <h2 class="fw-bold mb-3">Build features as reusable modules</h2>
+      <p class="lead">
+        PhPstrap is designed around modular development, making it easier to add tools,
+        settings pages, admin features, and reusable functionality without editing the core.
+      </p>
 
-  <div class="d-flex justify-content-center gap-3 flex-wrap">
-    <a href="/login/register.php" class="btn btn-primary btn-lg">
-      <i class="fas fa-rocket me-2"></i>Create an Account
-    </a>
-    <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
-      <i class="fab fa-github me-2"></i>Full PhPstrap
-    </a>
-    <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-outline-success btn-lg">
-      <i class="fas fa-bolt me-2"></i>PhPstrap Lite
-    </a>
-  </div>
-</section>
+      <ul class="list-unstyled">
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Drop-in module structure</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Module settings and admin screens</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hooks for extending layouts and behavior</li>
+      </ul>
 
-<!-- Getting Started -->
-<section class="mt-5 pt-5 border-top">
-  <h3 class="text-center mb-4">Getting Started</h3>
-
-  <div class="row g-4">
-    <div class="col-md-6">
-      <div class="p-4 bg-light rounded h-100">
-        <h5><i class="fas fa-layer-group me-2 text-primary"></i>Full PhPstrap</h5>
-        <p>Use the full framework when you need login, users, modules, database tables, and admin functionality.</p>
-        <a href="/docs/installation.html" class="btn btn-sm btn-primary">Read Installation Guide</a>
-      </div>
+      <a href="/docs/module-development-guide.html" class="btn btn-success mt-2">
+        Module Development Guide
+      </a>
     </div>
 
-    <div class="col-md-6">
-      <div class="p-4 bg-light rounded h-100">
-        <h5><i class="fas fa-bolt me-2 text-success"></i>PhPstrap Lite</h5>
-        <p>Use Lite when you want a simple PHP + Bootstrap website with reusable sections and no database.</p>
-        <a href="/docs/getting-started-with-phpstrap-lite.html" class="btn btn-sm btn-success">Read Lite Guide</a>
+    <div class="col-lg-6">
+      <div class="bg-light rounded-4 shadow-sm p-3 border">
+        <img src="{{ '/assets/images/phpstrap-modules.png' | relative_url }}" 
+             alt="PhPstrap modules screenshot" 
+             class="img-fluid rounded-3 border">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Trust / Social Proof -->
-<section class="mt-5">
-  <div class="row g-4">
-    <div class="col-md-6">
-      <div class="p-4 bg-light rounded h-100">
-        <h5 class="mb-2"><i class="fas fa-lock me-2 text-success"></i>Practical defaults</h5>
-        <p class="mb-0">Use shared includes, clean page structure, Bootstrap components, and sensible PHP patterns to move faster.</p>
-      </div>
+<!-- Alternating Feature 3 -->
+<section class="py-5 border-top">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <span class="badge bg-warning-subtle text-warning-emphasis mb-3">Static Sites</span>
+      <h2 class="fw-bold mb-3">Need something simpler? Use PhPstrap Lite</h2>
+      <p class="lead">
+        PhPstrap Lite is the minimal option for static-style PHP websites.
+        It keeps the useful parts — shared includes, Bootstrap sections, SEO meta, and simple pages —
+        without the database, login system, or admin panel.
+      </p>
+
+      <ul class="list-unstyled">
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Perfect for landing pages and documentation sites</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Flat-file blog and guide pages</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Easy to edit and deploy on shared hosting</li>
+      </ul>
+
+      <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-warning">
+        <i class="fab fa-github me-2"></i>View PhPstrap Lite
+      </a>
     </div>
 
-    <div class="col-md-6">
-      <div class="p-4 bg-light rounded h-100">
-        <h5 class="mb-2"><i class="fas fa-plug me-2 text-primary"></i>Room to grow</h5>
-        <p class="mb-0">Start with static pages using Lite, then move into modules, dashboards, and membership features with the full framework.</p>
+    <div class="col-lg-6">
+      <div class="bg-light rounded-4 shadow-sm p-3 border">
+        <img src="{{ '/assets/images/phpstrap-lite.png' | relative_url }}" 
+             alt="PhPstrap Lite website screenshot" 
+             class="img-fluid rounded-3 border">
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Alternating Feature 4 -->
+<section class="py-5 border-top">
+  <div class="row align-items-center g-5 flex-lg-row-reverse">
+    <div class="col-lg-6">
+      <span class="badge bg-dark-subtle text-dark mb-3">Developer Friendly</span>
+      <h2 class="fw-bold mb-3">Simple enough to understand, flexible enough to grow</h2>
+      <p class="lead">
+        PhPstrap is built for developers who like plain PHP, Bootstrap, practical file structure,
+        and projects that can be customized without fighting a large framework.
+      </p>
+
+      <ul class="list-unstyled">
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Works well on standard PHP hosting</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Easy to customize and extend</li>
+        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Useful for internal tools, SaaS dashboards, and client portals</li>
+      </ul>
+
+      <a href="/docs/" class="btn btn-dark mt-2">
+        Read Documentation
+      </a>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="bg-light rounded-4 shadow-sm p-3 border">
+        <img src="{{ '/assets/images/phpstrap-code.png' | relative_url }}" 
+             alt="PhPstrap developer code screenshot" 
+             class="img-fluid rounded-3 border">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="text-center py-5 mt-5 bg-light rounded-4 shadow-sm">
+  <div class="container">
+    <span class="badge bg-primary-subtle text-primary mb-3">Ready to build?</span>
+    <h2 class="fw-bold">Start with PhPstrap today</h2>
+    <p class="lead text-muted mb-4">
+      Try the demo, explore the documentation, or download the code from GitHub.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+        <i class="fas fa-desktop me-2"></i>View Demo
+      </a>
+      <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
+        <i class="fab fa-github me-2"></i>Full PhPstrap
+      </a>
+      <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-outline-success btn-lg">
+        <i class="fas fa-bolt me-2"></i>PhPstrap Lite
+      </a>
     </div>
   </div>
 </section>
