@@ -4,274 +4,303 @@ title: Welcome to PhPstrap
 description: Build modern PHP websites, membership systems, dashboards, and static Bootstrap sites with PhPstrap.
 ---
 
-<!-- Hero Section -->
-<section class="py-5 mb-5">
+{% assign img_base = "https://raw.githubusercontent.com/PhPstrap/phpstrap.github.io/refs/heads/main/assets/images/" %}
+
+<!-- Hero -->
+<section class="hero-section py-5 py-lg-6">
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
-      <span class="badge bg-primary-subtle text-primary mb-3">PHP + Bootstrap 5</span>
-      <h1 class="display-4 fw-bold mb-3">Build faster with PhPstrap</h1>
-      <p class="lead mb-3">
-        A lightweight PHP toolkit for membership sites, admin dashboards, modular apps, and static Bootstrap websites.
-      </p>
-      <p class="text-muted mb-4">
-        Use the full PhPstrap framework when you need users, modules, dashboards, and database-backed features.
-        Use PhPstrap Lite when you want a simple static PHP website without CMS bloat.
+      <span class="badge rounded-pill text-bg-primary mb-3 px-3 py-2">PHP + Bootstrap 5</span>
+
+      <h1 class="display-4 fw-bold mb-3">
+        A modern PHP foundation for dashboards, modules, and membership sites
+      </h1>
+
+      <p class="lead text-muted mb-4">
+        PhPstrap helps you build admin panels, modular tools, user systems, and internal dashboards faster —
+        while keeping your stack simple and familiar.
       </p>
 
-      <div class="d-flex gap-3 flex-wrap">
+      <div class="d-flex flex-wrap gap-3 mb-4">
         <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
           <i class="fas fa-desktop me-2"></i>View Demo
         </a>
+
         <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
           <i class="fab fa-github me-2"></i>GitHub
         </a>
+
         <a href="/docs/" class="btn btn-outline-secondary btn-lg">
-          <i class="fas fa-book me-2"></i>Read Docs
+          <i class="fas fa-book me-2"></i>Documentation
         </a>
       </div>
+
+      <div class="d-flex flex-wrap gap-3 text-muted small">
+        <span><i class="fas fa-check text-success me-2"></i>Module system</span>
+        <span><i class="fas fa-check text-success me-2"></i>Admin dashboard</span>
+        <span><i class="fas fa-check text-success me-2"></i>Settings engine</span>
+        <span><i class="fas fa-check text-success me-2"></i>Bootstrap 5 UI</span>
+      </div>
     </div>
 
     <div class="col-lg-6">
-      <div class="bg-light rounded-4 shadow-sm p-3 border">
-        <img src="{{ '/assets/images/phpstrap-dashboard.png' | relative_url }}" 
-             alt="PhPstrap dashboard screenshot" 
-             class="img-fluid rounded-3 border">
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrap-admin-settings.png" 
+             alt="PhPstrap admin settings screenshot" 
+             class="img-fluid rounded-4">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Version Choice -->
-<section class="py-5 border-top">
-  <div class="text-center mb-5">
-    <h2 class="fw-bold">Choose the right PhPstrap for your project</h2>
-    <p class="text-muted">
-      Start with a simple static site, or build a full PHP membership platform with modules and admin tools.
-    </p>
-  </div>
-
+<!-- Intro Cards -->
+<section class="py-4">
   <div class="row g-4">
-    <div class="col-lg-6">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center mb-3">
-            <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:52px;height:52px;">
-              <i class="fas fa-layer-group"></i>
-            </div>
-            <div>
-              <h3 class="h4 mb-0">PhPstrap</h3>
-              <small class="text-muted">Full framework for dynamic PHP apps</small>
-            </div>
-          </div>
-
-          <p>
-            Use PhPstrap when your project needs authentication, users, modules, settings, database tables,
-            admin screens, hooks, and extendable app features.
-          </p>
-
-          <ul class="list-unstyled mb-4">
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Membership sites and dashboards</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Module system and admin panel</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Database-backed apps and tools</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hooks, settings, auth, and reusable patterns</li>
-          </ul>
-
-          <div class="d-flex gap-2 flex-wrap">
-            <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary">
-              <i class="fas fa-desktop me-2"></i>View Demo
-            </a>
-            <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark">
-              <i class="fab fa-github me-2"></i>GitHub
-            </a>
-          </div>
-        </div>
+    <div class="col-md-4">
+      <div class="feature-mini-card h-100">
+        <i class="fas fa-layer-group text-primary mb-3"></i>
+        <h5 class="fw-bold">Modular by Design</h5>
+        <p class="mb-0 text-muted">
+          Add features as reusable modules instead of cluttering your core app.
+        </p>
       </div>
     </div>
 
-    <div class="col-lg-6">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center mb-3">
-            <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width:52px;height:52px;">
-              <i class="fas fa-bolt"></i>
-            </div>
-            <div>
-              <h3 class="h4 mb-0">PhPstrap Lite</h3>
-              <small class="text-muted">Minimal static PHP + Bootstrap starter</small>
-            </div>
-          </div>
+    <div class="col-md-4">
+      <div class="feature-mini-card h-100">
+        <i class="fas fa-sliders-h text-success mb-3"></i>
+        <h5 class="fw-bold">Powerful Settings</h5>
+        <p class="mb-0 text-muted">
+          Centralize configuration with a flexible settings interface and clean organization.
+        </p>
+      </div>
+    </div>
 
-          <p>
-            Use PhPstrap Lite when you want a clean Bootstrap website with shared PHP includes,
-            reusable sections, SEO meta, blog pages, and no database.
-          </p>
-
-          <ul class="list-unstyled mb-4">
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No database or installer required</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Great for landing pages and small business sites</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Flat-file blog and guide pages</li>
-            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Reusable Bootstrap sections and templates</li>
-          </ul>
-
-          <div class="d-flex gap-2 flex-wrap">
-            <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-success">
-              <i class="fab fa-github me-2"></i>PhPstrap Lite
-            </a>
-            <a href="/docs/getting-started-with-phpstrap-lite.html" class="btn btn-outline-secondary">
-              Lite Docs
-            </a>
-          </div>
-        </div>
+    <div class="col-md-4">
+      <div class="feature-mini-card h-100">
+        <i class="fas fa-rocket text-danger mb-3"></i>
+        <h5 class="fw-bold">Built to Ship Fast</h5>
+        <p class="mb-0 text-muted">
+          A practical Bootstrap-powered admin experience that works on normal PHP hosting.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Alternating Feature 1 -->
-<section class="py-5 border-top">
+<!-- Split Section 1 -->
+<section class="py-5 split-section">
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
-      <span class="badge bg-primary-subtle text-primary mb-3">Admin Dashboard</span>
-      <h2 class="fw-bold mb-3">A clean starting point for PHP admin panels</h2>
-      <p class="lead">
-        PhPstrap gives your project a structured dashboard, shared layout, module-ready architecture,
-        and Bootstrap-powered interface without forcing you into a heavy framework.
-      </p>
-
-      <ul class="list-unstyled">
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bootstrap 5 dashboard layout</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Reusable header, footer, and navigation</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Admin-friendly cards, tables, forms, and actions</li>
-      </ul>
-
-      <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary mt-2">
-        View Dashboard Demo
-      </a>
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrapmod.png" 
+             alt="PhPstrap installed modules screenshot" 
+             class="img-fluid rounded-4">
+      </div>
     </div>
 
     <div class="col-lg-6">
-      <div class="bg-light rounded-4 shadow-sm p-3 border">
-        <img src="{{ '/assets/images/phpstrap-admin.png' | relative_url }}" 
-             alt="PhPstrap admin dashboard screenshot" 
-             class="img-fluid rounded-3 border">
-      </div>
+      <span class="section-kicker">Modules</span>
+      <h2 class="fw-bold mb-3">Install and manage modules from one place</h2>
+      <p class="lead text-muted">
+        PhPstrap’s module system gives your project room to grow. Add features, enable tools,
+        and manage installed modules through a clean interface.
+      </p>
+
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>Installed, available, and marketplace views</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Enable, update, and uninstall workflows</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Consistent module management experience</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- Alternating Feature 2 -->
-<section class="py-5 border-top">
+<!-- Split Section 2 -->
+<section class="py-5 split-section">
   <div class="row align-items-center g-5 flex-lg-row-reverse">
     <div class="col-lg-6">
-      <span class="badge bg-success-subtle text-success mb-3">Modules</span>
-      <h2 class="fw-bold mb-3">Build features as reusable modules</h2>
-      <p class="lead">
-        PhPstrap is designed around modular development, making it easier to add tools,
-        settings pages, admin features, and reusable functionality without editing the core.
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrap-modules.png" 
+             alt="PhPstrap available modules screenshot" 
+             class="img-fluid rounded-4">
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <span class="section-kicker">Marketplace</span>
+      <h2 class="fw-bold mb-3">Expand your app with plug-and-play tools</h2>
+      <p class="lead text-muted">
+        Browse available modules and extend your application without rewriting core logic.
+        PhPstrap is designed for drop-in functionality.
       </p>
 
-      <ul class="list-unstyled">
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Drop-in module structure</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Module settings and admin screens</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hooks for extending layouts and behavior</li>
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>Discover new modules quickly</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Keep your project modular and organized</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Scale features as your product evolves</li>
       </ul>
 
       <a href="/docs/module-development-guide.html" class="btn btn-success mt-2">
         Module Development Guide
       </a>
     </div>
-
-    <div class="col-lg-6">
-      <div class="bg-light rounded-4 shadow-sm p-3 border">
-        <img src="{{ '/assets/images/phpstrap-modules.png' | relative_url }}" 
-             alt="PhPstrap modules screenshot" 
-             class="img-fluid rounded-3 border">
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- Alternating Feature 3 -->
-<section class="py-5 border-top">
+<!-- Split Section 3 -->
+<section class="py-5 split-section">
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
-      <span class="badge bg-warning-subtle text-warning-emphasis mb-3">Static Sites</span>
-      <h2 class="fw-bold mb-3">Need something simpler? Use PhPstrap Lite</h2>
-      <p class="lead">
-        PhPstrap Lite is the minimal option for static-style PHP websites.
-        It keeps the useful parts — shared includes, Bootstrap sections, SEO meta, and simple pages —
-        without the database, login system, or admin panel.
-      </p>
-
-      <ul class="list-unstyled">
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Perfect for landing pages and documentation sites</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Flat-file blog and guide pages</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Easy to edit and deploy on shared hosting</li>
-      </ul>
-
-      <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-warning">
-        <i class="fab fa-github me-2"></i>View PhPstrap Lite
-      </a>
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrap-server.png" 
+             alt="PhPstrap server metrics screenshot" 
+             class="img-fluid rounded-4">
+      </div>
     </div>
 
     <div class="col-lg-6">
-      <div class="bg-light rounded-4 shadow-sm p-3 border">
-        <img src="{{ '/assets/images/phpstrap-lite.png' | relative_url }}" 
-             alt="PhPstrap Lite website screenshot" 
-             class="img-fluid rounded-3 border">
-      </div>
+      <span class="section-kicker">Metrics</span>
+      <h2 class="fw-bold mb-3">Monitor activity and performance from your dashboard</h2>
+      <p class="lead text-muted">
+        Track server health, charts, memory usage, disk usage, user activity, and other
+        operational data without leaving your admin panel.
+      </p>
+
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>Live metrics and useful charts</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Operational visibility inside your app</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Useful for internal tools and SaaS projects</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- Alternating Feature 4 -->
-<section class="py-5 border-top">
+<!-- Split Section 4 -->
+<section class="py-5 split-section">
   <div class="row align-items-center g-5 flex-lg-row-reverse">
     <div class="col-lg-6">
-      <span class="badge bg-dark-subtle text-dark mb-3">Developer Friendly</span>
-      <h2 class="fw-bold mb-3">Simple enough to understand, flexible enough to grow</h2>
-      <p class="lead">
-        PhPstrap is built for developers who like plain PHP, Bootstrap, practical file structure,
-        and projects that can be customized without fighting a large framework.
-      </p>
-
-      <ul class="list-unstyled">
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Works well on standard PHP hosting</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Easy to customize and extend</li>
-        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Useful for internal tools, SaaS dashboards, and client portals</li>
-      </ul>
-
-      <a href="/docs/" class="btn btn-dark mt-2">
-        Read Documentation
-      </a>
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrapsettings.png" 
+             alt="PhPstrap settings categories screenshot" 
+             class="img-fluid rounded-4">
+      </div>
     </div>
 
     <div class="col-lg-6">
-      <div class="bg-light rounded-4 shadow-sm p-3 border">
-        <img src="{{ '/assets/images/phpstrap-code.png' | relative_url }}" 
-             alt="PhPstrap developer code screenshot" 
-             class="img-fluid rounded-3 border">
+      <span class="section-kicker">Settings</span>
+      <h2 class="fw-bold mb-3">Organize configuration without hardcoding everything</h2>
+      <p class="lead text-muted">
+        Keep your project settings organized with categories, editable values, and a clean
+        admin interface for managing system behavior.
+      </p>
+
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>Grouped settings categories</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Cleaner configuration management</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Useful for modules, APIs, features, and site options</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Split Section 5 -->
+<section class="py-5 split-section">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrap-sms.png" 
+             alt="PhPstrap RingCentral SMS module screenshot" 
+             class="img-fluid rounded-4">
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <span class="section-kicker">Integrations</span>
+      <h2 class="fw-bold mb-3">Build real modules for real workflows</h2>
+      <p class="lead text-muted">
+        From messaging integrations to utility modules, PhPstrap provides a practical base
+        for building focused tools that feel native to your platform.
+      </p>
+
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>Tabbed module interfaces</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Status views and action buttons</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Flexible module UI patterns</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Split Section 6 -->
+<section class="py-5 split-section">
+  <div class="row align-items-center g-5 flex-lg-row-reverse">
+    <div class="col-lg-6">
+      <div class="screenshot-frame">
+        <img src="{{ img_base }}phpstrap-system.png" 
+             alt="PhPstrap system checks screenshot" 
+             class="img-fluid rounded-4">
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <span class="section-kicker">System Checks</span>
+      <h2 class="fw-bold mb-3">Know your environment is ready</h2>
+      <p class="lead text-muted">
+        Run system checks to confirm PHP requirements, extensions, and database readiness —
+        ideal for new deployments and ongoing maintenance.
+      </p>
+
+      <ul class="list-unstyled feature-list">
+        <li><i class="fas fa-check-circle text-success me-2"></i>PHP version and extension checks</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Database connection verification</li>
+        <li><i class="fas fa-check-circle text-success me-2"></i>Fast validation for setup and support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Lite Section -->
+<section class="py-5">
+  <div class="lite-callout rounded-4 p-4 p-lg-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <span class="section-kicker text-success">Need something simpler?</span>
+        <h2 class="fw-bold mb-3">Try PhPstrap Lite</h2>
+        <p class="lead text-muted mb-0">
+          PhPstrap Lite is the minimal version for static PHP websites, landing pages, guide sites,
+          and small business projects. It keeps the Bootstrap structure and reusable includes,
+          but removes the database and framework complexity.
+        </p>
+      </div>
+
+      <div class="col-lg-4 text-lg-end">
+        <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-success btn-lg">
+          <i class="fab fa-github me-2"></i>View PhPstrap Lite
+        </a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="text-center py-5 mt-5 bg-light rounded-4 shadow-sm">
-  <div class="container">
-    <span class="badge bg-primary-subtle text-primary mb-3">Ready to build?</span>
-    <h2 class="fw-bold">Start with PhPstrap today</h2>
-    <p class="lead text-muted mb-4">
-      Try the demo, explore the documentation, or download the code from GitHub.
+<section class="py-5">
+  <div class="cta-panel text-center rounded-4 p-4 p-lg-5">
+    <span class="badge rounded-pill text-bg-light mb-3">Get Started</span>
+    <h2 class="fw-bold mb-3">Start building with PhPstrap</h2>
+    <p class="lead mb-4 text-muted">
+      Explore the live demo, browse the code on GitHub, or dive into the docs.
     </p>
 
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <div class="d-flex flex-wrap justify-content-center gap-3">
       <a href="https://demo.phpstrap.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
         <i class="fas fa-desktop me-2"></i>View Demo
       </a>
+
       <a href="https://github.com/PhPstrap/phpstrap" target="_blank" rel="noopener" class="btn btn-outline-dark btn-lg">
-        <i class="fab fa-github me-2"></i>Full PhPstrap
+        <i class="fab fa-github me-2"></i>GitHub
       </a>
+
       <a href="https://github.com/PhPstrap/PhPstrap-Lite" target="_blank" rel="noopener" class="btn btn-outline-success btn-lg">
         <i class="fas fa-bolt me-2"></i>PhPstrap Lite
       </a>
