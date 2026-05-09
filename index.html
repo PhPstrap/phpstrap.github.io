@@ -44,10 +44,39 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
     </div>
 
     <div class="col-lg-6">
-      <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrap-admin-settings.png" 
-             alt="PhPstrap admin settings screenshot" 
-             class="img-fluid rounded-4">
+      <div class="code-window rounded-4 shadow-sm border overflow-hidden">
+        <div class="code-window-header d-flex align-items-center justify-content-between px-3 py-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="code-dot bg-danger"></span>
+            <span class="code-dot bg-warning"></span>
+            <span class="code-dot bg-success"></span>
+          </div>
+          <span class="small text-muted">index.php</span>
+        </div>
+
+<pre class="mb-0"><code>&lt;?php
+$page_title = 'Welcome to My Site';
+$page_description = 'A simple Bootstrap PHP page.';
+$page_slug = 'home';
+
+include 'includes/header.php';
+?&gt;
+
+&lt;section class="py-5"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Build faster with PhPstrap&lt;/h1&gt;
+    &lt;p class="lead"&gt;
+      Reusable PHP includes, Bootstrap 5,
+      SEO meta, and clean page structure.
+    &lt;/p&gt;
+
+    &lt;a href="/contact.php" class="btn btn-primary"&gt;
+      Get Started
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;?php include 'includes/footer.php'; ?&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -93,8 +122,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrapmod.png" 
-             alt="PhPstrap installed modules screenshot" 
+        <img src="{{ img_base }}phpstrapmod.png"
+             alt="PhPstrap installed modules screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
@@ -121,8 +150,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5 flex-lg-row-reverse">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrap-modules.png" 
-             alt="PhPstrap available modules screenshot" 
+        <img src="{{ img_base }}phpstrap-modules.png"
+             alt="PhPstrap available modules screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
@@ -153,8 +182,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrap-server.png" 
-             alt="PhPstrap server metrics screenshot" 
+        <img src="{{ img_base }}phpstrap-server.png"
+             alt="PhPstrap server metrics screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
@@ -181,8 +210,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5 flex-lg-row-reverse">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrapsettings.png" 
-             alt="PhPstrap settings categories screenshot" 
+        <img src="{{ img_base }}phpstrapsettings.png"
+             alt="PhPstrap settings categories screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
@@ -209,8 +238,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrap-sms.png" 
-             alt="PhPstrap RingCentral SMS module screenshot" 
+        <img src="{{ img_base }}phpstrap-sms.png"
+             alt="PhPstrap RingCentral SMS module screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
@@ -237,8 +266,8 @@ description: Build modern PHP websites, membership systems, dashboards, and stat
   <div class="row align-items-center g-5 flex-lg-row-reverse">
     <div class="col-lg-6">
       <div class="screenshot-frame">
-        <img src="{{ img_base }}phpstrap-system.png" 
-             alt="PhPstrap system checks screenshot" 
+        <img src="{{ img_base }}phpstrap-system.png"
+             alt="PhPstrap system checks screenshot"
              class="img-fluid rounded-4">
       </div>
     </div>
