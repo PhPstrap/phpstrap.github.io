@@ -1,0 +1,498 @@
+---
+layout: default
+title: Getting Started with PhPstrap Lite
+description: Learn how to install, configure, customize, and publish a PhPstrap Lite static PHP website.
+---
+
+<h1 class="mb-4">🚀 Getting Started with PhPstrap Lite</h1>
+<p class="lead">This guide explains how to install PhPstrap Lite, configure your site, edit pages, add blog posts, customize sections, and publish your site.</p>
+
+<div class="alert alert-info">
+  <strong>TL;DR:</strong> Upload the files to your web server, edit <code>includes/site-config.php</code>, customize the pages, and publish. No database or installer is required.
+</div>
+
+<hr class="my-4">
+
+<h2 id="what-is-phpstrap-lite">1) What is PhPstrap Lite?</h2>
+<p><strong>PhPstrap Lite</strong> is a lightweight PHP and Bootstrap starter kit for building simple static-style websites without a database, admin panel, or complicated CMS setup.</p>
+
+<p>It is ideal for:</p>
+<ul>
+  <li>Small business websites</li>
+  <li>Landing pages</li>
+  <li>Affiliate sites</li>
+  <li>Documentation pages</li>
+  <li>Simple blogs or article sites</li>
+  <li>Domain landing pages</li>
+  <li>Local service websites</li>
+</ul>
+
+<p>PhPstrap Lite gives you the benefits of reusable PHP includes while keeping the project simple enough to edit by hand.</p>
+
+<hr class="my-4">
+
+<h2 id="requirements">2) Requirements</h2>
+<ul>
+  <li>A web server that supports PHP, such as Apache, LiteSpeed, or Nginx with PHP-FPM.</li>
+  <li>PHP 7.4 or newer recommended.</li>
+  <li>No MySQL database required.</li>
+  <li>No Composer installation required.</li>
+</ul>
+
+<div class="alert alert-success">
+  <strong>Good news:</strong> PhPstrap Lite is designed to run on most shared hosting accounts.
+</div>
+
+<hr class="my-4">
+
+<h2 id="file-structure">3) File Structure</h2>
+<p>A typical PhPstrap Lite install includes a structure similar to this:</p>
+
+<pre><code>/index.php
+/about.php
+/contact.php
+/privacy.php
+/terms.php
+/404.php
+
+/includes/
+  header.php
+  footer.php
+  nav.php
+  site-config.php
+
+/sections/
+  hero.php
+  features.php
+  pricing.php
+  faqs.php
+  testimonials.php
+  cta.php
+
+/blog/
+  sample-article.php
+
+/blog/meta/
+  sample-article.php
+
+/scripts/
+  send-contact.php
+
+/assets/
+  css/
+  js/
+  img/
+
+.htaccess
+robots.txt
+sitemap.php
+README.md
+</code></pre>
+
+<p>The main pages live in the root directory. Shared layout files live in <code>/includes</code>. Reusable content blocks live in <code>/sections</code>. Blog posts and article metadata live in <code>/blog</code>.</p>
+
+<hr class="my-4">
+
+<h2 id="installation">4) Installation</h2>
+<ol>
+  <li>Download the latest PhPstrap Lite release from GitHub.</li>
+  <li>Unzip the package on your computer.</li>
+  <li>Upload the files to your website root, usually <code>public_html</code>, <code>www</code>, or your domain folder.</li>
+  <li>Visit your domain in a browser.</li>
+  <li>Edit <code>includes/site-config.php</code> to update your site name, URL, email, and theme options.</li>
+</ol>
+
+<p>No database import, installer, or admin setup is needed.</p>
+
+<hr class="my-4">
+
+<h2 id="site-config">5) Configure Your Site</h2>
+<p>Most global settings are managed in:</p>
+
+<pre><code>/includes/site-config.php</code></pre>
+
+<p>Use this file to control the site name, URL, description, contact email, logo, theme options, and analytics settings.</p>
+
+<pre><code class="language-php">&lt;?php
+$site_name = 'PhPstrap Lite';
+$site_url = 'https://example.com';
+$site_description = 'A lightweight PHP and Bootstrap static site starter.';
+$site_email = 'hello@example.com';
+
+$site_logo = '/assets/img/logo.png';
+
+$enable_dark_mode = true;
+$enable_ads = false;
+
+$google_analytics_id = '';
+</code></pre>
+
+<div class="alert alert-warning">
+  <strong>Important:</strong> Update <code>$site_url</code> to your real domain before launching. This helps canonical URLs, sitemap links, and SEO metadata work correctly.
+</div>
+
+<hr class="my-4">
+
+<h2 id="editing-pages">6) Editing Pages</h2>
+<p>Each page is a normal PHP file. For example, <code>about.php</code> may define its page title and description before loading the shared header.</p>
+
+<pre><code class="language-php">&lt;?php
+$page_title = 'About Us';
+$page_description = 'Learn more about our website.';
+$page_slug = 'about';
+
+include 'includes/header.php';
+?&gt;
+
+&lt;section class="py-5"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;About Us&lt;/h1&gt;
+    &lt;p&gt;This is where your page content goes.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;?php include 'includes/footer.php'; ?&gt;
+</code></pre>
+
+<p>This approach keeps each page simple while still allowing global navigation, footer, scripts, and SEO tags to be reused across the site.</p>
+
+<hr class="my-4">
+
+<h2 id="seo-meta">7) Page Titles and SEO Meta</h2>
+<p>PhPstrap Lite supports per-page SEO values using simple variables.</p>
+
+<pre><code class="language-php">&lt;?php
+$page_title = 'Contact Us';
+$page_description = 'Contact our team for questions, support, or project inquiries.';
+$page_slug = 'contact';
+</code></pre>
+
+<p>The shared header can then use those values to generate:</p>
+
+<ul>
+  <li>The page <code>&lt;title&gt;</code></li>
+  <li>The meta description</li>
+  <li>The canonical URL</li>
+  <li>Open Graph/social sharing tags, if included in your theme</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="navigation">8) Updating Navigation</h2>
+<p>The main navigation is usually located at:</p>
+
+<pre><code>/includes/nav.php</code></pre>
+
+<p>Edit this file to add, remove, or rename menu links.</p>
+
+<pre><code class="language-html">&lt;ul class="navbar-nav ms-auto"&gt;
+  &lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="/"&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="/about"&gt;About&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="/blog"&gt;Blog&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="/contact"&gt;Contact&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>If your server does not support clean URLs, use direct PHP links such as <code>/about.php</code> instead of <code>/about</code>.</p>
+
+<hr class="my-4">
+
+<h2 id="sections">9) Using Reusable Sections</h2>
+<p>Reusable sections are stored in:</p>
+
+<pre><code>/sections/</code></pre>
+
+<p>These are optional Bootstrap content blocks that can be included on any page.</p>
+
+<pre><code class="language-php">&lt;?php include 'sections/hero.php'; ?&gt;
+&lt;?php include 'sections/features.php'; ?&gt;
+&lt;?php include 'sections/cta.php'; ?&gt;
+</code></pre>
+
+<p>This makes it easy to build new landing pages quickly without rewriting the same layout code every time.</p>
+
+<hr class="my-4">
+
+<h2 id="blog">10) Adding Blog Posts or Articles</h2>
+<p>PhPstrap Lite can support a simple flat-file blog without a database.</p>
+
+<p>A blog post usually has two files:</p>
+
+<ul>
+  <li><code>/blog/my-article.php</code> — the article content</li>
+  <li><code>/blog/meta/my-article.php</code> — the article metadata</li>
+</ul>
+
+<h3>Create the metadata file</h3>
+
+<pre><code class="language-php">&lt;?php
+return [
+  'title' =&gt; 'My First PhPstrap Lite Article',
+  'slug' =&gt; 'my-first-phpstrap-lite-article',
+  'date' =&gt; '2026-05-09',
+  'excerpt' =&gt; 'A simple example article built with PhPstrap Lite.',
+  'cover_image' =&gt; '/assets/img/sample.jpg',
+  'tags' =&gt; ['PhPstrap Lite', 'PHP', 'Bootstrap'],
+];
+</code></pre>
+
+<h3>Create the article file</h3>
+
+<pre><code class="language-php">&lt;?php
+$page_title = 'My First PhPstrap Lite Article';
+$page_description = 'A simple example article built with PhPstrap Lite.';
+$page_slug = 'my-first-phpstrap-lite-article';
+
+include '../includes/header.php';
+?&gt;
+
+&lt;article class="py-5"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;My First PhPstrap Lite Article&lt;/h1&gt;
+    &lt;p class="lead"&gt;This is a sample article introduction.&lt;/p&gt;
+
+    &lt;p&gt;Write your article content here.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+
+&lt;?php include '../includes/footer.php'; ?&gt;
+</code></pre>
+
+<div class="alert alert-info">
+  <strong>Tip:</strong> Keep article slugs lowercase and use hyphens, such as <code>moving-checklist</code> or <code>best-email-hosting-guide</code>.
+</div>
+
+<hr class="my-4">
+
+<h2 id="contact-form">11) Contact Form</h2>
+<p>PhPstrap Lite can include a basic PHP contact form using:</p>
+
+<pre><code>/contact.php
+/scripts/send-contact.php</code></pre>
+
+<p>Update your destination email in <code>includes/site-config.php</code>:</p>
+
+<pre><code class="language-php">$site_email = 'hello@example.com';</code></pre>
+
+<p>The contact script can be customized to add:</p>
+
+<ul>
+  <li>Required fields</li>
+  <li>Spam protection</li>
+  <li>Cloudflare Turnstile or Google reCAPTCHA</li>
+  <li>SMTP delivery</li>
+  <li>Custom success and error messages</li>
+</ul>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> Basic PHP <code>mail()</code> may not work reliably on every host. For production contact forms, SMTP is usually more reliable.
+</div>
+
+<hr class="my-4">
+
+<h2 id="clean-urls">12) Clean URLs and .htaccess</h2>
+<p>PhPstrap Lite may include an optional <code>.htaccess</code> file for Apache-compatible servers.</p>
+
+<p>This can enable clean URLs such as:</p>
+
+<ul>
+  <li><code>/about</code> instead of <code>/about.php</code></li>
+  <li><code>/contact</code> instead of <code>/contact.php</code></li>
+  <li><code>/blog/sample-article</code> for articles</li>
+</ul>
+
+<p>The <code>.htaccess</code> file may also provide:</p>
+
+<ul>
+  <li>HTTPS redirects</li>
+  <li>Custom 404 page support</li>
+  <li>Basic security headers</li>
+  <li>Browser caching rules</li>
+  <li>Protection for internal folders</li>
+</ul>
+
+<div class="alert alert-secondary">
+  <strong>If clean URLs do not work:</strong> Your server may not support <code>.htaccess</code> or <code>mod_rewrite</code>. You can still use direct URLs such as <code>/about.php</code>.
+</div>
+
+<hr class="my-4">
+
+<h2 id="sitemap">13) Sitemap and Robots.txt</h2>
+<p>PhPstrap Lite includes basic search engine files:</p>
+
+<pre><code>/sitemap.php
+/robots.txt</code></pre>
+
+<p>Before launch, check that your sitemap uses the correct domain from <code>$site_url</code> in <code>site-config.php</code>.</p>
+
+<p>Your <code>robots.txt</code> file should point to your sitemap:</p>
+
+<pre><code>User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.php
+</code></pre>
+
+<p>Replace <code>https://example.com</code> with your real website URL.</p>
+
+<hr class="my-4">
+
+<h2 id="custom-css">14) Custom CSS and JavaScript</h2>
+<p>Custom styles are usually placed in:</p>
+
+<pre><code>/assets/css/custom.css</code></pre>
+
+<p>Custom JavaScript can be placed in:</p>
+
+<pre><code>/assets/js/main.js</code></pre>
+
+<p>Use these files for site-specific changes instead of editing Bootstrap directly.</p>
+
+<pre><code class="language-css">.hero-section {
+  padding: 5rem 0;
+}
+
+.site-footer {
+  margin-top: 4rem;
+}
+</code></pre>
+
+<hr class="my-4">
+
+<h2 id="images">15) Adding Images</h2>
+<p>Place images in:</p>
+
+<pre><code>/assets/img/</code></pre>
+
+<p>Then reference them like this:</p>
+
+<pre><code class="language-html">&lt;img src="/assets/img/example.jpg" alt="Example image" class="img-fluid rounded"&gt;
+</code></pre>
+
+<p>For best performance:</p>
+
+<ul>
+  <li>Use compressed JPG or WebP images where possible.</li>
+  <li>Add useful <code>alt</code> text.</li>
+  <li>Avoid uploading very large images directly from a camera or phone.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="templates">16) Using Starter Templates</h2>
+<p>PhPstrap Lite may include starter templates for common website types, such as:</p>
+
+<ul>
+  <li>Business homepage</li>
+  <li>Local service homepage</li>
+  <li>Affiliate landing page</li>
+  <li>Coming soon page</li>
+  <li>Simple documentation page</li>
+</ul>
+
+<p>Templates are usually stored in:</p>
+
+<pre><code>/templates/</code></pre>
+
+<p>You can copy a template into a new page, rename it, and customize the content.</p>
+
+<hr class="my-4">
+
+<h2 id="deployment">17) Publishing Your Site</h2>
+<p>To publish your PhPstrap Lite website:</p>
+
+<ol>
+  <li>Update <code>includes/site-config.php</code>.</li>
+  <li>Replace placeholder content on each page.</li>
+  <li>Upload your images to <code>/assets/img</code>.</li>
+  <li>Check your contact form settings.</li>
+  <li>Confirm your sitemap URL.</li>
+  <li>Upload everything to your hosting account.</li>
+  <li>Test the site on desktop and mobile.</li>
+</ol>
+
+<p>Once published, visit important pages such as:</p>
+
+<ul>
+  <li><code>/</code></li>
+  <li><code>/about</code></li>
+  <li><code>/contact</code></li>
+  <li><code>/blog</code></li>
+  <li><code>/sitemap.php</code></li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="troubleshooting">18) Troubleshooting</h2>
+
+<h3>Page shows a blank screen</h3>
+<ul>
+  <li>Check that PHP is enabled on your hosting account.</li>
+  <li>Temporarily enable error reporting while testing.</li>
+  <li>Check for missing include paths.</li>
+</ul>
+
+<h3>Clean URLs do not work</h3>
+<ul>
+  <li>Confirm your server supports Apache rewrite rules.</li>
+  <li>Check that <code>.htaccess</code> was uploaded.</li>
+  <li>Use direct <code>.php</code> URLs if needed.</li>
+</ul>
+
+<h3>Contact form does not send</h3>
+<ul>
+  <li>Confirm <code>$site_email</code> is set correctly.</li>
+  <li>Check whether your host supports PHP <code>mail()</code>.</li>
+  <li>Use SMTP for more reliable sending.</li>
+</ul>
+
+<h3>Images do not load</h3>
+<ul>
+  <li>Check the file path and filename spelling.</li>
+  <li>Remember that Linux servers are case-sensitive.</li>
+  <li>Use root-relative paths such as <code>/assets/img/photo.jpg</code>.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="best-practices">19) Best Practices</h2>
+<ul>
+  <li>Keep reusable layout code in <code>/includes</code>.</li>
+  <li>Keep content sections in <code>/sections</code>.</li>
+  <li>Use <code>custom.css</code> for site-specific styling.</li>
+  <li>Do not edit Bootstrap files directly.</li>
+  <li>Keep page titles and descriptions unique.</li>
+  <li>Use compressed images for faster loading.</li>
+  <li>Test your site on mobile before launch.</li>
+  <li>Keep backups before making major changes.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="upgrading">20) Updating PhPstrap Lite</h2>
+<p>Because PhPstrap Lite is designed to be simple, updates are usually manual.</p>
+
+<p>Before updating:</p>
+
+<ul>
+  <li>Back up your current site.</li>
+  <li>Compare changed files from the new release.</li>
+  <li>Do not overwrite your customized pages without checking them first.</li>
+  <li>Pay special attention to <code>includes/header.php</code>, <code>includes/footer.php</code>, <code>includes/site-config.php</code>, and <code>assets/css/custom.css</code>.</li>
+</ul>
+
+<div class="alert alert-info">
+  <strong>Recommended workflow:</strong> Keep your customized site in a Git repository so you can compare changes and roll back if needed.
+</div>
+
+<hr class="my-4">
+
+<p class="text-muted">Need help or want to report an issue? Visit the PhPstrap Lite GitHub repository and open an issue.</p>
