@@ -1,0 +1,316 @@
+---
+layout: default
+title: Sign in with Google — Module Setup
+description: Install, configure, and integrate the Google OAuth 2.0 module for PhPstrap to let users register and sign in with their Google account.
+---
+
+<h1 class="mb-4">🔐 Sign in with Google — Module Setup</h1>
+<p class="lead">This guide walks through creating a Google OAuth 2.0 application, running the database migration, enabling the module, and integrating the sign-in button with your PhPstrap login page.</p>
+
+<div class="alert alert-info">
+  <strong>TL;DR:</strong> Create Google credentials → run <code>migrate.php</code> → enable the module in Admin → Modules → paste your Client ID &amp; Secret → the button appears on <code>/login/</code> automatically.
+</div>
+
+<hr class="my-4">
+
+<h2 id="overview">1) How It Works</h2>
+<p>The module implements the <a href="https://developers.google.com/identity/protocols/oauth2/web-server" target="_blank" rel="noopener">OAuth 2.0 Authorization Code flow</a> using PHP's built-in cURL — no Composer packages required.</p>
+<ol>
+  <li>User clicks <strong>Continue with Google</strong> on the login page.</li>
+  <li>They are redirected to Google to choose an account and grant access.</li>
+  <li>Google redirects back to <code>/modules/google-oauth/callback.php</code> with a one-time code.</li>
+  <li>The module exchanges the code for an access token, then fetches the user's profile.</li>
+  <li>
+    The user is matched to a PhPstrap account by the following priority:
+    <ul>
+      <li>Existing account with the same <code>google_id</code> (returning Google user).</li>
+      <li>Existing account with the same email address (links Google to the account on first use).</li>
+      <li>No match → new account created automatically (if registration is open).</li>
+    </ul>
+  </li>
+  <li>A standard PhPstrap session is started and the user lands on the dashboard.</li>
+</ol>
+
+<hr class="my-4">
+
+<h2 id="files">2) Module Files</h2>
+<table class="table table-bordered">
+  <thead class="table-light">
+    <tr><th>File</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>modules/google-oauth/module.json</code></td><td>Module manifest — scanned by the admin panel</td></tr>
+    <tr><td><code>modules/google-oauth/GoogleOAuth.php</code></td><td>Main class: auth URL, token exchange, user lookup/create, session, button render</td></tr>
+    <tr><td><code>modules/google-oauth/callback.php</code></td><td>OAuth redirect handler — exchanges code, creates session, redirects to dashboard</td></tr>
+    <tr><td><code>modules/google-oauth/migrate.php</code></td><td>Adds <code>google_id</code> column to <code>users</code> table (run once, idempotent)</td></tr>
+    <tr><td><code>modules/google-oauth/assets/google-oauth.css</code></td><td>Google-branded button styles</td></tr>
+  </tbody>
+</table>
+<p>The login page (<code>login/index.php</code>) is patched to auto-load the button when the module is enabled and configured.</p>
+
+<hr class="my-4">
+
+<h2 id="prerequisites">3) Prerequisites</h2>
+<ul>
+  <li>PHP 7.4+ with the <strong>cURL</strong> and <strong>JSON</strong> extensions enabled.</li>
+  <li>Your site must be accessible over <strong>HTTPS</strong> in production (Google requires it for the redirect URI).</li>
+  <li>A Google account with access to <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud Console</a>.</li>
+  <li>The PhPstrap <code>modules</code> table must exist (created during install).</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="google-console">4) Create Google OAuth Credentials</h2>
+
+<h3>Step 1 — Create or select a project</h3>
+<ol>
+  <li>Go to <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">console.cloud.google.com</a>.</li>
+  <li>Click the project dropdown at the top → <strong>New Project</strong>.</li>
+  <li>Give it a name (e.g., <em>My PhPstrap App</em>) and click <strong>Create</strong>.</li>
+</ol>
+
+<h3>Step 2 — Configure the OAuth consent screen</h3>
+<ol>
+  <li>In the left sidebar go to <strong>APIs &amp; Services → OAuth consent screen</strong>.</li>
+  <li>Choose <strong>External</strong> (unless this is a Google Workspace app for a single org).</li>
+  <li>Fill in the required fields:
+    <ul>
+      <li><strong>App name</strong> — shown to users on the consent screen (e.g., <em>My Site</em>).</li>
+      <li><strong>User support email</strong> — your email address.</li>
+      <li><strong>Developer contact information</strong> — your email address.</li>
+    </ul>
+  </li>
+  <li>Under <strong>Scopes</strong>, click <strong>Add or Remove Scopes</strong> and add:
+    <ul>
+      <li><code>.../auth/userinfo.email</code></li>
+      <li><code>.../auth/userinfo.profile</code></li>
+      <li><code>openid</code></li>
+    </ul>
+  </li>
+  <li>Save and continue through the remaining steps.</li>
+</ol>
+
+<div class="alert alert-warning">
+  <strong>Publishing status:</strong> While in <em>Testing</em> mode only accounts you add as test users can sign in. Click <strong>Publish App</strong> once you are ready to allow all Google accounts.
+</div>
+
+<h3>Step 3 — Create credentials</h3>
+<ol>
+  <li>Go to <strong>APIs &amp; Services → Credentials</strong>.</li>
+  <li>Click <strong>+ Create Credentials → OAuth client ID</strong>.</li>
+  <li>Set <strong>Application type</strong> to <strong>Web application</strong>.</li>
+  <li>Under <strong>Authorized redirect URIs</strong>, add:
+    <pre><code>https://yourdomain.com/modules/google-oauth/callback.php</code></pre>
+    Replace <code>yourdomain.com</code> with your actual domain. For local development you can also add:
+    <pre><code>http://localhost/modules/google-oauth/callback.php</code></pre>
+  </li>
+  <li>Click <strong>Create</strong>.</li>
+  <li>Copy your <strong>Client ID</strong> and <strong>Client Secret</strong> — you will need them in step 6.</li>
+</ol>
+
+<hr class="my-4">
+
+<h2 id="migration">5) Run the Database Migration</h2>
+<p>The migration adds a <code>google_id</code> column to the <code>users</code> table. It is safe to run multiple times.</p>
+
+<h3>Option A — Via browser (recommended)</h3>
+<p>Log in as an admin, then visit:</p>
+<pre><code>https://yourdomain.com/modules/google-oauth/migrate.php</code></pre>
+<p>You should see: <em>Migration complete: google_id column added to users table.</em></p>
+
+<h3>Option B — Via CLI</h3>
+<pre><code class="language-bash">php /path/to/your/site/modules/google-oauth/migrate.php</code></pre>
+
+<div class="alert alert-info">
+  <strong>What it does:</strong> Runs <code>ALTER TABLE users ADD COLUMN google_id VARCHAR(100) NULL DEFAULT NULL</code> and adds an index. If the column already exists, it prints a notice and exits cleanly.
+</div>
+
+<hr class="my-4">
+
+<h2 id="enable-module">6) Enable the Module &amp; Enter Credentials</h2>
+<ol>
+  <li>Log in to the PhPstrap admin panel.</li>
+  <li>Navigate to <strong>Admin → Modules</strong>.</li>
+  <li>Click <strong>Scan for Modules</strong> — <em>Sign in with Google</em> should appear.</li>
+  <li>Click <strong>Enable</strong>.</li>
+  <li>Open the module's <strong>Settings</strong> and fill in:
+    <ul>
+      <li><strong>Client ID</strong> — from Google Cloud Console.</li>
+      <li><strong>Client Secret</strong> — from Google Cloud Console.</li>
+      <li><strong>Allowed Domains</strong> — optional; comma-separated list of email domains that are permitted to sign in (e.g., <code>company.com, partner.org</code>). Leave blank to allow all Google accounts.</li>
+    </ul>
+  </li>
+  <li>Save settings.</li>
+</ol>
+
+<p>The <strong>Continue with Google</strong> button will now appear automatically on <code>/login/</code>.</p>
+
+<hr class="my-4">
+
+<h2 id="login-page">7) Login Page Integration</h2>
+<p>The <code>login/index.php</code> file was patched during module installation to auto-load the Google button. No additional changes are required.</p>
+<p>If you need to add the button to a custom login page, insert this snippet where you want the button to appear:</p>
+
+<pre><code class="language-php">&lt;?php
+// Check module status and render button
+$stmt = $pdo-&gt;prepare("SELECT enabled, settings FROM modules WHERE name = 'google-oauth'");
+$stmt-&gt;execute();
+$gm = $stmt-&gt;fetch();
+if ($gm &amp;&amp; $gm['enabled']) {
+    $gs = json_decode($gm['settings'], true);
+    if (!empty($gs['client_id']) &amp;&amp; !empty($gs['client_secret'])) {
+        require_once '../modules/google-oauth/GoogleOAuth.php';
+        $oauth = new PhPstrap\Modules\GoogleOAuth\GoogleOAuth();
+        $oauth-&gt;init();
+        echo '&lt;div class="google-oauth-divider"&gt;or&lt;/div&gt;';
+        echo $oauth-&gt;renderButton('Continue with Google');
+    }
+}
+?&gt;</code></pre>
+
+<p>Also add the stylesheet in the <code>&lt;head&gt;</code>:</p>
+<pre><code class="language-html">&lt;link href="/modules/google-oauth/assets/google-oauth.css" rel="stylesheet"&gt;</code></pre>
+
+<hr class="my-4">
+
+<h2 id="settings-reference">8) Settings Reference</h2>
+<table class="table table-bordered">
+  <thead class="table-light">
+    <tr><th>Setting</th><th>Required</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>client_id</code></td>
+      <td>Yes</td>
+      <td>OAuth 2.0 Client ID from Google Cloud Console.</td>
+    </tr>
+    <tr>
+      <td><code>client_secret</code></td>
+      <td>Yes</td>
+      <td>OAuth 2.0 Client Secret from Google Cloud Console. Stored in the database — never commit to version control.</td>
+    </tr>
+    <tr>
+      <td><code>allowed_domains</code></td>
+      <td>No</td>
+      <td>Comma-separated email domains allowed to sign in (e.g., <code>acme.com, partner.org</code>). Leave blank to allow any Google account.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="my-4">
+
+<h2 id="user-flow">9) User Account Behaviour</h2>
+<table class="table table-bordered">
+  <thead class="table-light">
+    <tr><th>Scenario</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Returning user who previously signed in with Google</td>
+      <td>Matched by <code>google_id</code> — logged in immediately.</td>
+    </tr>
+    <tr>
+      <td>Existing PhPstrap account with the same email</td>
+      <td>Google ID is linked to the existing account on first use; the user is logged in.</td>
+    </tr>
+    <tr>
+      <td>New user, registration open</td>
+      <td>Account created automatically with the name and email from Google. <code>verified = 1</code> is set (no email verification needed).</td>
+    </tr>
+    <tr>
+      <td>New user, registration closed (<code>registration_enabled = 0</code>)</td>
+      <td>Sign-in is rejected with an error message.</td>
+    </tr>
+    <tr>
+      <td>Email domain not in <code>allowed_domains</code></td>
+      <td>Sign-in is rejected with an error message.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="alert alert-info">
+  <strong>Password:</strong> Users created via Google sign-in have no password set. They can still set one later via the password reset flow if you want to allow both login methods.
+</div>
+
+<hr class="my-4">
+
+<h2 id="security">10) Security Notes</h2>
+<ul>
+  <li><strong>State parameter:</strong> A random CSRF token is generated for every auth request and verified on callback, preventing cross-site request forgery.</li>
+  <li><strong>HTTPS only:</strong> Always use HTTPS for the redirect URI in production. Google will refuse plaintext HTTP callbacks (except <code>localhost</code>).</li>
+  <li><strong>SSL verification:</strong> All cURL requests to Google APIs use <code>CURLOPT_SSL_VERIFYPEER = true</code>.</li>
+  <li><strong>Domain allow-listing:</strong> Use <code>allowed_domains</code> when deploying for an organisation to prevent arbitrary Google accounts from registering.</li>
+  <li><strong>Client Secret:</strong> Stored in the <code>modules</code> database table, not in source files. Restrict database access accordingly.</li>
+</ul>
+
+<hr class="my-4">
+
+<h2 id="local-dev">11) Local Development</h2>
+<ol>
+  <li>Add <code>http://localhost/modules/google-oauth/callback.php</code> (or your local equivalent) as an authorised redirect URI in Google Cloud Console.</li>
+  <li>Add your Google account as a <strong>test user</strong> on the OAuth consent screen while the app is unpublished.</li>
+  <li>Ensure <code>BASE_URL</code> in <code>config/app.php</code> points to your local URL so the callback URI is built correctly.</li>
+</ol>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> Google may show an "App not verified" warning during testing. Click <strong>Advanced → Go to &lt;app name&gt; (unsafe)</strong> to proceed. This warning disappears once the app is published.
+</div>
+
+<hr class="my-4">
+
+<h2 id="troubleshooting">12) Troubleshooting</h2>
+<ul>
+  <li>
+    <strong>Button does not appear on login page</strong>
+    <ul>
+      <li>Confirm the module is enabled in Admin → Modules.</li>
+      <li>Confirm both <code>client_id</code> and <code>client_secret</code> are saved in module settings.</li>
+      <li>Check PHP error logs for an initialization error.</li>
+    </ul>
+  </li>
+  <li>
+    <strong><code>redirect_uri_mismatch</code> error from Google</strong>
+    <ul>
+      <li>The redirect URI in Google Cloud Console must exactly match <code>BASE_URL . '/modules/google-oauth/callback.php'</code>. Check for trailing slashes or <code>http</code> vs <code>https</code> mismatches.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Migration fails with a permissions error</strong>
+    <ul>
+      <li>The database user must have the <code>ALTER</code> privilege on the <code>users</code> table. Grant it or run the migration manually:</li>
+    </ul>
+    <pre><code class="language-sql">ALTER TABLE users
+  ADD COLUMN google_id VARCHAR(100) NULL DEFAULT NULL AFTER email,
+  ADD INDEX idx_google_id (google_id);</code></pre>
+  </li>
+  <li>
+    <strong>State mismatch error on callback</strong>
+    <ul>
+      <li>Sessions must be running before the auth URL is generated. Verify <code>initializeApp()</code> is called in <code>login/index.php</code> before the button renders.</li>
+      <li>Also check that your session cookie is not blocked by a browser extension or a misconfigured <code>SameSite</code> attribute.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>cURL error / "Failed to exchange authorization code"</strong>
+    <ul>
+      <li>Verify outbound HTTPS traffic to <code>oauth2.googleapis.com</code> is allowed by your server's firewall.</li>
+      <li>Confirm the PHP cURL extension is installed: <code>php -m | grep curl</code>.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>"Sign-in rejected — domain not permitted"</strong>
+    <ul>
+      <li>The user's email domain is not in the <code>allowed_domains</code> list. Either add the domain or clear the field to allow all domains.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>User logged in but profile has no name</strong>
+    <ul>
+      <li>Google's <code>name</code> field is empty for some accounts. The module falls back to the email prefix. The user can update their name in Profile settings.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr class="my-4">
+
+<p class="text-muted">For general PhPstrap configuration see the <a href="/docs/configuration.html">Configuration &amp; Settings guide</a>. Need help? Open an issue: <a href="https://github.com/PhPstrap/phpstrap/issues" target="_blank" rel="noopener">GitHub Issues</a>.</p>
