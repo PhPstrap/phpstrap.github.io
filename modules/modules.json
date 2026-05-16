@@ -17,6 +17,15 @@
     "url": "https://github.com/PhPstrap/hCapture",
     "documentation": "https://github.com/PhPstrap/hCapture/wiki"
   },
+    {
+    "name": "google-oauth",
+    "title": "Google OAuth",
+    "version": "1.0.0",
+    "author": "PhPstrap",
+    "description": "Allows users to register and sign in using their Google account",
+    "url": "https://github.com/PhPstrap/Google-Oauth",
+    "documentation": "https://github.com/PhPstrap/Google-Oauth/wiki"
+  },
   {
     "name": "example-module",
     "title": "Example Module",
